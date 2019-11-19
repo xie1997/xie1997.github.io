@@ -432,6 +432,7 @@ header .side-nav .social-link {
 }
 
 @-webkit-keyframes scroll-down {
+	
     0% {
         opacity: 0.4;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
@@ -452,6 +453,7 @@ header .side-nav .social-link {
         filter: alpha(opacity=40);
         top: 0;
     }
+	
 }
 
 @-o-keyframes scroll-down {
@@ -640,7 +642,6 @@ header .go-back i {
 }
 
 @keyframes rainbow {
-
     0%,
     100% {
         background: rgba(156, 39, 176, 0.75);
