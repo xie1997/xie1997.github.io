@@ -398,7 +398,15 @@
 
 <script>
     // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+    //$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+	$('.bg-cover').css('background-image', 'url(/medias/banner/' + 0 + '.jpg)');
+	
+//	var x = 0;        
+//	function time1(){   
+//	    x=x%8;
+//		$('.bg-cover').css('background-image', 'url(/medias/banner/' + x + '.jpg)');  
+//		x++;      
+//	}setInterval("time1()",3000);
 </script>
 
 
@@ -406,13 +414,6 @@
                 
             </div>
             <div class="cover-social-link">
-
-
-
-
-
-
-
 
 
 
@@ -808,6 +809,7 @@ $(function () {
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">年份</span>
+			Powered By 谢公子
             <br>
             
             
@@ -881,13 +883,6 @@ $(function () {
 
 
 
-
-
-
-
-
-
-
 </div>
     </div>
 </footer>
@@ -932,6 +927,16 @@ $(function () {
 
 
     <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 
     <!-- Baidu Push -->
 
