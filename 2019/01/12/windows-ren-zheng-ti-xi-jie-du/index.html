@@ -455,7 +455,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2019-11-20
+                    2019-11-21
                 </div>
                 
 
@@ -507,49 +507,52 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
 <p>看起来很神奇，不是吗。 比如对面有两个人在互相说话（通信），说的都是明文，每一句你都能听懂。他们并没有说自己的密码就相互认证身份了，你听了半天，却不知道密码是什么。 更神奇的是， 他们认证之后，再说的话你就更听不懂了（Session Security，会话安全，如果他们协商会话安全之后，后续的通信都是安全加密的。）</p>
 <p>Windows系统有几种认证体系：<strong>NTLM</strong> 和 <strong>Kerberos</strong>。</p>
 <p><strong>NTLM(New Technology</strong> <strong>LAN Manager)</strong>哈希算法，Windows新的密码管理方式。在Windows2000以后，Windows机器都用NTLM算法在本地保存用户的密码，密码的NTLM哈希保存在 %SystemRoot%\System32\config\SAM 文件中。 在渗透测试中，通常可从 Windows系统中的SAM文件 和 域控的 NTDS.dit 文件中获得所有用户的Hash。也可以通过 Mimikatz 读取 lsass.exe 进程获得已登录用户的NTLM hash和明文值 。NTLM认证则是利用NTLM哈希进行的认证，主要有 <strong>本地认证</strong> 和 <strong>网络认证</strong> 两种方式。NTLM认证是Windows早期的认证方式，因向后兼容性而保留了下来。NTLM适用范围非常广，既可用于域内的认证服务， 也可用于没有域的工作组环境。NTLM 有 <strong>NTLMv1</strong> 和 <strong>NTLMv2</strong> 两个版本，目前使用的都是NTLMv2版本。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909232645147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909232658867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909232645147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909232658867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p><strong>Kerberos认证</strong>用于域环境中，它是一种基于票据（Ticket）的认证方式。他的整个认证过程涉及到三方：客户端、服务端和KDC（Key Distribution Center）。在Windows域环境中，由DC(域控)来作为KDC。</p>
 <p><strong>在域环境中，默认先使用kerberos进行认证，当使用kerberos认证出现错误时使用NTLM认证。</strong></p>
 <p><strong>Access Token</strong>(访问令牌)是用来描述进程或线程安全上下文的对象，令牌所包含的信息是与该用户账户相关的进程或线程的身份和权限信息。当用户登陆时，系统生成一个Access Token，然后以该用户身份运行的的所有进程都拥有该令牌的一个拷贝。这也就解释了A用户创建一个进程而B用户没有该进程的权限。</p>
 <p>现在Windows主要用 <strong>NTLMv2</strong> 和 <strong>Kerberos</strong> 验证体系。</p>
 <p>不管是 NTLM 还是 Kerberos 认证，他都是底层的一种认证方式和上层应用无关。NTLM 消息并不和任何传输协议绑定，它的认证消息理论上可以通过任何方式传递。比如 NTLM 认证方式应用有 SMB NTLM 认证和 HTTP NTLM 认证。</p>
 <h2 id="Windows本地认证"><a href="#Windows本地认证" class="headerlink" title="Windows本地认证"></a>Windows本地认证</h2><p>本地登录时，用户的密码存储在 %SystemRoot%\system32\config\SAM 这个文件里。当用户输入密码进行本地认证的过程中，所有的操作都是在本地进行的。他其实就是将用户输入的密码转换为NTLM Hash，然后与SAM中的NTLM Hash进行比较。当用户注销、重启、锁屏后，操作系统会让winlogon显示登录界面，也就是输入框。当winlogon.exe接收输入后，将密码交给lsass进程，这个进程中会存一份明文密码，将明文密码加密成NTLM Hash，对SAM数据库比较认证。(winlogon.exe即Windows Logon Process，是Windows NT用户登陆程序，用于管理用户登录和退出。lsass进程用于微软Windows系统的安全机制。它用于本地安全和登陆策略。)</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909232850146.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909232850146.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p>比如当用户输入密码123456后，那么操作系统会将123456转换为十六进制，经过Unicode转换后，再调用MD4加密算法加密，这个加密结果的十六进制就是NTLM Hash</p>
 <pre><code>123456 -&gt; hex(16进制编码) = 313233343536
 313233343536 -&gt; Unicode = 610064006d0069006e00
-610064006d0069006e00 -&gt; MD4 = 209c6174da490caeb422f3fa5a7ae634</code></pre><p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>相关文章：<a href="https://blog.csdn.net/qq_36119192/article/details/83057161#Windows中对用户密码的处理" target="_blank" rel="noopener">Windows中对用户密码的处理</a></p>
+610064006d0069006e00 -&gt; MD4 = 209c6174da490caeb422f3fa5a7ae634</code></pre><p>相关文章：<a href="https://blog.csdn.net/qq_36119192/article/details/83057161#Windows中对用户密码的处理" target="_blank" rel="noopener">Windows中对用户密码的处理</a></p>
 <h2 id="NTLM认证方式-工作组环境中"><a href="#NTLM认证方式-工作组环境中" class="headerlink" title="NTLM认证方式(工作组环境中)"></a>NTLM认证方式(工作组环境中)</h2><ol>
 <li>客户端需要访问服务器的某个服务(前提是他得知道服务器的用户名和密码)，所以得进行身份认证。于是，客户端输入服务器的用户名和密码进行验证，客户端会缓存服务器密码的NTLM-Hash值。客户端发送<strong>TYPE 1</strong> Negotiate 协商消息去协商需要认证的主体，用户(服务器端的用户名)，机器以及需要使用的安全服务等等信息。</li>
 <li>服务端接收到客户端发送过来的 TYPE 1 消息，会读取其中的内容，并从中选择出自己所能接受的服务内容，加密等级，安全服务等等。然后传入 NTLM SSP，得到 NTLM_CHALLENGE 消息（被称为 <strong>TYPE 2 消息，</strong>Challenge 挑战消息），并将此TYPE 2消息发回给客户端。此TYPE 2消息中包含了一个由服务端生成的16位随机值，此随机值被称为 Challenge，服务器将该Challenge保存起来</li>
 <li>客户端收到服务端返回的 TYPE 2 消息， 读取出服务端所支持的内容，并取出其中的随机值Challenge，用缓存的服务器端密码的哈希值<strong>NTLM-Hash</strong>对其进行加密，得到 <strong>Net NTLM-Hash(加密后的Challenge)</strong>，并且将Net NTLM-Hash封装到 NTLM_AUTH 消息中（被称为 <strong>TYPE 3 消息，</strong> Authenticate认证消息），发往服务端</li>
 <li>服务器在收到 Type3的消息之后，用自己的密码的 NTLM-Hash 对 Challenge 进行加密，并比较自己计算出的 Net NTLM-Hash 认证消息和客户端发送的认证消息是否匹配。如果匹配，则证明客户端掌握了正确的密码，认证成功，否则认证失败。</li>
 </ol>
-<p><img src="https://img-blog.csdnimg.cn/20190107114609252.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190107114609252.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h3 id="wiresharek抓包NTLMv2，使用Hashcat爆破"><a href="#wiresharek抓包NTLMv2，使用Hashcat爆破" class="headerlink" title="wiresharek抓包NTLMv2，使用Hashcat爆破"></a><strong>wiresharek抓包NTLMv2，使用Hashcat爆破</strong></h3><p>抓的数据包：<a href="https://download.csdn.net/download/qq_36119192/11706066" target="_blank" rel="noopener">NTLM2(工作组).pcapng</a></p>
 <p><strong>192.168.10.16(WIN7)——&gt;192.168.10.15(WIN2008)</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/2019090923292871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019090923292871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p><strong>认证失败的数据包</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233001744.png" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909233001744.png" alt="img"></p>
 <p><strong>认证成功的数据包</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233011665.png" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909233011665.png" alt="img"></p>
 <p>查看第二个数据包，获得Challenge，为：77effc5381037df8</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233113911.png" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909233113911.png" alt="img"></p>
 <p>查看第三个数据包，获得客户端加密后的Challenge，为：ba3237c701d9f397</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233134725.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909233134725.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p>Net-NTLM Hash格式为：username::domain:challenge:HMAC-MD5:blob</p>
 <ul>
-<li>username（要访问服务器的用户名）：xie</li>
-<li>domain（访问者主机名或者ip）：WIN7</li>
-<li>challenge（数据包2中服务器返回的challenge值）：77effc5381037df8</li>
-<li>HMAC-MD5（数据包3中的NTProofStr）: b6b777ced0128e3f587fe08b98853e13</li>
-<li>blob（blob对应数据为NTLMv2 Response去掉NTProofStr的后半部分）：0101000000000000f27fa3a7aa61d501ba3237c701d9f3970000000002000e00570049004e00320030003000380001000e00570049004e00320030003000380004000e00570049004e00320030003000380003000e00570049004e00320030003000380007000800f27fa3a7aa61d50106000400020000000800300030000000000000000100000000200000ca0ee75c65eaa5367775b826f949798912fa871a19e5d17f9b49587485a8e6620a001000000000000000000000000000000000000900240063006900660073002f003100390032002e003100360038002e00310030002e0031003500000000000000000000000000</li>
+<li><p>username（要访问服务器的用户名）：xie</p>
+</li>
+<li><p>domain（访问者主机名或者ip）：WIN7</p>
+</li>
+<li><p>challenge（数据包2中服务器返回的challenge值）：77effc5381037df8</p>
+</li>
+<li><p>HMAC-MD5（数据包3中的NTProofStr）: b6b777ced0128e3f587fe08b98853e13</p>
+</li>
+<li><p>blob（blob对应数据为NTLMv2 Response去掉NTProofStr的后半部分）：</p>
+<pre><code>0101000000000000f27fa3a7aa61d501ba3237c701d9f3970000000002000e00570049004e00320030003000380001000e00570049004e00320030003000380004000e00570049004e00320030003000380003000e00570049004e00320030003000380007000800f27fa3a7aa61d50106000400020000000800300030000000000000000100000000200000ca0ee75c65eaa5367775b826f949798912fa871a19e5d17f9b49587485a8e6620a001000000000000000000000000000000000000900240063006900660073002f003100390032002e003100360038002e00310030002e0031003500000000000000000000000000</code></pre></li>
 </ul>
 <p>所以最后，Net-NTLM Hash值为：</p>
-<pre><code>xie::WIN7:77effc5381037df8:b6b777ced0128e3f587fe08b98853e13:0101000000000000f27fa3a7aa61d501ba3237c701d9f3970000000002000e00570049004e00320030003000380001000e00570049004e00320030003000380004000e00570049004e00320030003000380003000e00570049004e00320030003000380007000800f27fa3a7aa61d50106000400020000000800300030000000000000000100000000200000ca0ee75c65eaa5367775b826f949798912fa871a19e5d17f9b49587485a8e6620a001000000000000000000000000000000000000900240063006900660073002f003100390032002e003100360038002e00310030002e0031003500000000000000000000000000</code></pre><p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>然后，用Hashcat爆破，传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/100105816#使用Hashcat破解NTLMv2" target="_blank" rel="noopener">使用Hashcat破解NTLMv2</a> </p>
+<pre><code>xie::WIN7:77effc5381037df8:b6b777ced0128e3f587fe08b98853e13:0101000000000000f27fa3a7aa61d501ba3237c701d9f3970000000002000e00570049004e00320030003000380001000e00570049004e00320030003000380004000e00570049004e00320030003000380003000e00570049004e00320030003000380007000800f27fa3a7aa61d50106000400020000000800300030000000000000000100000000200000ca0ee75c65eaa5367775b826f949798912fa871a19e5d17f9b49587485a8e6620a001000000000000000000000000000000000000900240063006900660073002f003100390032002e003100360038002e00310030002e0031003500000000000000000000000000</code></pre><p>然后，用Hashcat爆破，传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/100105816#使用Hashcat破解NTLMv2" target="_blank" rel="noopener">使用Hashcat破解NTLMv2</a> </p>
 <h2 id="NTLM认证方式-域环境中"><a href="#NTLM认证方式-域环境中" class="headerlink" title="NTLM认证方式(域环境中)"></a>NTLM认证方式(域环境中)</h2><ol>
 <li>用户通过输入Windows帐号和密码登录客户端主机，客户端会缓存密码的哈希值NTLM-Hash。成功登录客户端的用户如果试图访问服务器资源，需要向对方发送一个请求，该请求利用 NTLM SSP 生成 <strong>NTLM_NEGOTIATE</strong> 消息 （被称为 <strong>TYPE 1 消息，</strong>Negotiate 协商消息），并将 TYPE 1 消息发送给服务端中，该TYPE 1消息中包含一个以明文表示的用户名以及其他的一些协商信息(认证的主体，机器以及需要使用的安全服务等等信息)</li>
 <li>服务端接收到客户端发送过来的 TYPE 1 消息，会读取其中的内容，并从中选择出自己所能接受的服务内容，加密等级，安全服务等等。然后传入 NTLM SSP，得到 <strong>NTLM_CHALLENGE</strong> 消息（被称为 <strong>TYPE 2 消息，</strong>Challenge 挑战消息），并将此TYPE 2消息发回给客户端。此TYPE 2消息中包含了一个由服务端生成的16位随机值，此随机值被称为 Challenge，服务器将该Challenge保存起来。</li>
@@ -558,10 +561,10 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
 <li>DC根据用户名获取该帐号的密码哈希值 NTLM-Hash，用密码哈希值 NTLM-Hash 对原始的Challenge进行加密得到Net NTLM-Hash。如果加密后的Challenge和服务器发送的一致，则意味着用户拥有正确的密码，验证通过，否则验证失败。DC将验证结果发给服务器。</li>
 <li>服务器根据DC返回的结果，对客户端进行回复</li>
 </ol>
-<p><img src="https://img-blog.csdnimg.cn/20190107114132294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190107114132294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p><strong>192.168.10.16(WIN7)——&gt;192.168.10.152(WIN2003)      域控：192.168.10.15(WIN2008)</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233622751.png" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233638559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909233622751.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190909233638559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h2 id="Kerberos认证方式"><a href="#Kerberos认证方式" class="headerlink" title="Kerberos认证方式"></a>Kerberos认证方式</h2><p>Kerberos实际上是一种基于票据（Ticket）的认证方式。客户端要访问服务器的资源，需要首先购买服务端认可的ST服务票据。也就是说，客户端在访问服务器之前需要预先买好票，等待服务验票之后才能入场。但是这张票不能直接购买，需要一张TGT认购权证（Ticket Granting Ticket)。也就是说，客户端在买票之前必须先获得一张TGT认购权证。这张<strong>TGT认购权证</strong>和<strong>ST服务票据</strong>均由KDC发售。</p>
 <table>
 <thead>
@@ -603,18 +606,18 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
 <p>首先，我们来看看客户端如何获得 TGT认购权证。TGT是KDC的KAS认证服务（Kerberos Authentication Service）发放的。</p>
 <p>1、当某个用户通过输入域帐号和密码试图登录某台主机的时候，本机的Kerberos服务会向KDC的KAS认证服务发送一个认证请求。该请求主要包括两部分内容，明文形式的用户名 和 用用户秘钥加密原始Authenticator后得到的加密后Authenticator(Authenticator是客户端和服务端可以用于验证对方身份的一个东西)。</p>
 <p>2、当KDC接收到请求之后，通过AD活动目录查询该用户名得到该用户的信息。通过查询得到的密码信息对Authenticator进行解密得到 原始的 Authenticator。如果解密后 的Authenticator 和已知的 Authenticator 一致，则证明请求者提供的密码正确，即确定了登录者的真实身份。KAS成功认证对方的身份之后，会先生成一个 用用户密码加密后的用于确保该用户和KDC之间通信安全的Logon Session Key会话秘钥。KAS接着为该用户创建 TGT认购权证。TGT主要包含两方面的内容：用户相关信息 和 原始Logon Session Key，而整个TGT则通过KDC自己的密钥进行加密。最终，被不同密钥加密的Logon Session Key 和 TGT返回给客户端。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107131903960.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190107131903960.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p><strong>如何获得ST服务票据？</strong></p>
 <p>经过上面的步骤，客户端获取了进入同域中其他主机入场券的 TGT认购权证 和 Logon Session Key，然后用自己的密钥解密Logon Session Key得到 原始的Logon Session Key。然后它会在本地缓存此 TGT 和 原始Logon Session Key。如果现在它需要访问某台服务器的资源，它就需要凭借这张TGT认购凭证向KDC购买相应的入场券。这里的入场券也有一个专有的名称——ST服务票据（Service Ticket）。具体来说，ST是通过KDC的另一个服务TGS（Ticket Granting Service）出售的。</p>
 <p>3、客户端先向TGS发送一个ST购买请求，该请求主要包含如下的内容：客户端用户名、通过Logon Session Key加密的Authenticator、TGT和访问的服务器名(其实是服务)。</p>
 <p>4.、TGS接收到请求之后，通过自己的秘钥解密TGT并得到原始Logon Session Key，然后通过Logon Session Key解密Authenticator，进而验证了对方的真实身份。TGS完成对客户端的认证之后，会生成一个用Logon Session Key加密后的用于确保客户端-服务器之间通信安全的Service Session Key会话秘钥。然后为该客户端生成ST服务票据。ST服务票据主要包含两方面的内容：客户端用户信息 和 原始Service Session Key，整个ST通过服务器密码派生的秘钥进行加密。最终两个被加密的Service Session Key和ST回复给客户端。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107125640811.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190107125640811.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p><strong>如何用ST服务票据双向认证？</strong></p>
 <p>5、客户端接收到TGS回复后，通过缓存的Logon Session Key解密得到原始Service Session Key，同时它也得到了进入服务器ST服务票据。该Serivce Session Key和ST服务票据会被客户端缓存。客户端访问某服务器资源，将ST服务票据和Service Session Key加密的Authenticator发送给服务端。</p>
 <p>6、服务器收到客户端发来的ST服务票据。但是，服务端如何确保客户端发来的ST服务票据是通过TGS购买，而不是自己伪造的呢？这很好办，不要忘了ST是通过服务器自己密码派生的秘钥进行加密的。具体的操作过程是这样的，服务器在接收到请求之后，先通过自己密码派生的秘钥解密ST，并从中提取Service Session Key。然后通过提取出来的Service Session Key解密Authenticator，进而验证了客户端的真实身份。实际上，到目前为止，服务端已经完成了对客户端的验证，但是，整个认证过程还没有结束。谈到认证，很多人都认为只是服务器对客户端的认证，实际上在大部分场合，我们需要的是双向验证（Mutual Authentication），即访问者和被访问者互相验证对方的身份。现在服务器已经可以确保客户端是它所声称的那么用户，客户端还没有确认它所访问的不是一个钓鱼服务呢。为了解决客户端对服务器的验证，服务端需要将解密后的Authenticator再次用Service Session Key进行加密，并发挥给客户端。客户端再用缓存的Service Session Key进行解密，如果和之前的内容完全一样，则可以证明自己正在访问的服务器和自己拥有相同的Service Session Key。双向认证过后，开始了服务资源的访问。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107132433522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190107132433522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p>下面是完成的Kerberos认证的过程：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107134240582.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img">)<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190107134240582.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h2 id="认证的应用"><a href="#认证的应用" class="headerlink" title="认证的应用"></a>认证的应用</h2><p>在域环境下，可以使用 Kerberos 或者 NTLM认证来实现对用户的身份认证。在很多企业的内部网络中(基本都是域环境)，都是使用Kerberos认证或NTLM认证，在Windows 2000以后，在域环境下，Kerberos是默认的认证方式。因为由于NTLM认证存在安全风险，所以用Kerberos认证的较多。Kerberos较之NTLM更高效、更安全，同时认证过程也相对复杂。</p>
 <p>在非域环境下，一般都是使用NTLM进行认证。SMB服务和很多Web程序都是使用NTLM来实现对用户的身份认证。</p>
 <h2 id="哈希传递攻击-PtH"><a href="#哈希传递攻击-PtH" class="headerlink" title="哈希传递攻击(PtH)"></a>哈希传递攻击(PtH)</h2><p>从上面的NTLM认证我们可以知道，实现身份认证，并不需要密码的原文，而只要拥有密码的NTLM哈希值即可。于是，我们可以想方设法通过其他手段截获到其他人的NTLM哈希值，便可以通过此NTLM哈希值来以该用户的身份认证，实现冒名登录。这就是NTLM Relay攻击，也就是Pass-the-Hash（PtH）哈希传递攻击。传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/83057161#哈希传递攻击(Pass-the-Hash%2CPtH)" target="_blank" rel="noopener">哈希传递攻击(Pass-the-Hash,PtH)</a></p>
