@@ -47,11 +47,39 @@
   </entry>
   
   <entry>
+    <title>Windows认证体系解读</title>
+    <link href="https://xiaoxie.love/2019/01/12/windows-ren-zheng-ti-xi-jie-du/"/>
+    <id>https://xiaoxie.love/2019/01/12/windows-ren-zheng-ti-xi-jie-du/</id>
+    <published>2019-01-12T12:29:51.000Z</published>
+    <updated>2019-11-20T15:40:32.252Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在这之前，我们先了解几个基本的概念&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SSPI&lt;/strong&gt; (Security Service Provider Interface 或 Security Support Provider Interface) 安全服务提供接口，这是
+        
+      
+    
+    </summary>
+    
+    
+      <category term="技术文章" scheme="https://xiaoxie.love/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+      <category term="Windows" scheme="https://xiaoxie.love/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Metasploit Framework(MSF)的使用</title>
     <link href="https://xiaoxie.love/2018/10/24/metasploit-framework-msf-de-shi-yong/"/>
     <id>https://xiaoxie.love/2018/10/24/metasploit-framework-msf-de-shi-yong/</id>
     <published>2018-10-24T06:10:07.000Z</published>
-    <updated>2019-11-20T05:07:30.224Z</updated>
+    <updated>2019-11-20T15:29:52.189Z</updated>
     
     <summary type="html">
     
