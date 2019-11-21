@@ -27,8 +27,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
     
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="alternate" href="/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
 
 <body>
@@ -82,6 +81,13 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
         <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
           
           <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Windows/">
+          
+          <span>Windows系统</span>
         </a>
       </li>
       
@@ -216,6 +222,14 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                   <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:75px";>
 				  
 		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/Windows/ " style="margin-left:75px";>
+				  
+		          <span>Windows系统</span>
                   </a>
                 </li>
                
@@ -622,30 +636,12 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
 <p>在非域环境下，一般都是使用NTLM进行认证。SMB服务和很多Web程序都是使用NTLM来实现对用户的身份认证。</p>
 <h2 id="哈希传递攻击-PtH"><a href="#哈希传递攻击-PtH" class="headerlink" title="哈希传递攻击(PtH)"></a>哈希传递攻击(PtH)</h2><p>从上面的NTLM认证我们可以知道，实现身份认证，并不需要密码的原文，而只要拥有密码的NTLM哈希值即可。于是，我们可以想方设法通过其他手段截获到其他人的NTLM哈希值，便可以通过此NTLM哈希值来以该用户的身份认证，实现冒名登录。这就是NTLM Relay攻击，也就是Pass-the-Hash（PtH）哈希传递攻击。传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/83057161#哈希传递攻击(Pass-the-Hash%2CPtH)" target="_blank" rel="noopener">哈希传递攻击(Pass-the-Hash,PtH)</a></p>
 <h2 id="票据传递攻击-PtT"><a href="#票据传递攻击-PtT" class="headerlink" title="票据传递攻击(PtT)"></a>票据传递攻击(PtT)</h2><p>票据传递攻击（PtT）是一种使用Kerberos票据代替明文密码或NTLM哈希的方法。PtT最常见的用途可能是使用黄金票据和白银票据，通过PtT访问主机相当简单。传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/92843080" target="_blank" rel="noopener">票据传递攻击(Pass the Ticket,PtT)</a></p>
-<p>参考文章：<a href="https://mp.weixin.qq.com/s?__biz=MzAwNDcwMDgzMA==&amp;mid=2651034230&amp;idx=2&amp;sn=e2d42d1e3a41a188d1c10d0cbc8aacab&amp;chksm=80d0dd87b7a75491cc4fd3e355a11e45654507b54382a0b320814bcf1f78ae8c9f6301735bf9&amp;mpshare=1&amp;scene=24&amp;srcid=08274xzeelYaU7pK5TMtoPyY&amp;sharer_sharetime=1566865878615&amp;sharer_shareid=a12f834461b510ae1828dcc9a9328315&amp;key=67c94f9eddc6c144ade0175a73a091a4441c7f664fac266a5fd569639b14db81b021737cf6690b7854aa03e45affac28cdc7fd6eb598fec4776bd0cd91aa65e30e90a402158dc77a7389efa4fe6580d4&amp;ascene=14&amp;uin=MjIwMDQzNjQxOQ%3D%3D&amp;devicetype=Windows+10&amp;version=62060833&amp;lang=zh_CN&amp;pass_ticket=zn5dhFz71P%2BE5aloAlyGbrR7Wlu%2BSkaD9TJXFrZwF2zufBXrvfRKXx7DlfD3fBAm" target="_blank" rel="noopener">【Windows】认证及抓密码</a></p>
+<p>参考文章：<a href="https://mp.weixin.qq.com/s?__biz=MzAwNDcwMDgzMA==&mid=2651034230&idx=2&sn=e2d42d1e3a41a188d1c10d0cbc8aacab&chksm=80d0dd87b7a75491cc4fd3e355a11e45654507b54382a0b320814bcf1f78ae8c9f6301735bf9&mpshare=1&scene=24&srcid=08274xzeelYaU7pK5TMtoPyY&sharer_sharetime=1566865878615&sharer_shareid=a12f834461b510ae1828dcc9a9328315&key=67c94f9eddc6c144ade0175a73a091a4441c7f664fac266a5fd569639b14db81b021737cf6690b7854aa03e45affac28cdc7fd6eb598fec4776bd0cd91aa65e30e90a402158dc77a7389efa4fe6580d4&ascene=14&uin=MjIwMDQzNjQxOQ%3D%3D&devicetype=Windows+10&version=62060833&lang=zh_CN&pass_ticket=zn5dhFz71P%2BE5aloAlyGbrR7Wlu%2BSkaD9TJXFrZwF2zufBXrvfRKXx7DlfD3fBAm" target="_blank" rel="noopener">【Windows】认证及抓密码</a></p>
 <p>​         <a href="http://www.cnblogs.com/artech/archive/2011/01/25/NTLM.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2011/01/25/NTLM.html</a></p>
 <p>​         <a href="http://www.cnblogs.com/artech/archive/2011/01/24/kerberos.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2011/01/24/kerberos.html</a></p>
 <p>​         <a href="https://www.cnblogs.com/shuidao/p/3634637.html" target="_blank" rel="noopener">https://www.cnblogs.com/shuidao/p/3634637.html</a></p>
 <p>相关文章：<a href="https://xz.aliyun.com/t/1945" target="_blank" rel="noopener">渗透技巧——利用netsh抓取连接文件服务器的NTLMv2 Hash</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -670,7 +666,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xiaoxie.love/2019/01/12/windows-ren-zheng-ti-xi-jie-du/">http://xiaoxie.love/2019/01/12/windows-ren-zheng-ti-xi-jie-du/</a>
+                    <a href="http://xiaoxie.love/2019/01/12/Windows%E8%AE%A4%E8%AF%81%E4%BD%93%E7%B3%BB%E8%A7%A3%E8%AF%BB/">http://xiaoxie.love/2019/01/12/Windows%E8%AE%A4%E8%AF%81%E4%BD%93%E7%B3%BB%E8%A7%A3%E8%AF%BB/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1017,7 +1013,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/03/16/fei-diao-yi-ge-ren-zui-yin-bi-de-fang-shi-shi-rang-ta-mang-dao-mei-you-shi-jian-cheng-chang/">
+                <a href="/2019/03/16/%E5%BA%9F%E6%8E%89%E4%B8%80%E4%B8%AA%E4%BA%BA%E6%9C%80%E9%9A%90%E8%94%BD%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%98%AF%E8%AE%A9%E4%BB%96%E5%BF%99%E5%88%B0%E6%B2%A1%E6%9C%89%E6%97%B6%E9%97%B4%E6%88%90%E9%95%BF/">
                     <div class="card-image">
                         
                         <img src="/medias/wz/废掉一个人/1.png" class="responsive-img" alt="废掉一个人最隐蔽的方式，是让他忙到没时间成长">
@@ -1065,7 +1061,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/10/24/metasploit-framework-msf-de-shi-yong/">
+                <a href="/2018/10/24/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/">
                     <div class="card-image">
                         
                         <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574223267058&amp;di=5c055215bf5f59519a2d392286badf6f&amp;imgtype=0&amp;src=http%3A%2F%2Fstatic.open-open.com%2Fnews%2FuploadImg%2F20170206%2F20170206105011_808.jpg" class="responsive-img" alt="Metasploit Framework(MSF)的使用">
@@ -1457,6 +1453,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>

