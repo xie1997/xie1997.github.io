@@ -4,9 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Windows认证体系解读, 谢公子的小黑屋">
-    <meta name="description" content="在这之前，我们先了解几个基本的概念
-SSPI (Security Service Provider Interface 或 Security Support Provider Interface) 安全服务提供接口，这是 Windows 定">
+    <meta name="keywords" content="废掉一个人最隐蔽的方式，是让他忙到没时间成长, 谢公子的小黑屋">
+    <meta name="description" content="大家可能都看过一个观点”废掉一个人最快的方式，就是让他闲着”。
+我认同么？非常认同。
+但我今天想讲另一个角度，“废掉一个人最隐蔽的方式，是让他忙到没时间成长”。
+而且我认为这个点更重要，因为大部分人都不闲，大家都在努力的过活，北上广深等大城">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +16,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Windows认证体系解读 | 谢公子的小黑屋</title>
+    <title>废掉一个人最隐蔽的方式，是让他忙到没时间成长 | 谢公子的小黑屋</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -319,13 +321,13 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574274117107&di=e8747d60c6562980e50624ed70de8b02&imgtype=0&src=http%3A%2F%2Fyesofcorsa.com%2Fwp-content%2Fuploads%2F2016%2F12%2F4k-Windows-10-Wallpaper-Best.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/wz/废掉一个人/1.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Windows认证体系解读
+                        废掉一个人最隐蔽的方式，是让他忙到没时间成长
                     </div>
                 </div>
             </div>
@@ -437,8 +439,8 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Windows/">
-                                <span class="chip bg-color">Windows</span>
+                            <a href="/tags/%E4%BA%BA%E7%94%9F%E7%9C%9F%E7%90%86/">
+                                <span class="chip bg-color">人生真理</span>
                             </a>
                         
                     </div>
@@ -449,8 +451,8 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
-                                技术文章
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E7%BE%8E%E6%96%87/" class="post-category">
+                                深度美文
                             </a>
                         
                     </div>
@@ -462,28 +464,28 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-01-12
+                    2019-03-16
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2019-11-21
+                    2019-11-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    17 分
+                    8 分
                 </div>
                 
 				
@@ -499,148 +501,80 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在这之前，我们先了解几个基本的概念</p>
-<p><strong>SSPI</strong> (Security Service Provider Interface 或 Security Support Provider Interface) 安全服务提供接口，这是 Windows 定义的一套接口，该接口定义了与安全有关的功能函数，包含但不限于：</p>
-<ul>
-<li>身份验证机制</li>
-<li>为其他协议提供的 Session Security 机制。Session Security 指的是会话安全，即为通讯提供数据完整性校验以及数据的加、解密功能</li>
-</ul>
-<p><strong>SSP</strong> (Security Service Provider) 安全服务提供，SSPI 的实现者，微软自己实现了如下的 SSP，用于提供安全功能，包含但不限于：</p>
-<ul>
-<li>NTLM SSP</li>
-<li>Kerberos</li>
-<li>Digest SSP</li>
-</ul>
-<p>因为 SSPI 中定义了与 Session Security 有关的 API。所以，基本上层应用利用任何 SSP 与远程的服务进行了身份验证后，此 SSP 都会为本次连接生成一个随机 key。这个 key 往往被称为 Session Key。上层应用在经过身份验证后，可以选择性地使用这个 Key 对之后发往服务端或接收自服务端的数据进行签名或加密。</p>
-<p>不同的 SSP，实现的身份验证机制是不一样的。比如 NTLM SSP 实现的就是一种 Challenge based 身份验证机制。而 Kerberos 实现的就是基于 Ticket 的身份验证机制。我们可以编写自己的 SSP，然后注册到操作系统中，让操作系统支持更多的自定义的身份验证方法。</p>
-<h1 id="Windows认证方式"><a href="#Windows认证方式" class="headerlink" title="Windows认证方式"></a>Windows认证方式</h1><p><strong>认证是什么？</strong></p>
-<p>认证就是承认和证明的意思。 就是你能证明你的身份。 比如你要通过网络访问一个受保护的资源，服务器需要认证你的身份。 你可以声称你是系统管理员， 但是你怎么证明你就是系统管理员呢？方法很多，最简单直接的方法就是证明你知道系统管理员的密码。   </p>
-<p>认证的问题转化为： “你怎么证明你知道你所声称的用户的密码？” 这个问题了。 </p>
-<p>一个简单暴力的证明方法是，让你直接提供所称用户的密码给服务器，然后服务器去数据库里面对比，看你提供的密码对不对。如果对，认证通过，否则失败。 常见的所谓 <strong>Windows Forms</strong> 认证，或者叫做 <strong>Windows basic</strong> 认证就是这种方式， 简单直接。 但是密码需要在网络上传输，安全问题就不说了，你懂的。</p>
-<p> 怎样在不直接提供密码的情况下，间接证明你知道密码呢？ </p>
-<p>看起来很神奇，不是吗。 比如对面有两个人在互相说话（通信），说的都是明文，每一句你都能听懂。他们并没有说自己的密码就相互认证身份了，你听了半天，却不知道密码是什么。 更神奇的是， 他们认证之后，再说的话你就更听不懂了（Session Security，会话安全，如果他们协商会话安全之后，后续的通信都是安全加密的。）</p>
-<p>Windows系统有几种认证体系：<strong>NTLM</strong> 和 <strong>Kerberos</strong>。</p>
-<p><strong>NTLM(New Technology</strong> <strong>LAN Manager)</strong>哈希算法，Windows新的密码管理方式。在Windows2000以后，Windows机器都用NTLM算法在本地保存用户的密码，密码的NTLM哈希保存在 %SystemRoot%\System32\config\SAM 文件中。 在渗透测试中，通常可从 Windows系统中的SAM文件 和 域控的 NTDS.dit 文件中获得所有用户的Hash。也可以通过 Mimikatz 读取 lsass.exe 进程获得已登录用户的NTLM hash和明文值 。NTLM认证则是利用NTLM哈希进行的认证，主要有 <strong>本地认证</strong> 和 <strong>网络认证</strong> 两种方式。NTLM认证是Windows早期的认证方式，因向后兼容性而保留了下来。NTLM适用范围非常广，既可用于域内的认证服务， 也可用于没有域的工作组环境。NTLM 有 <strong>NTLMv1</strong> 和 <strong>NTLMv2</strong> 两个版本，目前使用的都是NTLMv2版本。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909232645147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909232658867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p><strong>Kerberos认证</strong>用于域环境中，它是一种基于票据（Ticket）的认证方式。他的整个认证过程涉及到三方：客户端、服务端和KDC（Key Distribution Center）。在Windows域环境中，由DC(域控)来作为KDC。</p>
-<p><strong>在域环境中，默认先使用kerberos进行认证，当使用kerberos认证出现错误时使用NTLM认证。</strong></p>
-<p><strong>Access Token</strong>(访问令牌)是用来描述进程或线程安全上下文的对象，令牌所包含的信息是与该用户账户相关的进程或线程的身份和权限信息。当用户登陆时，系统生成一个Access Token，然后以该用户身份运行的的所有进程都拥有该令牌的一个拷贝。这也就解释了A用户创建一个进程而B用户没有该进程的权限。</p>
-<p>现在Windows主要用 <strong>NTLMv2</strong> 和 <strong>Kerberos</strong> 验证体系。</p>
-<p>不管是 NTLM 还是 Kerberos 认证，他都是底层的一种认证方式和上层应用无关。NTLM 消息并不和任何传输协议绑定，它的认证消息理论上可以通过任何方式传递。比如 NTLM 认证方式应用有 SMB NTLM 认证和 HTTP NTLM 认证。</p>
-<h2 id="Windows本地认证"><a href="#Windows本地认证" class="headerlink" title="Windows本地认证"></a>Windows本地认证</h2><p>本地登录时，用户的密码存储在 %SystemRoot%\system32\config\SAM 这个文件里。当用户输入密码进行本地认证的过程中，所有的操作都是在本地进行的。他其实就是将用户输入的密码转换为NTLM Hash，然后与SAM中的NTLM Hash进行比较。当用户注销、重启、锁屏后，操作系统会让winlogon显示登录界面，也就是输入框。当winlogon.exe接收输入后，将密码交给lsass进程，这个进程中会存一份明文密码，将明文密码加密成NTLM Hash，对SAM数据库比较认证。(winlogon.exe即Windows Logon Process，是Windows NT用户登陆程序，用于管理用户登录和退出。lsass进程用于微软Windows系统的安全机制。它用于本地安全和登陆策略。)</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909232850146.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p>比如当用户输入密码123456后，那么操作系统会将123456转换为十六进制，经过Unicode转换后，再调用MD4加密算法加密，这个加密结果的十六进制就是NTLM Hash</p>
-<pre><code>123456 -&gt; hex(16进制编码) = 313233343536
-313233343536 -&gt; Unicode = 610064006d0069006e00
-610064006d0069006e00 -&gt; MD4 = 209c6174da490caeb422f3fa5a7ae634</code></pre><p>相关文章：<a href="https://blog.csdn.net/qq_36119192/article/details/83057161#Windows中对用户密码的处理" target="_blank" rel="noopener">Windows中对用户密码的处理</a></p>
-<h2 id="NTLM认证方式-工作组环境中"><a href="#NTLM认证方式-工作组环境中" class="headerlink" title="NTLM认证方式(工作组环境中)"></a>NTLM认证方式(工作组环境中)</h2><ol>
-<li>客户端需要访问服务器的某个服务(前提是他得知道服务器的用户名和密码)，所以得进行身份认证。于是，客户端输入服务器的用户名和密码进行验证，客户端会缓存服务器密码的NTLM-Hash值。客户端发送<strong>TYPE 1</strong> Negotiate 协商消息去协商需要认证的主体，用户(服务器端的用户名)，机器以及需要使用的安全服务等等信息。</li>
-<li>服务端接收到客户端发送过来的 TYPE 1 消息，会读取其中的内容，并从中选择出自己所能接受的服务内容，加密等级，安全服务等等。然后传入 NTLM SSP，得到 NTLM_CHALLENGE 消息（被称为 <strong>TYPE 2 消息，</strong>Challenge 挑战消息），并将此TYPE 2消息发回给客户端。此TYPE 2消息中包含了一个由服务端生成的16位随机值，此随机值被称为 Challenge，服务器将该Challenge保存起来</li>
-<li>客户端收到服务端返回的 TYPE 2 消息， 读取出服务端所支持的内容，并取出其中的随机值Challenge，用缓存的服务器端密码的哈希值<strong>NTLM-Hash</strong>对其进行加密，得到 <strong>Net NTLM-Hash(加密后的Challenge)</strong>，并且将Net NTLM-Hash封装到 NTLM_AUTH 消息中（被称为 <strong>TYPE 3 消息，</strong> Authenticate认证消息），发往服务端</li>
-<li>服务器在收到 Type3的消息之后，用自己的密码的 NTLM-Hash 对 Challenge 进行加密，并比较自己计算出的 Net NTLM-Hash 认证消息和客户端发送的认证消息是否匹配。如果匹配，则证明客户端掌握了正确的密码，认证成功，否则认证失败。</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/20190107114609252.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<h3 id="wiresharek抓包NTLMv2，使用Hashcat爆破"><a href="#wiresharek抓包NTLMv2，使用Hashcat爆破" class="headerlink" title="wiresharek抓包NTLMv2，使用Hashcat爆破"></a><strong>wiresharek抓包NTLMv2，使用Hashcat爆破</strong></h3><p>抓的数据包：<a href="https://download.csdn.net/download/qq_36119192/11706066" target="_blank" rel="noopener">NTLM2(工作组).pcapng</a></p>
-<p><strong>192.168.10.16(WIN7)——&gt;192.168.10.15(WIN2008)</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/2019090923292871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p><strong>认证失败的数据包</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233001744.png" alt="img"></p>
-<p><strong>认证成功的数据包</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233011665.png" alt="img"></p>
-<p>查看第二个数据包，获得Challenge，为：77effc5381037df8</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233113911.png" alt="img"></p>
-<p>查看第三个数据包，获得客户端加密后的Challenge，为：ba3237c701d9f397</p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233134725.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p>Net-NTLM Hash格式为：username::domain:challenge:HMAC-MD5:blob</p>
-<ul>
-<li><p>username（要访问服务器的用户名）：xie</p>
-</li>
-<li><p>domain（访问者主机名或者ip）：WIN7</p>
-</li>
-<li><p>challenge（数据包2中服务器返回的challenge值）：77effc5381037df8</p>
-</li>
-<li><p>HMAC-MD5（数据包3中的NTProofStr）: b6b777ced0128e3f587fe08b98853e13</p>
-</li>
-<li><p>blob（blob对应数据为NTLMv2 Response去掉NTProofStr的后半部分）：</p>
-<pre><code>0101000000000000f27fa3a7aa61d501ba3237c701d9f3970000000002000e00570049004e00320030003000380001000e00570049004e00320030003000380004000e00570049004e00320030003000380003000e00570049004e00320030003000380007000800f27fa3a7aa61d50106000400020000000800300030000000000000000100000000200000ca0ee75c65eaa5367775b826f949798912fa871a19e5d17f9b49587485a8e6620a001000000000000000000000000000000000000900240063006900660073002f003100390032002e003100360038002e00310030002e0031003500000000000000000000000000</code></pre></li>
-</ul>
-<p>所以最后，Net-NTLM Hash值为：</p>
-<pre><code>xie::WIN7:77effc5381037df8:b6b777ced0128e3f587fe08b98853e13:0101000000000000f27fa3a7aa61d501ba3237c701d9f3970000000002000e00570049004e00320030003000380001000e00570049004e00320030003000380004000e00570049004e00320030003000380003000e00570049004e00320030003000380007000800f27fa3a7aa61d50106000400020000000800300030000000000000000100000000200000ca0ee75c65eaa5367775b826f949798912fa871a19e5d17f9b49587485a8e6620a001000000000000000000000000000000000000900240063006900660073002f003100390032002e003100360038002e00310030002e0031003500000000000000000000000000</code></pre><p>然后，用Hashcat爆破，传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/100105816#使用Hashcat破解NTLMv2" target="_blank" rel="noopener">使用Hashcat破解NTLMv2</a> </p>
-<h2 id="NTLM认证方式-域环境中"><a href="#NTLM认证方式-域环境中" class="headerlink" title="NTLM认证方式(域环境中)"></a>NTLM认证方式(域环境中)</h2><ol>
-<li>用户通过输入Windows帐号和密码登录客户端主机，客户端会缓存密码的哈希值NTLM-Hash。成功登录客户端的用户如果试图访问服务器资源，需要向对方发送一个请求，该请求利用 NTLM SSP 生成 <strong>NTLM_NEGOTIATE</strong> 消息 （被称为 <strong>TYPE 1 消息，</strong>Negotiate 协商消息），并将 TYPE 1 消息发送给服务端中，该TYPE 1消息中包含一个以明文表示的用户名以及其他的一些协商信息(认证的主体，机器以及需要使用的安全服务等等信息)</li>
-<li>服务端接收到客户端发送过来的 TYPE 1 消息，会读取其中的内容，并从中选择出自己所能接受的服务内容，加密等级，安全服务等等。然后传入 NTLM SSP，得到 <strong>NTLM_CHALLENGE</strong> 消息（被称为 <strong>TYPE 2 消息，</strong>Challenge 挑战消息），并将此TYPE 2消息发回给客户端。此TYPE 2消息中包含了一个由服务端生成的16位随机值，此随机值被称为 Challenge，服务器将该Challenge保存起来。</li>
-<li>客户端收到服务端返回的 TYPE 2 消息， 读取出服务端所支持的内容，并取出其中的随机值Challenge，用缓存的密码的哈希值<strong>NTLM-Hash</strong>对其进行加密，得到 <strong>Net NTLM-Hash(加密后的Challenge)</strong>，并且将Net NTLM-Hash封装到 <strong>NTLM_AUTH</strong> 消息中（被称为 <strong>TYPE 3 消息，</strong> Authenticate认证消息），发往服务端</li>
-<li>服务器接收到客户端发送来的 NTLM_AUTH 的 TYPE 3 消息后，取出其中的Net NTLM-Hash值，并向DC域控（Domain Control）发送针对客户端的验证请求。该请求主要包含以下三方面的内容：客户端用户名、原始的Challenge 和 加密后的Challenge(也就是Net NTLM-Hash)。</li>
-<li>DC根据用户名获取该帐号的密码哈希值 NTLM-Hash，用密码哈希值 NTLM-Hash 对原始的Challenge进行加密得到Net NTLM-Hash。如果加密后的Challenge和服务器发送的一致，则意味着用户拥有正确的密码，验证通过，否则验证失败。DC将验证结果发给服务器。</li>
-<li>服务器根据DC返回的结果，对客户端进行回复</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/20190107114132294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p><strong>192.168.10.16(WIN7)——&gt;192.168.10.152(WIN2003)      域控：192.168.10.15(WIN2008)</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233622751.png" alt="img"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190909233638559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<h2 id="Kerberos认证方式"><a href="#Kerberos认证方式" class="headerlink" title="Kerberos认证方式"></a>Kerberos认证方式</h2><p>Kerberos实际上是一种基于票据（Ticket）的认证方式。客户端要访问服务器的资源，需要首先购买服务端认可的ST服务票据。也就是说，客户端在访问服务器之前需要预先买好票，等待服务验票之后才能入场。但是这张票不能直接购买，需要一张TGT认购权证（Ticket Granting Ticket)。也就是说，客户端在买票之前必须先获得一张TGT认购权证。这张<strong>TGT认购权证</strong>和<strong>ST服务票据</strong>均由KDC发售。</p>
-<table>
-<thead>
-<tr>
-<th>简写</th>
-<th>全拼</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>DC</td>
-<td>Domain Controller：域控</td>
-</tr>
-<tr>
-<td>KDC</td>
-<td>Key Distribution Center：密钥分发中心，由域控担任</td>
-</tr>
-<tr>
-<td>AD</td>
-<td>Active Directory：活动目录，里面包含域内用户数据库</td>
-</tr>
-<tr>
-<td>KAS</td>
-<td>Kerberos Authentication Service：Kerberos认证服务</td>
-</tr>
-<tr>
-<td>TGT</td>
-<td>Ticket Granting Ticket：票据中心授予的认购权证</td>
-</tr>
-<tr>
-<td>TGS</td>
-<td>Ticket Granting Service：票据授予服务</td>
-</tr>
-<tr>
-<td>ST</td>
-<td>Service Ticket：ST服务票据</td>
-</tr>
-</tbody></table>
-<p><strong>如何获得认购权证？</strong></p>
-<p>首先，我们来看看客户端如何获得 TGT认购权证。TGT是KDC的KAS认证服务（Kerberos Authentication Service）发放的。</p>
-<p>1、当某个用户通过输入域帐号和密码试图登录某台主机的时候，本机的Kerberos服务会向KDC的KAS认证服务发送一个认证请求。该请求主要包括两部分内容，明文形式的用户名 和 用用户秘钥加密原始Authenticator后得到的加密后Authenticator(Authenticator是客户端和服务端可以用于验证对方身份的一个东西)。</p>
-<p>2、当KDC接收到请求之后，通过AD活动目录查询该用户名得到该用户的信息。通过查询得到的密码信息对Authenticator进行解密得到 原始的 Authenticator。如果解密后 的Authenticator 和已知的 Authenticator 一致，则证明请求者提供的密码正确，即确定了登录者的真实身份。KAS成功认证对方的身份之后，会先生成一个 用用户密码加密后的用于确保该用户和KDC之间通信安全的Logon Session Key会话秘钥。KAS接着为该用户创建 TGT认购权证。TGT主要包含两方面的内容：用户相关信息 和 原始Logon Session Key，而整个TGT则通过KDC自己的密钥进行加密。最终，被不同密钥加密的Logon Session Key 和 TGT返回给客户端。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107131903960.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p><strong>如何获得ST服务票据？</strong></p>
-<p>经过上面的步骤，客户端获取了进入同域中其他主机入场券的 TGT认购权证 和 Logon Session Key，然后用自己的密钥解密Logon Session Key得到 原始的Logon Session Key。然后它会在本地缓存此 TGT 和 原始Logon Session Key。如果现在它需要访问某台服务器的资源，它就需要凭借这张TGT认购凭证向KDC购买相应的入场券。这里的入场券也有一个专有的名称——ST服务票据（Service Ticket）。具体来说，ST是通过KDC的另一个服务TGS（Ticket Granting Service）出售的。</p>
-<p>3、客户端先向TGS发送一个ST购买请求，该请求主要包含如下的内容：客户端用户名、通过Logon Session Key加密的Authenticator、TGT和访问的服务器名(其实是服务)。</p>
-<p>4.、TGS接收到请求之后，通过自己的秘钥解密TGT并得到原始Logon Session Key，然后通过Logon Session Key解密Authenticator，进而验证了对方的真实身份。TGS完成对客户端的认证之后，会生成一个用Logon Session Key加密后的用于确保客户端-服务器之间通信安全的Service Session Key会话秘钥。然后为该客户端生成ST服务票据。ST服务票据主要包含两方面的内容：客户端用户信息 和 原始Service Session Key，整个ST通过服务器密码派生的秘钥进行加密。最终两个被加密的Service Session Key和ST回复给客户端。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107125640811.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p><strong>如何用ST服务票据双向认证？</strong></p>
-<p>5、客户端接收到TGS回复后，通过缓存的Logon Session Key解密得到原始Service Session Key，同时它也得到了进入服务器ST服务票据。该Serivce Session Key和ST服务票据会被客户端缓存。客户端访问某服务器资源，将ST服务票据和Service Session Key加密的Authenticator发送给服务端。</p>
-<p>6、服务器收到客户端发来的ST服务票据。但是，服务端如何确保客户端发来的ST服务票据是通过TGS购买，而不是自己伪造的呢？这很好办，不要忘了ST是通过服务器自己密码派生的秘钥进行加密的。具体的操作过程是这样的，服务器在接收到请求之后，先通过自己密码派生的秘钥解密ST，并从中提取Service Session Key。然后通过提取出来的Service Session Key解密Authenticator，进而验证了客户端的真实身份。实际上，到目前为止，服务端已经完成了对客户端的验证，但是，整个认证过程还没有结束。谈到认证，很多人都认为只是服务器对客户端的认证，实际上在大部分场合，我们需要的是双向验证（Mutual Authentication），即访问者和被访问者互相验证对方的身份。现在服务器已经可以确保客户端是它所声称的那么用户，客户端还没有确认它所访问的不是一个钓鱼服务呢。为了解决客户端对服务器的验证，服务端需要将解密后的Authenticator再次用Service Session Key进行加密，并发挥给客户端。客户端再用缓存的Service Session Key进行解密，如果和之前的内容完全一样，则可以证明自己正在访问的服务器和自己拥有相同的Service Session Key。双向认证过后，开始了服务资源的访问。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107132433522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<p>下面是完成的Kerberos认证的过程：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190107134240582.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
-<h2 id="认证的应用"><a href="#认证的应用" class="headerlink" title="认证的应用"></a>认证的应用</h2><p>在域环境下，可以使用 Kerberos 或者 NTLM认证来实现对用户的身份认证。在很多企业的内部网络中(基本都是域环境)，都是使用Kerberos认证或NTLM认证，在Windows 2000以后，在域环境下，Kerberos是默认的认证方式。因为由于NTLM认证存在安全风险，所以用Kerberos认证的较多。Kerberos较之NTLM更高效、更安全，同时认证过程也相对复杂。</p>
-<p>在非域环境下，一般都是使用NTLM进行认证。SMB服务和很多Web程序都是使用NTLM来实现对用户的身份认证。</p>
-<h2 id="哈希传递攻击-PtH"><a href="#哈希传递攻击-PtH" class="headerlink" title="哈希传递攻击(PtH)"></a>哈希传递攻击(PtH)</h2><p>从上面的NTLM认证我们可以知道，实现身份认证，并不需要密码的原文，而只要拥有密码的NTLM哈希值即可。于是，我们可以想方设法通过其他手段截获到其他人的NTLM哈希值，便可以通过此NTLM哈希值来以该用户的身份认证，实现冒名登录。这就是NTLM Relay攻击，也就是Pass-the-Hash（PtH）哈希传递攻击。传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/83057161#哈希传递攻击(Pass-the-Hash%2CPtH)" target="_blank" rel="noopener">哈希传递攻击(Pass-the-Hash,PtH)</a></p>
-<h2 id="票据传递攻击-PtT"><a href="#票据传递攻击-PtT" class="headerlink" title="票据传递攻击(PtT)"></a>票据传递攻击(PtT)</h2><p>票据传递攻击（PtT）是一种使用Kerberos票据代替明文密码或NTLM哈希的方法。PtT最常见的用途可能是使用黄金票据和白银票据，通过PtT访问主机相当简单。传送门——&gt; <a href="https://blog.csdn.net/qq_36119192/article/details/92843080" target="_blank" rel="noopener">票据传递攻击(Pass the Ticket,PtT)</a></p>
-<p>参考文章：<a href="https://mp.weixin.qq.com/s?__biz=MzAwNDcwMDgzMA==&mid=2651034230&idx=2&sn=e2d42d1e3a41a188d1c10d0cbc8aacab&chksm=80d0dd87b7a75491cc4fd3e355a11e45654507b54382a0b320814bcf1f78ae8c9f6301735bf9&mpshare=1&scene=24&srcid=08274xzeelYaU7pK5TMtoPyY&sharer_sharetime=1566865878615&sharer_shareid=a12f834461b510ae1828dcc9a9328315&key=67c94f9eddc6c144ade0175a73a091a4441c7f664fac266a5fd569639b14db81b021737cf6690b7854aa03e45affac28cdc7fd6eb598fec4776bd0cd91aa65e30e90a402158dc77a7389efa4fe6580d4&ascene=14&uin=MjIwMDQzNjQxOQ%3D%3D&devicetype=Windows+10&version=62060833&lang=zh_CN&pass_ticket=zn5dhFz71P%2BE5aloAlyGbrR7Wlu%2BSkaD9TJXFrZwF2zufBXrvfRKXx7DlfD3fBAm" target="_blank" rel="noopener">【Windows】认证及抓密码</a></p>
-<p>​         <a href="http://www.cnblogs.com/artech/archive/2011/01/25/NTLM.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2011/01/25/NTLM.html</a></p>
-<p>​         <a href="http://www.cnblogs.com/artech/archive/2011/01/24/kerberos.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2011/01/24/kerberos.html</a></p>
-<p>​         <a href="https://www.cnblogs.com/shuidao/p/3634637.html" target="_blank" rel="noopener">https://www.cnblogs.com/shuidao/p/3634637.html</a></p>
-<p>相关文章：<a href="https://xz.aliyun.com/t/1945" target="_blank" rel="noopener">渗透技巧——利用netsh抓取连接文件服务器的NTLMv2 Hash</a></p>
+                <p>大家可能都看过一个观点”废掉一个人最快的方式，就是让他闲着”。</p>
+<p>我认同么？非常认同。</p>
+<p>但我今天想讲另一个角度，<strong>“废掉一个人最隐蔽的方式，是让他忙到没时间成长”。</strong></p>
+<p>而且我认为这个点更重要，因为大部分人都不闲，大家都在努力的过活，北上广深等大城市的年轻人，尤其是互联网从业者，不仅不闲，还每天忙得要死，甚至周末都不休息。</p>
+<p>这样一群人，根本不担心他们”太闲”，反而应担心他们”太忙”，尤其是怕他们”忙到没时间成长”。</p>
+<h2 id="废掉一个人最隐蔽的方式-是让他忙到没时间成长"><a href="#废掉一个人最隐蔽的方式-是让他忙到没时间成长" class="headerlink" title="废掉一个人最隐蔽的方式    是让他忙到没时间成长"></a><strong>废掉一个人最隐蔽的方式    是让他忙到没时间成长</strong></h2><p>我的团队成员都是从我的知识星球社群里招的，所以大家价值观一致、做事理念一致、目标一致，我们彼此深度信任，因此即便我不怎么管他们，他们也超级努力，一个表现就是：</p>
+<p><strong>下班后他们主动加班，周末他们主动给自己工作加量，更快地推进工作，总之特别忙，工作时间超长。</strong></p>
+<p>很多老板喜欢看到员工这样，但我总是担心，担心他们忙到没时间成长。我经常告诉他们要注意休息，周末也不要一直干活。</p>
+<p>我有个课程助理，前几天我跟他说了这么一段话：</p>
+<p>“你一定要控制好自己的工作节奏，不用推进的太猛，每天早点下班，周末也不用这么拼。<strong>你空出来的时间，除了休息好，就是用来自我成长</strong>。</p>
+<p>比如，你的工作需要写东西，那么你必须保证每天拿出固定的时间学习、大量阅读、听课，甚至这要变成一个强制性学习任务，跟你的工作任务同样重要，甚至你上班时间做也没关系。</p>
+<p>我写作三年多，为什么越写越好，永不枯竭，永远有新东西可写，永远能提出新观点，因为每天晚上12点到凌晨3点左右，几乎是我雷打不动学习时间，不管当天多累，这个习惯我都没中断。”</p>
+<p><strong>你必须有时间成长，而不是无休止的工作。</strong></p>
+<p>不信你问问自己：过着一个月的忙碌中，过去一年的忙碌中，你有多少时间用来成长？你成长了多少？</p>
+<p><strong>很多人沉浸在每天的忙碌工作中</strong>，早上八点出门，晚上十点多回家，累得洗漱完倒头就睡，明天又这样重复一天，后天又这样重复一天……日复一日。</p>
+<p>这是废掉一个人最隐蔽的方式，因为你会觉得明明自己每一天都特别充实，每天都干了很多活。</p>
+<p>你每天都干了很多活，是没错，但你过去半年、一年进步了多少？你自己心里没数么？</p>
+<p>为什么说这是废掉呢？</p>
+<p>因为<strong>学习是一种习惯，成长是一种习惯，精进也是一种习惯</strong>，你若是一年两年里都忙到没时间成长，你最终也会习惯了每天不成长的状态，毕竟不成长本身也是人最舒服的状态。</p>
+<p><img src="/medias/wz/%E5%BA%9F%E6%8E%89%E4%B8%80%E4%B8%AA%E4%BA%BA/2.png" alt="2"></p>
+<h2 id="一个人在职场里持续上升-必须要有持续的增量成长"><a href="#一个人在职场里持续上升-必须要有持续的增量成长" class="headerlink" title="一个人在职场里持续上升 必须要有持续的增量成长"></a><strong>一个人在职场里持续上升 必须要有持续的增量成长</strong></h2><p>有人说：工作的过程，不就是很好的成长过程么？</p>
+<p>我认同么？非常认同。但同时，有很大的局限性。</p>
+<p>为什么呢？</p>
+<p><strong>1. 每份工作必然包含大比例的重复性、同质化工作。</strong></p>
+<p>事实上，任何一份工作都必然包含大比例的重复性、同质化工作，比如：</p>
+<p>一个商务人士每天都要跟一堆人重复说同样的话术，</p>
+<p>一个人员客服每天要解答成百个同质化问题，</p>
+<p>一个小编每天都要用标准模版给一篇稿子排版，</p>
+<p>一个银行职员每天都是同一个流程服务客户，</p>
+<p>一个滴滴司机每天都那样拉客，</p>
+<p>一个淘宝电商文案每天用同质化的模版写同质化的句子，</p>
+<p>一个设计师可能做了一年不太有啥区别的课程海报或商品海报</p>
+<p>…….</p>
+<p><strong>这个社会分工越细，这个趋势越重，因为这样大家加起来的效率最高，但个人的成长不是如此。</strong></p>
+<p><strong>2. 重复单一的学习，对成长的边际贡献越来越低。</strong></p>
+<p>我有个做销售的朋友，每天特别忙，做了两年了。</p>
+<p>我问：你做了两年了，有没有自己一套成熟的销售知识体系了？</p>
+<p>她回：啥体系？我就每天那套话术给客户讲呗。</p>
+<p>我说：最近有个讲怎么做销售的课挺火的，老师也有多年的实战经验，你没去听一下、研究一下吗？</p>
+<p>她回：朋友圈里看见过，但我哪有时间学啊。</p>
+<p>我问：关于营销、品牌的书和文章，你看得多吗？</p>
+<p>她回：我光谈客户做销售都累死了，哪有时间再学别的……</p>
+<p>如果一个人只是从工作过程中学习，那么<strong>这种单一的学习方式，必然导致它对成长的边际贡献越来越低</strong>。</p>
+<p>每天一定要让自己有时间成长，其实是让你拓展除工作外的其它成长方式，<strong>你学习的方式多元化，对成长的边际贡献就越高，你的成长就越快</strong>。</p>
+<p>我跟那个做销售的朋友说：你做了两年销售了，如果继续这样只是天天谈客户天天谈客户，第三年你可能还是这样，你要抽时间多听一些课程，更新完善你的知识体系，并在之后的销售过程中去运用实践，你要多一点商业知识商业思维，这样你越来越专业，谈客户更有说服力等等。</p>
+<p><img src="/medias/wz/%E5%BA%9F%E6%8E%89%E4%B8%80%E4%B8%AA%E4%BA%BA/3.png" alt="3"></p>
+<p><strong>一个人在职场里持续上升，必须要有持续的增量成长。</strong></p>
+<p>如果你每天、每周、每个月都忙到没时间成长，那么你每一天的工作，都是在消耗存量。你的存量是有限的，一定是越消耗越少。</p>
+<p>一个日复一日消耗存量的员工，必然是一个不能“提供惊喜”的员工，所谓普通人，就是不能提供惊喜的人，有增量才有惊喜，才能持续上升。</p>
+<h2 id="一份好工作的标准里必须有一条-你有时间成长"><a href="#一份好工作的标准里必须有一条-你有时间成长" class="headerlink" title="一份好工作的标准里必须有一条  你有时间成长"></a><strong>一份好工作的标准里必须有一条  你有时间成长</strong></h2><p>人人都说要找份好工作，那什么是好工作？</p>
+<p>标准有很多，但可以简单归纳为三点：<strong>有钱、有闲、有成长</strong>。</p>
+<p><strong>1. 有钱</strong></p>
+<p>工作不主要为了钱，但钱很少，也从一个侧面反应这不是什么能创造大价值的工作。</p>
+<p><strong>2. 有闲</strong></p>
+<p>不能工作量大到每天加班到很晚，周末至少能好好休息一天。</p>
+<p><strong>3. 有成长</strong></p>
+<p>工作本身价值高、锻炼人；公司属于行业里专业性很强的，可以学到东西；老板、领导愿意培养你，等等。</p>
+<p>如果一份工作，能同时满足这三点，那一定是很好的工作；</p>
+<p>如果一份工作，一点都满足不了，那你还留在那耗什么？</p>
+<p>其中第二条“有闲”非常重要。</p>
+<p>之前有个同学就跟我吐槽，他说老板经常说的一句话是「工作是最好的修行」，然后鼓励大家多加班，说那些不怎么加班的员工没有上进心之类的。</p>
+<p>同学说了很重要一点：<strong>我下班就走了，可能有两种状态</strong>：</p>
+<p>一种状态可能是我下班回家去打游戏了、追剧了、刷抖音了，</p>
+<p>另一种状态是我可能每天下班后都回家学习去了，读书、听课、提升工作技能等。</p>
+<p>我很同意这种说法，并不是每天加班到凌晨才离开办公室的员工才有上进心，你根本不知道一个人下班后去干嘛了，有可能半年后，那个下了班就走的人，表现的比那个天天加班的更好。</p>
+<p><strong>如果一份工作，钱没有特别多，工作本身也不能给你很大成长，但是你有很多自己的时间，这种工作在很多时候也是好的。</strong></p>
+<p>因为你可以在自己能力不够强的时候，先领着这份并非高薪但能满足基本生活的工资，在每天快速完成工作后，疯狂地自我成长，直到有一天，你有实力找到一份工资更高、价值更大的工作。</p>
+<p><strong>如果一份工作收入可观，工作价值也可以，但每天忙得要死，没有时间让你持续有增量成长，你就要小心了。</strong></p>
+<p>因为你虽然现在月薪1万元，但没有成长的话到明年、后年可能还是月薪1万元，更没机会升职。</p>
+<p>一份工作，增长性是最重要的，不要让自己混成一颗钉在一个位置上的零件。</p>
+<p><strong>如果一份工作本身价值不够，钱又不多，还每天忙得要死，根本没时间成长，你就很危险了。</strong></p>
+<p>你很可能会长期在最基层工作很难跳脱，甚至久而久之，你习惯了那状态，丧失了成长的能力。一个人不怕现状不好，怕的是习惯了，心死了，这是废掉一个人最隐蔽的方式。</p>
+<p>成长这件事，一定是贯穿整个职业生涯的，甚至是一辈子的事，任何时候，都不能让自己忙到连成长的时间都没有，你现在再强，如果你的成长是停滞的，你也很快被别人淘汰，因为别人在成长。</p>
+<p><strong>要有增量思维，持续有增量成长，而不是一直消耗存量。</strong></p>
 
             </div>
             <hr/>
@@ -656,7 +590,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xiaoxie.love" rel="external nofollow noreferrer">谢公子</a>
+                    <a href="http://xiaoxie.love" rel="external nofollow noreferrer">微信公众号( 环球人力资源智库 )</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -666,7 +600,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xiaoxie.love/2019/01/12/Windows%E8%AE%A4%E8%AF%81%E4%BD%93%E7%B3%BB%E8%A7%A3%E8%AF%BB/">http://xiaoxie.love/2019/01/12/Windows%E8%AE%A4%E8%AF%81%E4%BD%93%E7%B3%BB%E8%A7%A3%E8%AF%BB/</a>
+                    <a href="http://xiaoxie.love/2019/03/16/fei-diao-yi-ge-ren-zui-yin-bi-de-fang-shi-shi-rang-ta-mang-dao-mei-you-shi-jian-cheng-chang/">http://xiaoxie.love/2019/03/16/fei-diao-yi-ge-ren-zui-yin-bi-de-fang-shi-shi-rang-ta-mang-dao-mei-you-shi-jian-cheng-chang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -679,7 +613,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="http://xiaoxie.love" target="_blank">谢公子</a>
+                    <a href="http://xiaoxie.love" target="_blank">微信公众号( 环球人力资源智库 )</a>
                     !
                 </span>
             </div>
@@ -704,8 +638,8 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Windows/">
-                                    <span class="chip bg-color">Windows</span>
+                                <a href="/tags/%E4%BA%BA%E7%94%9F%E7%9C%9F%E7%90%86/">
+                                    <span class="chip bg-color">人生真理</span>
                                 </a>
                             
                         </div>
@@ -1009,11 +943,12 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/03/16/%E5%BA%9F%E6%8E%89%E4%B8%80%E4%B8%AA%E4%BA%BA%E6%9C%80%E9%9A%90%E8%94%BD%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%98%AF%E8%AE%A9%E4%BB%96%E5%BF%99%E5%88%B0%E6%B2%A1%E6%9C%89%E6%97%B6%E9%97%B4%E6%88%90%E9%95%BF/">
+                <a href="/2019/03/16/fei-diao-yi-ge-ren-zui-yin-bi-de-fang-shi-shi-rang-ta-mang-dao-mei-you-shi-jian-cheng-chang/">
                     <div class="card-image">
                         
                         <img src="/medias/wz/废掉一个人/1.png" class="responsive-img" alt="废掉一个人最隐蔽的方式，是让他忙到没时间成长">
@@ -1028,9 +963,9 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-03-16
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-03-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1043,6 +978,7 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1061,23 +997,23 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/10/24/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                <a href="/2019/01/12/windows-ren-zheng-ti-xi-jie-du/">
                     <div class="card-image">
                         
-                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574223267058&amp;di=5c055215bf5f59519a2d392286badf6f&amp;imgtype=0&amp;src=http%3A%2F%2Fstatic.open-open.com%2Fnews%2FuploadImg%2F20170206%2F20170206105011_808.jpg" class="responsive-img" alt="Metasploit Framework(MSF)的使用">
+                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574274117107&amp;di=e8747d60c6562980e50624ed70de8b02&amp;imgtype=0&amp;src=http%3A%2F%2Fyesofcorsa.com%2Fwp-content%2Fuploads%2F2016%2F12%2F4k-Windows-10-Wallpaper-Best.jpg" class="responsive-img" alt="Windows认证体系解读">
                         
-                        <span class="card-title">Metasploit Framework(MSF)的使用</span>
+                        <span class="card-title">Windows认证体系解读</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            MSF，一款强大的渗透测试框架！
+                            Windows认证体系，NTLM、kerberos协议等
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-10-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-01-12
                             </span>
                         <span class="publish-author">
                             
@@ -1094,12 +1030,8 @@ SSPI (Security Service Provider Interface 或 Security Support Provider Interfac
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
-                        <span class="chip bg-color">工具的使用</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                        <span class="chip bg-color">渗透测试</span>
+                    <a href="/tags/Windows/">
+                        <span class="chip bg-color">Windows</span>
                     </a>
                     
                 </div>
