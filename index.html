@@ -641,6 +641,41 @@ $(function () {
                     
 
                     
+                        
+
+<link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<div class="music-player">
+    
+    <div class="title center-align">
+        <i class="fas fa-music"></i>&nbsp;&nbsp;音乐
+    </div>
+    
+    <div class="row">
+        <div class="col l8 offset-l2 m10 offset-m1 s12">
+            <div id="aplayer" class="music"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script>
+$(function () {
+    new APlayer({
+        container: document.getElementById('aplayer'),
+        fixed: 'false' === 'true',
+        autoplay: 'true' === 'true',
+        theme: '#42b983',
+        loop: 'all',
+        order: 'list',
+        preload: 'auto',
+        volume: Number('0.7'),
+        listFolded: 'true' === 'true',
+        listMaxHeight: '',
+        audio: JSON.parse('[{"name":"那女孩对我说","artist":"小阿七","url":"/medias/music/1.mp3","cover":"/medias/music/1.jpg"},{"name":"往后余生","artist":"舒烟","url":"/medias/music/4.mp3","cover":"/medias/music/4.jpg"},{"name":"听说","artist":"从铭君","url":"/medias/music/2.mp3","cover":"/medias/music/2.jpg"},{"name":"可不可以","artist":"张紫豪","url":"/medias/music/3.mp3","cover":"/medias/music/3.jpg"}]')
+    });
+});
+</script>
+                    
 
                     
                         <link rel="stylesheet" href="/libs/dplayer/DPlayer.min.css">
