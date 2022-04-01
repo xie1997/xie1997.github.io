@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>谢公子的小黑屋</title>
+  
+  <subtitle>记录生活，留住感动</subtitle>
+  <link href="https://xie1997521.gitee.io/atom.xml" rel="self"/>
+  
+  <link href="https://xie1997521.gitee.io/"/>
+  <updated>2022-04-01T07:06:41.795Z</updated>
+  <id>https://xie1997521.gitee.io/</id>
+  
+  <author>
+    <name>谢公子</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何隐蔽你的C2</title>
+    <link href="https://xie1997521.gitee.io/2021/02/24/ru-he-yin-bi-ni-de-c2/"/>
+    <id>https://xie1997521.gitee.io/2021/02/24/ru-he-yin-bi-ni-de-c2/</id>
+    <published>2021-02-24T07:30:09.000Z</published>
+    <updated>2022-04-01T07:06:41.795Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在红蓝对抗中，如果攻击者不通过手段隐藏C2服务器，这样可能导致C2被溯源以及被反撸。以下内容讲述如何通过手段隐蔽C2。&lt;/p&gt;
+&lt;h1 id=&quot;端口特征修改&quot;&gt;&lt;a href=&quot;#端口特征修改&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997521.gitee.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="渗透测试" scheme="https://xie1997521.gitee.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CobaltStrike的使用</title>
+    <link href="https://xie1997521.gitee.io/2019/12/19/cobaltstrike-de-shi-yong/"/>
+    <id>https://xie1997521.gitee.io/2019/12/19/cobaltstrike-de-shi-yong/</id>
+    <published>2019-12-19T01:56:00.000Z</published>
+    <updated>2022-04-01T07:30:00.534Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;CobaltStrike&quot;&gt;&lt;a href=&quot;#CobaltStrike&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997521.gitee.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="渗透测试" scheme="https://xie1997521.gitee.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+</feed>
