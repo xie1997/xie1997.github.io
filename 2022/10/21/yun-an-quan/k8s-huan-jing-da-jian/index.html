@@ -1,0 +1,1653 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="K8S环境搭建, 谢公子的小黑屋">
+    <meta name="description" content="介绍如何搭建K8s环境">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+    <style>
+        body{
+            background-image: url(https://pic.imgdb.cn/item/63f08805f144a010079e8aad.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+    <title>K8S环境搭建 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/xie1997.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/css/my.css">
+
+    <script src="/xie1997.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/xie1997.github.io/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/xie1997.github.io/" class="waves-effect waves-light">
+                    
+                    <img src="/xie1997.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+          
+          <span>域渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+          
+          <span>内网渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+          
+          <span>云安全</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+          
+          <span>渗透测试</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/安全培训/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>安全培训</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
+          
+          <span>内网渗透培训</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/">
+          
+          <span>Web安全培训</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/categories/" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/xie1997.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>域渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>内网渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:50px">
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
+				  
+		          <span>云安全</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ " style="margin-left:50px">
+				  
+		          <span>渗透测试</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			安全培训
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>内网渗透培训</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>Web安全培训</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/categories/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://inews.gtimg.com/newsapp_bt/0/14263468446/1000')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">K8S环境搭建</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/xie1997.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">云安全</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-10-21
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-02-18
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    13 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/xie1997.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>​    以下演示手动使用kubeadm和minikube安装K8s环境。</p>
+<h1 id="手动使用kubeadm安装"><a href="#手动使用kubeadm安装" class="headerlink" title="手动使用kubeadm安装"></a>手动使用kubeadm安装</h1><table>
+<thead>
+<tr>
+<th><strong>主机名</strong></th>
+<th><strong>ip</strong></th>
+<th><strong>系统版本</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>k8s-master</td>
+<td>172.16.200.70</td>
+<td>Centos7</td>
+</tr>
+<tr>
+<td>k8s-node1</td>
+<td>172.16.200.71</td>
+<td>Centos7</td>
+</tr>
+<tr>
+<td>k8s-node2</td>
+<td>172.16.200.72</td>
+<td>Centos7</td>
+</tr>
+</tbody></table>
+<p>前期准备好三台Centos7机器，均配置如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 关闭防火墙</span>
+systemctl stop firewalld
+systemctl disable firewalld
+<span class="token comment"># 永久关闭selinux</span>
+sed <span class="token operator">-</span>i <span class="token string">'s/enforcing/disabled/'</span> <span class="token operator">/</span>etc<span class="token operator">/</span>selinux<span class="token operator">/</span>config
+<span class="token comment"># 永久关闭swap</span>
+sed <span class="token operator">-</span>ri <span class="token string">'s/.*swap.*/#&amp;/'</span> <span class="token operator">/</span>etc<span class="token operator">/</span>fstab
+<span class="token comment"># 修改/etc/hosts</span>
+<span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span> k8s<span class="token operator">-</span>master
+<span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.71</span> k8s<span class="token operator">-</span>node1
+<span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.72</span> k8s<span class="token operator">-</span>node2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在三台机器上均安装docker、kubeadm、kubelet，在master节点安装kubectl</p>
+<p>配置阿里云的K8s源</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">cat <span class="token operator">></span> <span class="token operator">/</span>etc<span class="token operator">/</span>yum<span class="token punctuation">.</span>repos<span class="token punctuation">.</span>d<span class="token operator">/</span>kubernetes<span class="token punctuation">.</span>repo <span class="token operator">&lt;&lt;</span> EOF
+<span class="token punctuation">[</span>kubernetes<span class="token punctuation">]</span>
+name<span class="token operator">=</span>Kubernetes
+baseurl<span class="token operator">=</span>https<span class="token punctuation">:</span><span class="token operator">//</span>mirrors<span class="token punctuation">.</span>aliyun<span class="token punctuation">.</span>com<span class="token operator">/</span>kubernetes<span class="token operator">/</span>yum<span class="token operator">/</span>repos<span class="token operator">/</span>kubernetes<span class="token operator">-</span>el7<span class="token operator">-</span>x86_64
+enabled<span class="token operator">=</span><span class="token number">1</span>
+gpgcheck<span class="token operator">=</span><span class="token number">0</span>
+repo_gpgcheck<span class="token operator">=</span><span class="token number">0</span>
+gpgkey<span class="token operator">=</span>https<span class="token punctuation">:</span><span class="token operator">//</span>mirrors<span class="token punctuation">.</span>aliyun<span class="token punctuation">.</span>com<span class="token operator">/</span>kubernetes<span class="token operator">/</span>yum<span class="token operator">/</span>doc<span class="token operator">/</span>yum<span class="token operator">-</span>key<span class="token punctuation">.</span>gpg https<span class="token punctuation">:</span><span class="token operator">//</span>mirrors<span class="token punctuation">.</span>aliyun<span class="token punctuation">.</span>com<span class="token operator">/</span>kubernetes<span class="token operator">/</span>yum<span class="token operator">/</span>doc<span class="token operator">/</span>rpm<span class="token operator">-</span>package<span class="token operator">-</span>key<span class="token punctuation">.</span>gpg
+EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>安装docker就不赘述了。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665060961426-79917040-21f1-4548-b621-69635ec30deb.png" alt="img"></p>
+<p>执行如下命令安装kubelet、kubeadm和kubectl</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#安装kubelet、kubeadm和kubectl</span>
+yum install <span class="token operator">-</span>y kubelet<span class="token operator">-</span><span class="token number">1.23</span><span class="token number">.0</span> kubeadm<span class="token operator">-</span><span class="token number">1.23</span><span class="token number">.0</span> kubectl<span class="token operator">-</span><span class="token number">1.23</span><span class="token number">.0</span>
+<span class="token comment">#设置kubelet开机自启</span>
+systemctl enable kubelet<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665061131902-a5fa640f-9bda-4563-9df3-10e5d5f10421.png" alt="img"></p>
+<h2 id="部署K8S-master"><a href="#部署K8S-master" class="headerlink" title="部署K8S-master"></a>部署K8S-master</h2><p>​    在Kubernetes中Master节点是集群的控制节点，它是由三个紧密协作的独立组件组合而成，分别是负责API服务的kube-apiserver、负责调度的kube-scheduler以及负责容器编排的kube-controller-manager，其中整个集群的持久化数据由kube-apiserver处理后保存在etcd中。</p>
+<p>​    在master节点执行如下命令初始化master，需要指定service-cidr和pod-network-cidr</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubeadm init <span class="token operator">-</span><span class="token operator">-</span>apiserver<span class="token operator">-</span>advertise<span class="token operator">-</span>address<span class="token operator">=</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span> <span class="token operator">-</span><span class="token operator">-</span>image<span class="token operator">-</span>repository<span class="token operator">=</span>registry<span class="token punctuation">.</span>aliyuncs<span class="token punctuation">.</span>com<span class="token operator">/</span>google_containers <span class="token operator">-</span><span class="token operator">-</span>kubernetes<span class="token operator">-</span>version v1<span class="token punctuation">.</span><span class="token number">23.0</span> <span class="token operator">-</span><span class="token operator">-</span>service<span class="token operator">-</span>cidr<span class="token operator">=</span><span class="token number">10.10</span><span class="token number">.10</span><span class="token number">.0</span><span class="token operator">/</span><span class="token number">24</span> <span class="token operator">-</span><span class="token operator">-</span>pod<span class="token operator">-</span>network<span class="token operator">-</span>cidr<span class="token operator">=</span><span class="token number">10.20</span><span class="token number">.20</span><span class="token number">.0</span><span class="token operator">/</span><span class="token number">24</span> <span class="token operator">-</span><span class="token operator">-</span>ignore<span class="token operator">-</span>preflight<span class="token operator">-</span>errors<span class="token operator">=</span><span class="token builtin">all</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这两个地址在后面我们搭建完K8s后，查询pod和services可以看到。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1667897051366-6c91a195-b496-468d-bf8c-c460d9bcb0da.png" alt="img"></p>
+<p>然后拷贝k8s认证文件</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">mkdir <span class="token operator">-</span>p $HOME<span class="token operator">/</span><span class="token punctuation">.</span>kube
+sudo cp <span class="token operator">-</span>i <span class="token operator">/</span>etc<span class="token operator">/</span>kubernetes<span class="token operator">/</span>admin<span class="token punctuation">.</span>conf $HOME<span class="token operator">/</span><span class="token punctuation">.</span>kube<span class="token operator">/</span>config
+sudo chown $<span class="token punctuation">(</span><span class="token builtin">id</span> <span class="token operator">-</span>u<span class="token punctuation">)</span><span class="token punctuation">:</span>$<span class="token punctuation">(</span><span class="token builtin">id</span> <span class="token operator">-</span>g<span class="token punctuation">)</span> $HOME<span class="token operator">/</span><span class="token punctuation">.</span>kube<span class="token operator">/</span>config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>这里记住kubeadm join这条命令，在node节点执行这条命令加入集群。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665063307155-a6bf937c-5160-4ce1-9427-a984921569b8.png" alt="img"></p>
+<h2 id="部署K8S-node"><a href="#部署K8S-node" class="headerlink" title="部署K8S-node"></a>部署K8S-node</h2><p>​    这里在两个node节点执行如下命令即可加入K8S集群</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubeadm join <span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">6443</span> <span class="token operator">-</span><span class="token operator">-</span>token y05mrn<span class="token punctuation">.</span>y5yz5g0zvjyanos5 <span class="token operator">-</span><span class="token operator">-</span>discovery<span class="token operator">-</span>token<span class="token operator">-</span>ca<span class="token operator">-</span>cert<span class="token operator">-</span><span class="token builtin">hash</span> sha256<span class="token punctuation">:</span>683c265dcc24cdf2f1a677f0bd38236326514d4270d2d62b602912bf8f70c22e<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665064283230-8fdf951e-0e51-4248-818b-6811a8221051.png" alt="img"></p>
+<p>​    默认token的有效期为24小时，过了24小时之后，该token就不可用了。这时就需要重新创建token，可以在master节点直接如下命令生成：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubeadm token create <span class="token operator">-</span><span class="token operator">-</span><span class="token keyword">print</span><span class="token operator">-</span>join<span class="token operator">-</span>command<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="部署网络"><a href="#部署网络" class="headerlink" title="部署网络"></a>部署网络</h2><p>​    部署K8s的网络可以选择使用Calico网络插件和Falnnel网络插件，我这里选择使用Calico网络插件。</p>
+<p>​    Calico是一个纯三层的数据中心网络方案，是目前K8s主流的网络方案。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">wget https<span class="token punctuation">:</span><span class="token operator">//</span>docs<span class="token punctuation">.</span>projectcalico<span class="token punctuation">.</span>org<span class="token operator">/</span>v3<span class="token punctuation">.</span><span class="token number">19</span><span class="token operator">/</span>manifests<span class="token operator">/</span>calico<span class="token punctuation">.</span>yaml <span class="token operator">-</span><span class="token operator">-</span>no<span class="token operator">-</span>check<span class="token operator">-</span>certificate
+wget https<span class="token punctuation">:</span><span class="token operator">//</span>docs<span class="token punctuation">.</span>projectcalico<span class="token punctuation">.</span>org<span class="token operator">/</span>manifests<span class="token operator">/</span>calico<span class="token punctuation">.</span>yaml <span class="token operator">-</span><span class="token operator">-</span>no<span class="token operator">-</span>check<span class="token operator">-</span>certificate<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>​    下载完后还需要修改里面定义Pod网络（CALICO_IPV4POOL_CIDR），与之前kubeadm init的 –pod-network-cidr指定的一样。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665067645119-9af843ed-a163-4e40-9315-3ff9af8da87a.png" alt="img"></p>
+<p>​    默认calico.yaml中所使用的镜像都来源于docker.io国外镜像源，这里我们可以删除docker.io前缀以使镜像从国内镜像加速站点下载。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">cat calico<span class="token punctuation">.</span>yaml <span class="token operator">|</span>grep <span class="token string">'image:'</span>
+sed <span class="token operator">-</span>i <span class="token string">'s#docker.io/##g'</span> calico<span class="token punctuation">.</span>yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665071566914-9e1b5f89-0b60-4360-a277-f5771af0408e.png" alt="img"></p>
+<p>修改完后文件后，进行部署：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#部署</span>
+kubectl <span class="token builtin">apply</span> <span class="token operator">-</span>f calico<span class="token punctuation">.</span>yaml
+<span class="token comment">#查看状态，执行完上一条命令需要等一会才全部running</span>
+kubectl get pods <span class="token operator">-</span>n kube<span class="token operator">-</span>system                        <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665071735663-34b436f7-e3a3-4316-a043-992afd13ab5e.png" alt="img"></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665144889248-ebdfe072-78fa-4802-8fd5-86616b313ab4.png" alt="img"></p>
+<h3 id="报错解决"><a href="#报错解决" class="headerlink" title="报错解决"></a>报错解决</h3><p>​    如果在部署calico.yaml文件的时候碰到如下错误，则是因为<strong>calico版本与k8s版本不匹配导致的，可以参考</strong><a target="_blank" rel="noopener" href="https://projectcalico.docs.tigera.io/archive/v3.23/getting-started/kubernetes/requirements%E6%89%BE%E5%88%B0%E5%AF%B9%E5%BA%94%E7%89%88%E6%9C%AC%E7%9A%84calico%E3%80%82">https://projectcalico.docs.tigera.io/archive/v3.23/getting-started/kubernetes/requirements找到对应版本的calico。</a></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665065529996-7c83a1ff-9e87-4fb7-b86e-eb8389d36f86.png" alt="img"></p>
+<p>查看pods的状态，可以看到calico的是Init:ImagePullBackOff</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665068154047-9f90731f-dbcf-4226-a25a-ca7f8446da47.png" alt="img"></p>
+<p>直接去网站进行下载：<a target="_blank" rel="noopener" href="https://github.com/projectcalico/calico/releases">https://github.com/projectcalico/calico/releases</a></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665073058104-f164adff-349f-44c7-8efb-3a207f50b01f.png" alt="img"></p>
+<p>下载完成后解压，image文件夹下为docker镜像文件，还原</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">docker load <span class="token operator">&lt;</span> xx<span class="token punctuation">.</span>tar<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665073796753-c63e7ec3-813d-406a-a17d-da130038e05b.png" alt="img"></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665073858331-b619dc0b-1930-4341-8c21-0d6757cd0f9d.png" alt="img"></p>
+<p>重新部署</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#移除</span>
+kubectl delete <span class="token operator">-</span>f calico<span class="token punctuation">.</span>yml
+<span class="token comment">#部署</span>
+kubectl <span class="token builtin">apply</span> <span class="token operator">-</span>f calico<span class="token punctuation">.</span>yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="部署Dashboard"><a href="#部署Dashboard" class="headerlink" title="部署Dashboard"></a>部署Dashboard</h2><p>Dashboard是官方提供的一个Web UI，可用于基本管理K8s资源，执行如下命令下载yaml文件。默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">wget https<span class="token punctuation">:</span><span class="token operator">//</span>raw<span class="token punctuation">.</span>githubusercontent<span class="token punctuation">.</span>com<span class="token operator">/</span>kubernetes<span class="token operator">/</span>dashboard<span class="token operator">/</span>v2<span class="token punctuation">.</span><span class="token number">4.0</span><span class="token operator">/</span>aio<span class="token operator">/</span>deploy<span class="token operator">/</span>recommended<span class="token punctuation">.</span>yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>修改如下，nodePort的端口范围为30000-32767，并且添加type：NodePort</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665153907207-b9cf37db-9fa6-4237-988a-598a6c89ee33.png" alt="img"></p>
+<p>执行如下命令应用</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl <span class="token builtin">apply</span> <span class="token operator">-</span>f recommended<span class="token punctuation">.</span>yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665154008488-c857cf85-32cc-47fe-964c-1bff7e669d7d.png" alt="img"></p>
+<p>在master节点创建service account并绑定默认cluster-admin管理员集群角色</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 在kube-system命名空间下创建名为dashboard-admin的serviceaccount</span>
+kubectl create serviceaccount dashboard<span class="token operator">-</span>admin <span class="token operator">-</span>n kube<span class="token operator">-</span>system
+<span class="token comment"># 创建名为dashboard-admin的clusterrolebinding，通过clusterrole绑定集群角色cluster-admin，这样指定账号就有了cluster-admin角色的权限。最后--serviceaccount指定dashboard-admin账号的权限应用在kube-system命名空间下。</span>
+kubectl create clusterrolebinding dashboard<span class="token operator">-</span>admin <span class="token operator">-</span><span class="token operator">-</span>clusterrole<span class="token operator">=</span>cluster<span class="token operator">-</span>admin <span class="token operator">-</span><span class="token operator">-</span>serviceaccount<span class="token operator">=</span>kube<span class="token operator">-</span>system<span class="token punctuation">:</span>dashboard<span class="token operator">-</span>admin
+<span class="token comment"># 获取用户Token</span>
+kubectl describe secrets <span class="token operator">-</span>n kube<span class="token operator">-</span>system $<span class="token punctuation">(</span>kubectl <span class="token operator">-</span>n kube<span class="token operator">-</span>system get secret <span class="token operator">|</span> awk <span class="token string">'/dashboard-admin/&#123;print $1&#125;'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用输出的token登录Dashboard。 </p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">eyJhbGciOiJSUzI1NiIsImtpZCI6IjNpbzFJbTg4UjlpcjFBdS1rb1J3NzFtY3BETlhtVkQ3S0hXZWwwU0MwN1UifQ<span class="token punctuation">.</span>eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tYzdzcHAiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiZjAyMTE1OWMtZjcyMC00YTZlLWFiY2MtYzIzYWRhZjBiZjk5Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZC1hZG1pbiJ9<span class="token punctuation">.</span>aD_ZtS0domXxtWz<span class="token operator">-</span>2BaGmZebJMqoNvWqHgJ4K7kQ9eir5JvIqTsrxM14dNrUrEFRZC2hw6Gn_xz7Nezy81XPU64HHcbGiNvNU8<span class="token operator">-</span>K7OwvTWwTOpDBRPho1CaxJsKBrlQwoNf1pzoShqO<span class="token operator">-</span>JdL4kVfJUmKthjUqv8QduwVzEkCWeTXgcHOoPnsOaJSXJzwanAC4e5pIovcjMGQJU4W87T8uVW4bdO4w48c<span class="token operator">-</span><span class="token number">101</span><span class="token operator">-</span>mMYHMouKVRxF8OOTuGHFXUDpYCKAOvfA73gtwoyi_4wiSqS7NSZZTGwFfppUYDomjoA3FUFubZ2xLoc8fN2GoFzzTcylxFHTCfupJM2nUVs9vxQbJw<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665152527751-3c6c9537-b72a-4d51-949f-adb1927ab9fb.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://master/">https://master</a> ip 或 node ip:31000 均可</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">31000</span><span class="token operator">/</span>
+https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.71</span><span class="token punctuation">:</span><span class="token number">31000</span><span class="token operator">/</span>
+https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.72</span><span class="token punctuation">:</span><span class="token number">31000</span><span class="token operator">/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665153778651-3fb1d011-6f4e-4a09-9630-a692ca30f6fb.png" alt="img"></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665153805017-d0ea311b-2236-4113-9c04-79797cf60cdf.png" alt="img"></p>
+<h2 id="配置node节点使用kubectl-高权限"><a href="#配置node节点使用kubectl-高权限" class="headerlink" title="配置node节点使用kubectl(高权限)"></a>配置node节点使用kubectl(高权限)</h2><p>在master节点执行如下命令，将admin.conf文件拷贝到node节点</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">scp <span class="token operator">/</span>etc<span class="token operator">/</span>kubernetes<span class="token operator">/</span>admin<span class="token punctuation">.</span>conf root@<span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.71</span><span class="token punctuation">:</span><span class="token operator">/</span>etc<span class="token operator">/</span>kubernetes<span class="token operator">/</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1669041790872-2d545bfb-ef77-4314-8d7a-1f9588ea127f.png" alt="img"></p>
+<p>在node节点执行如下命令配置环境变量，就可以使用kubectl了。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">echo <span class="token string">"export KUBECONFIG=/etc/kubernetes/admin.conf"</span> <span class="token operator">>></span> <span class="token operator">~</span><span class="token operator">/</span><span class="token punctuation">.</span>bash_profile
+source <span class="token operator">~</span><span class="token operator">/</span><span class="token punctuation">.</span>bash_profile
+kubectl <span class="token operator">-</span>s https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">6443</span> cluster<span class="token operator">-</span>info
+
+<span class="token comment">#也可以直接指定配置配置文件</span>
+kubectl <span class="token operator">-</span>s https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">6443</span> <span class="token operator">-</span><span class="token operator">-</span>kubeconfig<span class="token operator">=</span><span class="token operator">/</span>etc<span class="token operator">/</span>kubernetes<span class="token operator">/</span>admin<span class="token punctuation">.</span>conf cluster<span class="token operator">-</span>info<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1669041884961-f61cd2ab-a20b-4255-8d0e-2c05c002b03a.png" alt="img"></p>
+<h2 id="报错解决-1"><a href="#报错解决-1" class="headerlink" title="报错解决"></a>报错解决</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">[</span>kubelet<span class="token operator">-</span>check<span class="token punctuation">]</span> It seems like the kubelet isn't running <span class="token keyword">or</span> healthy<span class="token punctuation">.</span>
+<span class="token punctuation">[</span>kubelet<span class="token operator">-</span>check<span class="token punctuation">]</span> The HTTP call equal to <span class="token string">'curl -sSL http://localhost:10248/healthz'</span> failed <span class="token keyword">with</span> error<span class="token punctuation">:</span> Get <span class="token string">"http://localhost:10248/healthz"</span><span class="token punctuation">:</span> dial tcp <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">10248</span><span class="token punctuation">:</span> connect<span class="token punctuation">:</span> connection refused<span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665062858190-b4599c2c-3fb0-4372-8941-9341a2bfc896.png" alt="img"></p>
+<p>这是因为Docker和 kubelet 服务中的 cgroup 驱动不一致导致的，有两种方法解决：</p>
+<ul>
+<li>方式一：驱动向 docker 看齐</li>
+<li>方式二：驱动为向 kubelet 看齐</li>
+</ul>
+<p>这里使用方式二，驱动向kubelet 看齐。首先查看kubelet的驱动，可以看到为systemd。修改&#x2F;etc&#x2F;docker&#x2F;daemon.json 文件，将其驱动也配置为systemd，然后启动docker即可。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">&#123;</span>
+  <span class="token string">"exec-opts"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"native.cgroupdriver=systemd"</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string">"registry-mirrors"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"http://docker-registry-mirror.kodekloud.com"</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665063390034-39a9f7f5-72b5-4255-adff-57540659330e.png" alt="img"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tiny_du/article/details/123823093">https://blog.csdn.net/tiny_du/article/details/123823093</a></p>
+<h1 id="Mac使用minikube搭建"><a href="#Mac使用minikube搭建" class="headerlink" title="Mac使用minikube搭建"></a>Mac使用minikube搭建</h1><p>安装minikube</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">brew install minikube<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665410528035-8cc9016f-70b8-4506-96d4-ca244e69155f.png" alt="img"></p>
+<p>使用minikube快速启动，这里驱动选的是VMware，指定了k8s的版本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">minikube start <span class="token operator">-</span><span class="token operator">-</span>kubernetes<span class="token operator">-</span>version<span class="token operator">=</span>v1<span class="token punctuation">.</span><span class="token number">16.3</span> <span class="token operator">-</span><span class="token operator">-</span>driver<span class="token operator">=</span>vmware
+
+<span class="token comment">#查看pods</span>
+minikube kubectl <span class="token operator">-</span><span class="token operator">-</span> get pods <span class="token operator">-</span>A<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665411027288-a5f8c337-6692-4859-a9c3-e27baacd17df.png" alt="img"></p>
+<h1 id="使用minikube搭建"><a href="#使用minikube搭建" class="headerlink" title="使用minikube搭建"></a>使用minikube搭建</h1><p>​    项目地址： <a target="_blank" rel="noopener" href="https://github.com/kubernetes/minikube/">https://github.com/kubernetes/minikube/</a></p>
+<p>​    相关：<a target="_blank" rel="noopener" href="https://minikube.sigs.k8s.io/">https://minikube.sigs.k8s.io/</a></p>
+<p>​    minikube在macOS、Linux和Windows上实现了一个本地K8S集群。minikube的主要目标是成为本地K8S应用程序开发的最佳工具，并支持所有适合的K8S特性。</p>
+<h2 id="安装docker-可选"><a href="#安装docker-可选" class="headerlink" title="安装docker(可选)"></a>安装docker(可选)</h2><p>第一步安装docker就不用说了，参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/docker/ubuntu-docker-install.html">Docker的安装</a></p>
+<p>也可以不按照Docker，安装minikube的时候会自动安装。</p>
+<h2 id="安装kubectl-可选"><a href="#安装kubectl-可选" class="headerlink" title="安装kubectl(可选)"></a>安装kubectl(可选)</h2><p>参考：<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/">https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/</a></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#下载最新kubectl</span>
+curl <span class="token operator">-</span>LO <span class="token string">"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"</span>
+<span class="token comment">#下载指定版本的kubectl，比如V1.25.0版本的</span>
+curl <span class="token operator">-</span>LO https<span class="token punctuation">:</span><span class="token operator">//</span>dl<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>release<span class="token operator">/</span>v1<span class="token punctuation">.</span><span class="token number">25.0</span><span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>linux<span class="token operator">/</span>amd64<span class="token operator">/</span>kubectl
+
+<span class="token comment">#下载checksum校验文件</span>
+curl <span class="token operator">-</span>LO <span class="token string">"https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"</span>
+
+<span class="token comment">#根据checksum校验文件验证下载的kubectl二进制文件</span>
+echo <span class="token string">"$(cat kubectl.sha256)  kubectl"</span> <span class="token operator">|</span> sha256sum <span class="token operator">-</span><span class="token operator">-</span>check
+
+<span class="token comment">#安装kubtctl</span>
+sudo install <span class="token operator">-</span>o root <span class="token operator">-</span>g root <span class="token operator">-</span>m <span class="token number">0755</span> kubectl <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>kubectl
+
+<span class="token comment">#查看安装是否成功</span>
+kubectl version <span class="token operator">-</span><span class="token operator">-</span>client <span class="token operator">-</span><span class="token operator">-</span>output<span class="token operator">=</span>yaml <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664977070518-1acfc22b-f1ac-473e-a9ff-fcf617528fae.png" alt="img"></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664985270315-db1a8ba6-c3b6-4949-8de7-33ccc9dd4435.png" alt="img"></p>
+<p>其实不安装kubectl也可以，可以使用minikube里面的kubectl，只不过执行的时候需要加上minikube kubectl。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#自己安装的kubectl</span>
+kubectl
+<span class="token comment">#minikube带的</span>
+minikube kubectl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665412329870-048215f6-ab1a-4fd1-9f74-8afa29153a52.png" alt="img"></p>
+<h2 id="安装和使用minikube"><a href="#安装和使用minikube" class="headerlink" title="安装和使用minikube"></a>安装和使用minikube</h2><p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/kubernetes/minikube/">https://github.com/kubernetes/minikube/</a></p>
+<p>阿里云发布的minikube地址：<a target="_blank" rel="noopener" href="https://github.com/AliyunContainerService/minikube">https://github.com/AliyunContainerService/minikube</a></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#下载minikube1.25.0版本</span>
+curl <span class="token operator">-</span>Lo minikube https<span class="token punctuation">:</span><span class="token operator">//</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>kubernetes<span class="token operator">/</span>minikube<span class="token operator">/</span>releases<span class="token operator">/</span>download<span class="token operator">/</span>v1<span class="token punctuation">.</span><span class="token number">25.0</span><span class="token operator">/</span>minikube<span class="token operator">-</span>linux<span class="token operator">-</span>amd64
+<span class="token comment">#赋予执行权限并且移动</span>
+chmod <span class="token operator">+</span>x minikube <span class="token operator">&amp;</span><span class="token operator">&amp;</span> sudo mv minikube <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>
+<span class="token comment">#启动minikube，使用阿里的镜像。指定--vm-driver=none参数后，minikube就不会创建minikubevm了，而是会直接在当前系统里安装单节点的k8s集群。启动过程中会下载kubeadm、kubelet和启动过程所需的组件，所以启动过程会比较久，需要耐心等待。</span>
+minikube start <span class="token operator">-</span><span class="token operator">-</span>kubernetes<span class="token operator">-</span>version<span class="token operator">=</span>v1<span class="token punctuation">.</span><span class="token number">16.3</span> <span class="token operator">-</span><span class="token operator">-</span>registry<span class="token operator">-</span>mirror<span class="token operator">=</span>https<span class="token punctuation">:</span><span class="token operator">//</span>registry<span class="token punctuation">.</span>docker<span class="token operator">-</span>cn<span class="token punctuation">.</span>com <span class="token operator">-</span><span class="token operator">-</span>image<span class="token operator">-</span>repository<span class="token operator">=</span>registry<span class="token punctuation">.</span>cn<span class="token operator">-</span>hangzhou<span class="token punctuation">.</span>aliyuncs<span class="token punctuation">.</span>com<span class="token operator">/</span>google_containers <span class="token operator">-</span><span class="token operator">-</span>vm<span class="token operator">-</span>driver<span class="token operator">=</span>none
+<span class="token comment">#启动时候的其它参数</span>
+    <span class="token operator">-</span><span class="token operator">-</span>driver<span class="token operator">=</span><span class="token operator">**</span><span class="token operator">*</span> 从<span class="token number">1.5</span><span class="token number">.0</span>版本开始，Minikube缺省使用系统优选的驱动来创建Kubernetes本地环境，比如您已经安装过Docker环境，minikube 将使用 docker 驱动
+    <span class="token operator">-</span><span class="token operator">-</span>cpus<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">:</span> 为minikube虚拟机分配CPU核数
+    <span class="token operator">-</span><span class="token operator">-</span>memory<span class="token operator">=</span>2048mb<span class="token punctuation">:</span> 为minikube虚拟机分配内存数
+<span class="token comment">#查看minikube的状态</span>
+minikube status
+<span class="token comment">#暂停集群</span>
+minikube pause 
+<span class="token comment">#停止集群</span>
+minikube stop 
+<span class="token comment">#查看minikube的版本</span>
+minikube version 
+<span class="token comment">#配置集群内存</span>
+minikube config <span class="token builtin">set</span> memory <span class="token number">16384</span> 
+<span class="token comment">#查看已安装的附加服务</span>
+minikube addons <span class="token builtin">list</span>  
+<span class="token comment">#删除所有的minikube搭建的k8s集群</span>
+minikube delete <span class="token operator">-</span><span class="token operator">-</span><span class="token builtin">all</span> 
+<span class="token comment">#查看kubectl版本号</span>
+minikube kubectl version 
+<span class="token comment">#创建负载均衡协调器</span>
+minikube tunnel <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665412258797-3542b618-216b-428a-ada8-4ece1d91cebd.png" alt="img"></p>
+<p>执行如下命令，若能显示K8S的pod namespace，则安装成功。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get pod <span class="token operator">-</span><span class="token operator">-</span><span class="token builtin">all</span><span class="token operator">-</span>namespaces<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665412408288-e53e53b7-9548-4492-ae0c-961ad9ac80c7.png" alt="img"></p>
+<p>此时，当前机器被作为了K8S的master节点。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#查看集群信息</span>
+kubectl cluster<span class="token operator">-</span>info
+<span class="token comment">#获得nodes</span>
+kubectl get nodes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665412502312-4d28ce65-50e5-4a41-bdf9-a9a058626e00.png" alt="img"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl run hello<span class="token operator">-</span>minikube <span class="token operator">-</span><span class="token operator">-</span>image<span class="token operator">=</span>registry<span class="token punctuation">.</span>cn<span class="token operator">-</span>hangzhou<span class="token punctuation">.</span>aliyuncs<span class="token punctuation">.</span>com<span class="token operator">/</span>google<span class="token operator">-</span>containers<span class="token operator">/</span>echoserver<span class="token punctuation">:</span><span class="token number">1.4</span> <span class="token operator">-</span><span class="token operator">-</span>port<span class="token operator">=</span><span class="token number">8080</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665412751672-f2280203-b99a-427a-8f03-5f71aa4ff0de.png" alt="img"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#查看指定命名空间内的详细信息</span>
+kubectl get pods <span class="token operator">-</span>n default <span class="token operator">-</span>o wide<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1665413191094-393aa8b1-3423-4069-a435-1f64b1e8091f.png" alt="img"></p>
+<h3 id="报错解决-2"><a href="#报错解决-2" class="headerlink" title="报错解决"></a>报错解决</h3><p>如果启动的时候碰到下面的报错</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">Exiting due to GUEST_MISSING_CONNTRACK<span class="token punctuation">:</span> Sorry<span class="token punctuation">,</span> Kubernetes <span class="token number">1.25</span><span class="token number">.0</span> requires conntrack to be installed <span class="token keyword">in</span> root's path<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664977674325-3d9a94a7-a04d-450c-99ef-99b5c7b30095.png" alt="img"></p>
+<p>执行如下命令安装conntrack即可</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">yum install <span class="token operator">-</span>y conntrack<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果启动的时候碰到下面的报错</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">The none driver <span class="token keyword">with</span> Kubernetes v1<span class="token punctuation">.</span><span class="token number">24</span><span class="token operator">+</span> <span class="token keyword">and</span> the docker container<span class="token operator">-</span>runtime requires cri<span class="token operator">-</span>dockerd<span class="token punctuation">.</span>
+    
+Please install cri<span class="token operator">-</span>dockerd using these instructions<span class="token punctuation">:</span>
+    
+https<span class="token punctuation">:</span><span class="token operator">//</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>Mirantis<span class="token operator">/</span>cri<span class="token operator">-</span>dockerd<span class="token comment">#build-and-install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664980424335-2a135296-956c-4be6-a2f6-da3a21d080d0.png" alt="img"></p>
+<p>这是因为<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=kubernetes&spm=1001.2101.3001.7020">kubernetes</a> 1.24版本正式弃用docker，开始使用containerd作为容器运行时。</p>
+<p>运行时介绍：</p>
+<ul>
+<li>OCI(Open Container Initiative)：2015年Google、docker、Redhat、IBM共同成立，定义了运行标准和镜像标准。</li>
+<li>CRI(Container Runtime Interface)：2016 年12月Kubernetes 发布 CRI(容器运行时接口), 可以支持rkt等不同的运行时。</li>
+<li>CRI-O：由redhat发起并开源，用于替代docker成为kubernetes的运行时，2016年开发,2019年4月8号进入CNCF孵化。</li>
+</ul>
+<p>执行如下命令安装cri-dockerd运行时即可</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#安装Go</span>
+wget https<span class="token punctuation">:</span><span class="token operator">//</span>storage<span class="token punctuation">.</span>googleapis<span class="token punctuation">.</span>com<span class="token operator">/</span>golang<span class="token operator">/</span>getgo<span class="token operator">/</span>installer_linux
+chmod <span class="token operator">+</span>x <span class="token punctuation">.</span><span class="token operator">/</span>installer_linux
+<span class="token punctuation">.</span><span class="token operator">/</span>installer_linux
+source <span class="token operator">~</span><span class="token operator">/</span><span class="token punctuation">.</span>bash_profile
+
+<span class="token comment">#安装cri-dockerd</span>
+git clone https<span class="token punctuation">:</span><span class="token operator">//</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>Mirantis<span class="token operator">/</span>cri<span class="token operator">-</span>dockerd<span class="token punctuation">.</span>git
+cd cri<span class="token operator">-</span>dockerd
+mkdir <span class="token builtin">bin</span>
+go build <span class="token operator">-</span>o <span class="token builtin">bin</span><span class="token operator">/</span>cri<span class="token operator">-</span>dockerd
+mkdir <span class="token operator">-</span>p <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span><span class="token builtin">bin</span>
+install <span class="token operator">-</span>o root <span class="token operator">-</span>g root <span class="token operator">-</span>m <span class="token number">0755</span> <span class="token builtin">bin</span><span class="token operator">/</span>cri<span class="token operator">-</span>dockerd <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>cri<span class="token operator">-</span>dockerd
+cp <span class="token operator">-</span>a packaging<span class="token operator">/</span>systemd<span class="token operator">/</span><span class="token operator">*</span> <span class="token operator">/</span>etc<span class="token operator">/</span>systemd<span class="token operator">/</span>system
+sed <span class="token operator">-</span>i <span class="token operator">-</span>e <span class="token string">'s,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,'</span> <span class="token operator">/</span>etc<span class="token operator">/</span>systemd<span class="token operator">/</span>system<span class="token operator">/</span>cri<span class="token operator">-</span>docker<span class="token punctuation">.</span>service
+systemctl daemon<span class="token operator">-</span><span class="token builtin">reload</span>
+systemctl enable cri<span class="token operator">-</span>docker<span class="token punctuation">.</span>service
+systemctl enable <span class="token operator">-</span><span class="token operator">-</span>now cri<span class="token operator">-</span>docker<span class="token punctuation">.</span>socket<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果启动的时候碰到下面的报错</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">❌  Exiting due to RUNTIME_ENABLE<span class="token punctuation">:</span> Temporary Error<span class="token punctuation">:</span> sudo crictl version<span class="token punctuation">:</span> exit status <span class="token number">1</span>
+stdout<span class="token punctuation">:</span>
+
+stderr<span class="token punctuation">:</span>
+sudo<span class="token punctuation">:</span> crictl：找不到命令<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664981797086-bda63807-7cc0-4551-b029-56fece269cfd.png" alt="img"></p>
+<p>执行如下命令安装crictl运行时即可</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">wget https<span class="token punctuation">:</span><span class="token operator">//</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>kubernetes<span class="token operator">-</span>sigs<span class="token operator">/</span>cri<span class="token operator">-</span>tools<span class="token operator">/</span>releases<span class="token operator">/</span>download<span class="token operator">/</span>v1<span class="token punctuation">.</span><span class="token number">25.0</span><span class="token operator">/</span>crictl<span class="token operator">-</span>v1<span class="token punctuation">.</span><span class="token number">25.0</span><span class="token operator">-</span>linux<span class="token operator">-</span>amd64<span class="token punctuation">.</span>tar<span class="token punctuation">.</span>gz
+sudo tar zxvf crictl<span class="token operator">-</span>v1<span class="token punctuation">.</span><span class="token number">25.0</span><span class="token operator">-</span>linux<span class="token operator">-</span>amd64<span class="token punctuation">.</span>tar<span class="token punctuation">.</span>gz <span class="token operator">-</span>C <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span><span class="token builtin">bin</span>
+ln <span class="token operator">-</span>s <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>crictl <span class="token operator">/</span>usr<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>crictl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="minikube控制台"><a href="#minikube控制台" class="headerlink" title="minikube控制台"></a>minikube控制台</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">minikube dashboard<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664986811454-20e5e452-84b3-4332-b323-fa6433b53d67.png" alt="img"></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664986877512-5d09c41c-96e2-4a45-94ea-77c7739f5212.png" alt="img"></p>
+<p>Minikube启动Dashboard后返回的地址只是容器代理出来的地址只能本机内网访问，默认只能localhost访问，如果需要开放外部访问需要使用kubectl执行如下命令添加代理</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl proxy <span class="token operator">-</span><span class="token operator">-</span>port<span class="token operator">=</span><span class="token number">8000</span> <span class="token operator">-</span><span class="token operator">-</span>address<span class="token operator">=</span><span class="token number">0.0</span><span class="token number">.0</span><span class="token number">.0</span> <span class="token operator">-</span><span class="token operator">-</span>accept<span class="token operator">-</span>hosts<span class="token operator">=</span><span class="token string">'^.*'</span> <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664986949587-846e41f4-e439-4b15-936c-1dd2df72d1e0.png" alt="img"></p>
+<p>设置好后即可非本地的ip访问dashboard 的UI 界面了:</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">http<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">10.211</span><span class="token number">.55</span><span class="token number">.35</span><span class="token punctuation">:</span><span class="token number">8000</span><span class="token operator">/</span>api<span class="token operator">/</span>v1<span class="token operator">/</span>namespaces<span class="token operator">/</span>kubernetes<span class="token operator">-</span>dashboard<span class="token operator">/</span>services<span class="token operator">/</span>http<span class="token punctuation">:</span>kubernetes<span class="token operator">-</span>dashboard<span class="token punctuation">:</span><span class="token operator">/</span>proxy<span class="token operator">/</span><span class="token comment">#/workloads?namespace=default</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664987132684-37040b03-0414-41c9-afa8-5fa388576b01.png" alt="img"></p>
+<h2 id="minikube的使用"><a href="#minikube的使用" class="headerlink" title="minikube的使用"></a>minikube的使用</h2><p>​    用户使用Minikube CLI管理虚拟机上的Kubernetes环境，比如：启动，停止，删除，获取状态等。一旦Minikube虚拟机启动，用户就可以使用熟悉的Kubectl CLI在Kubernetes集群上执行操作。</p>
+<p>​    Minikube 也提供了丰富的 Addon 组件,通过 minikube 命令行，可以轻松开启 Addon 组件，所有组件镜像也会正确解析到阿里云的镜像仓库URL。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/K8S%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1664987267233-1cb5dfb4-29c4-4466-af82-6fb4463bf575.png" alt="img"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/21PTxhHKM57N_xagKTZ6rA">https://mp.weixin.qq.com/s/21PTxhHKM57N_xagKTZ6rA</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/xie1997.github.io/about" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://xie1997.github.io/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/">https://xie1997.github.io/xie1997.github.io/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/xie1997.github.io/about" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">云安全</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/xie1997.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/xie1997.github.io/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/xie1997.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/xie1997.github.io/2022/10/25/yun-an-quan/k8s-zu-jian-he-jia-gou/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63f2d76ef144a01007f8dc1c.png" class="responsive-img" alt="K8S组件和架构">
+                        
+                        <span class="card-title">K8S组件和架构</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍如何搭建K8s环境
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-25
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63f2d556f144a01007f6a6c1.png" class="responsive-img" alt="Kerberos协议详解">
+                        
+                        <span class="card-title">Kerberos协议详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            详细介绍Kerberos协议
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">域渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: 谢公子<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者谢公子所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/xie1997.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('7'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">谢公子</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">50.3k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2019";
+                        var startMonth = "1";
+                        var startDate = "2";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis"></div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/xie1997.github.io/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/xie1997.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="/xie1997.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/xie1997.github.io/libs/aos/aos.js"></script>
+    <script src="/xie1997.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/xie1997.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/xie1997.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/xie1997.github.io/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/xie1997.github.io/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/xie1997.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/xie1997.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/xie1997.github.io/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/xie1997.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

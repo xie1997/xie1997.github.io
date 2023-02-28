@@ -1,0 +1,1898 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Kerberos协议详解, 谢公子的小黑屋">
+    <meta name="description" content="详细介绍Kerberos协议">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+    <style>
+        body{
+            background-image: url(https://pic.imgdb.cn/item/63f08805f144a010079e8aad.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+    <title>Kerberos协议详解 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/xie1997.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/css/my.css">
+
+    <script src="/xie1997.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/xie1997.github.io/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/xie1997.github.io/" class="waves-effect waves-light">
+                    
+                    <img src="/xie1997.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+          
+          <span>域渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+          
+          <span>内网渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+          
+          <span>云安全</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+          
+          <span>渗透测试</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/安全培训/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>安全培训</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
+          
+          <span>内网渗透培训</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/">
+          
+          <span>Web安全培训</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/categories/" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/xie1997.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>域渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>内网渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:50px">
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
+				  
+		          <span>云安全</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ " style="margin-left:50px">
+				  
+		          <span>渗透测试</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			安全培训
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>内网渗透培训</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>Web安全培训</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/categories/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://pic.imgdb.cn/item/63f2d556f144a01007f6a6c1.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Kerberos协议详解</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/xie1997.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">域渗透</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-03-05
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-02-20
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    10.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    40 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/xie1997.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本文部分节选于《域渗透攻防指南》，购买请长按如下图片扫码</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/640-20230220100339818.jpeg" alt="图片"></p>
+<p>Kerberos协议是由麻省理工学院提出的一种网络身份验证协议，提供了一种在开放的非安全网络中认证识别用户身份信息的方法。它旨在通过使用密钥加密技术为客户端&#x2F;服务端应用程序提供强身份验证。Kerberos是西方神话中守卫地狱之门的三头犬的名字。之所以使用这个名字是因为Kerberos需要三方的共同参与才能完成一次认证流程。目前主流使用的Kerberos版本为2005年RFC4120(<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc4120.html)%E6%A0%87%E5%87%86%E5%AE%9A%E4%B9%89%E7%9A%84KerberosV5%E7%89%88%E6%9C%AC%EF%BC%8CWindows%E3%80%81Linux%E5%92%8CMac">https://www.rfc-editor.org/rfc/rfc4120.html)标准定义的KerberosV5版本，Windows、Linux和Mac</a> OS均支持Kerberos协议。</p>
+<h2 id="Kerberos基础"><a href="#Kerberos基础" class="headerlink" title="Kerberos基础"></a>Kerberos基础</h2><p>在Kerberos协议中，主要有以下三个角色：</p>
+<ul>
+<li>访问服务的客户端：Kerberos客户端是代表需要访问资源的用户进行操作的应用程序，例如打开文件、查询数据库或打印文档。每个Kerberos客户端在访问资源之前都会请求身份验证。</li>
+<li>提供服务的服务端：域内提供服务的服务端，服务端都有一个独一的SPN。</li>
+<li>提供认证服务的KDC(Key Distribution Center，密钥分发中心)：KDC密钥发行中心是一种网络服务，它向活动目录域内的用户和计算机提供会话票据和临时会话密钥，其服务帐户为krbtgt。KDC作为活动目录域服务ADDS的一部分运行在每个域控制器上。</li>
+</ul>
+<p>这里说一下krbtgt帐户，该用户是在创建活动目录时系统自动创建的一个账号，其作用是KDC密钥发行中心的服务账号，其密码是系统随机生成的，无法正常登陆主机。在后面的域学习中，会经常和krbtgt帐户打交道，关于该帐户的其他信息会在后面的文章中详细讲解。</p>
+<p>如图所示，可以看到krbtgt帐户的信息。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1629032473885-b8c5407b-a4f2-4528-ab7f-20c2bfa4e535.png" alt="img"></p>
+<p>Kerberos是一种基于票据Ticket的认证方式。客户端想要访问服务端的某个服务，首先需要购买服务端认可的 <strong>ST服务票据(Service Ticket)<strong>。也就是说，客户端在访问服务之前需要先买好票，等待服务验票之后才能访问。但是这张票并不能直接购买，需要一张 <strong>TGT认购权证</strong>（Ticket Granting Ticket)。也就是说，客户端在买票之前必须先获得一张TGT认购权证。</strong>TGT认购权证</strong> 和 <strong>ST服务票据</strong> 均是由KDC(密钥分发中心)发放；因为KDC是运行在域控制器上，所以说TGT认购权证和ST服务票据均是由域控发放。</p>
+<p>​    Kerberos使用TCP&#x2F;UDP 88端口进行认证，使用TCP&#x2F;UDP 464端口进行密码重设。</p>
+<p>​    如图所示，可以看到域控制器AD01上开放的88和464端口。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640512061249-f0f5a984-d565-4681-a3c3-6af8e2153785.png" alt="img"></p>
+<p>​    Kerberos中一些名词的简称及含义如表1-1所示：</p>
+<table>
+<thead>
+<tr>
+<th><strong>简称</strong></th>
+<th><strong>全拼</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DC</td>
+<td>Domain Controller，域控</td>
+</tr>
+<tr>
+<td>krbtgt</td>
+<td>KDC密钥发行中心服务账户</td>
+</tr>
+<tr>
+<td>KDC</td>
+<td>Key Distribution Center：密钥分发中心，由域控担任</td>
+</tr>
+<tr>
+<td>AD</td>
+<td>Active Directory：活动目录，里面包含域内用户数据库</td>
+</tr>
+<tr>
+<td>AS</td>
+<td>Authentication Service：认证服务</td>
+</tr>
+<tr>
+<td>TGT</td>
+<td>Ticket Granting Ticket：TGT认购权证，由KDC的AS认证服务发放</td>
+</tr>
+<tr>
+<td>TGS</td>
+<td>Ticket Granting Service：票据授予服务</td>
+</tr>
+<tr>
+<td>ST</td>
+<td>Service Ticket：ST服务票据，由KDC的TGS票据授予服务发放</td>
+</tr>
+</tbody></table>
+<p>表1-1 名词简称及含义</p>
+<p>​    Kerberos协议有两个基础认证模块：AS_REQ &amp; AS_REP 和 TGS_REQ &amp; TGS_REP ，以及微软扩展的两个认证模块 S4U 和 PAC 。S4U是微软为了实现委派而扩展的模块，分为 S4U2Self 和 S4U2Proxy 。在Kerberos最初设计的流程里只说明了如何证明客户端的真实身份，但是并没有说明客户端是否有权限访问该服务，因为在域中不同权限的用户能够访问的资源是不同的。因此微软为了解决权限这个问题，引入了 PAC (Privilege Attribute Certificate，特权属性证书) 的概念。</p>
+<p>​    在分析AS_REQ &amp; AS_REP 和 TGS_REQ &amp; TGS_REP之前，我们先来看看什么是PAC。</p>
+<h2 id="PAC特权属性证书"><a href="#PAC特权属性证书" class="headerlink" title="PAC特权属性证书"></a>PAC特权属性证书</h2><p>​    PAC (Privilege Attribute Certificate，特权属性证书)，其中所包含的是各种授权信息、附加凭据信息、配置文件和策略信息等。例如用户所属的用户组， 用户所具有的权限等。在最初的RFC1510中规定的标准Kerberos认证过程中并没有PAC，微软在自己的产品中所实现的Kerberos流程加入了PAC的概念，因为在域中不同权限的用户能够访问的资源是不同的，因此微软设计PAC用来辨别用户身份和权限。</p>
+<p>​    在一个正常的Kerberos认证流程中，KDC返回的TGT认购权证和ST服务票据中都是带有PAC的。这样做的好处就是在以后对资源的访问中， 服务端再接收到客户请求的时候不再需要借助KDC的帮助提供完整的授权信息来完成对用户权限的判断， 而只需要根据请求中所包含的PAC信息直接与本地资源的ACL相比较做出裁决。</p>
+<h3 id="1-PAC结构"><a href="#1-PAC结构" class="headerlink" title="1. PAC结构"></a>1. PAC结构</h3><p>PAC的顶部结构如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">typedef unsigned <span class="token builtin">long</span> ULONG<span class="token punctuation">;</span>
+typedef unsigned short USHORT<span class="token punctuation">;</span>
+typedef unsigned long64 ULONG64<span class="token punctuation">;</span>
+typedef unsigned char UCHAR<span class="token punctuation">;</span>
+
+typedef struct _PACTYPE <span class="token punctuation">&#123;</span>
+    ULONG cBuffers<span class="token punctuation">;</span>
+    ULONG Version<span class="token punctuation">;</span>                         
+    PAC_INFO_BUFFER Buffers<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> PACTYPE<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这些顶部字段的定义如下：</p>
+<ul>
+<li>cBuffers：包含数组缓冲区中的条目数。</li>
+<li>Version：版本</li>
+<li>Buffers：包含一个PAC_INFO_BUFFER结构的数组。</li>
+</ul>
+<p>如图所示，是WireShark抓包的PAC结构部分，可以看到cBuffers、Version和Buffers部分：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640162654479-f0aaf4e2-aeee-4630-beac-7a9bddf294fa.png" alt="img"></p>
+<p>而PAC_INFO_BUFFER结构包含了关于PAC的每个部分的信息，这部分是最重要的，结构如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_PAC_INFO_BUFFER</span> <span class="token punctuation">&#123;</span>
+    ULONG ulType<span class="token punctuation">;</span>
+    ULONG cbBufferSize<span class="token punctuation">;</span>
+    ULONG64 Offset<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> PAC_INFO_BUFFER<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    类型字段的定义如下：</p>
+<ul>
+<li><p><strong>ulType</strong>：包含此缓冲区中包含的数据的类型。它可能是以下之一：</p>
+</li>
+<li><ul>
+<li>Logon Info (1)</li>
+<li>Client Info Type（10）</li>
+<li>UPN DNS Info (12)</li>
+<li>Sserver Cechksum (6)</li>
+<li>Privsvr Cechksum (7)</li>
+</ul>
+</li>
+<li><p><strong>cbBufferSize</strong>：缓冲大小</p>
+</li>
+<li><p><strong>Offset</strong>：缓冲偏移量</p>
+</li>
+</ul>
+<p>​    如图所示，是WireShark抓包的PAC_INFO_BUFFER结构部分。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640163077278-99fc87f0-7b88-4b58-bdc6-d5f2a4121fbf.png" alt="img"></p>
+<h3 id="2-PAC凭证信息"><a href="#2-PAC凭证信息" class="headerlink" title="2. PAC凭证信息"></a>2. PAC凭证信息</h3><p>​    LOGON INFO类型的PAC_LOGON_INFO包含Kerberos票据客户端的凭据信息。数据本身包含在一个KERB_VALIDATION_INFO结构中，该结构是由NDR编码的。NDR编码的输出被放置在LOGON INFO类型的PAC_INFO_BUFFER结构中。如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_KERB_VALIDATION_INFO</span> <span class="token punctuation">&#123;</span>
+    FILETIME Reserved0<span class="token punctuation">;</span>
+    FILETIME Reserved1<span class="token punctuation">;</span>
+    FILETIME KickOffTime<span class="token punctuation">;</span>
+    FILETIME Reserved2<span class="token punctuation">;</span>
+    FILETIME Reserved3<span class="token punctuation">;</span>
+    FILETIME Reserved4<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved5<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved6<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved7<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved8<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved9<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved10<span class="token punctuation">;</span>
+    USHORT Reserved11<span class="token punctuation">;</span>
+    USHORT Reserved12<span class="token punctuation">;</span>
+    ULONG UserId<span class="token punctuation">;</span>
+    ULONG PrimaryGroupId<span class="token punctuation">;</span>
+    ULONG GroupCount<span class="token punctuation">;</span>
+    <span class="token punctuation">[</span><span class="token function">size_is</span><span class="token punctuation">(</span>GroupCount<span class="token punctuation">)</span><span class="token punctuation">]</span> PGROUP_MEMBERSHIP GroupIds<span class="token punctuation">;</span>
+    ULONG UserFlags<span class="token punctuation">;</span>
+    ULONG Reserved13<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    UNICODE_STRING Reserved14<span class="token punctuation">;</span>
+    UNICODE_STRING Reserved15<span class="token punctuation">;</span>
+    PSID LogonDomainId<span class="token punctuation">;</span>
+    ULONG Reserved16<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    ULONG Reserved17<span class="token punctuation">;</span>
+    ULONG Reserved18<span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    ULONG SidCount<span class="token punctuation">;</span>
+    <span class="token punctuation">[</span><span class="token function">size_is</span><span class="token punctuation">(</span>SidCount<span class="token punctuation">)</span><span class="token punctuation">]</span> PKERB_SID_AND_ATTRIBUTES ExtraSids<span class="token punctuation">;</span>
+    PSID ResourceGroupDomainSid<span class="token punctuation">;</span>
+    ULONG ResourceGroupCount<span class="token punctuation">;</span>
+    <span class="token punctuation">[</span><span class="token function">size_is</span><span class="token punctuation">(</span>ResourceGroupCount<span class="token punctuation">)</span><span class="token punctuation">]</span> PGROUP_MEMBERSHIP ResourceGroupIds<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> KERB_VALIDATION_INFO<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    主要还是关注以下几个字段：</p>
+<ul>
+<li>Acct Name：该字段对应的值是用户sAMAccountName属性的值</li>
+<li>Full Name：该字段对应的值是用户displayName属性的值</li>
+<li>User RID：该字段对应的值是用户的RID，也就是用户SID的最后部分</li>
+<li>Group RID：对于该字段，域用户的Group RID恒为513(也就是Domain Users的RID)，机器用户的Group RID恒为515(也就是Domain Computers的RID)，域控的Group RID恒为516(也就是Domain Controllers的RID)</li>
+<li>Num RIDS：用户所属组的个数</li>
+<li>GroupIDS：用户所属的所有组的RID</li>
+</ul>
+<p>​    如图所示，是是WireShark抓包的PAC_LOGON_INFO部分。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640163846501-769dfbf2-074c-4791-a716-4b78a0d5e8d6.png" alt="img"></p>
+<h3 id="3-PAC签名"><a href="#3-PAC签名" class="headerlink" title="3. PAC签名"></a>3. PAC签名</h3><p>​    PAC中包含两个数字签名：PAC_SERVER_CHECKSUM 和 PAC_PRIVSVR_CHECKSUM。PAC_SERVER_CHECKSUM是使用服务密钥进行签名，而PAC_PRIVSVR_CHECKSUM是使用KDC密钥进行签名。签名有两个原因。首先，存在带有服务密钥的签名，以验证此PAC由服务进行了签名。其次，带有KDC密钥的签名是为了防止不受信任的服务用无效的PAC为自己伪造票据。这两个签名分别以PAC_SERVER_CHECKSUM和PAC_PRIVSVR_CHECKSUM类型的PAC_INFO_BUFFER发送。在PAC数据用于访问控制之前，必须检查PAC_SERVER_CHECKSUM签名。这将验证客户端是否知道服务的密钥。而PAC_PRIVSVR_CHECKSUM签名的验证是可选的，默认不开启。它用于验证PAC是否由KDC签发，而不是由KDC以外的具有访问服务密钥的人放入票据中。</p>
+<p>​    签名包含在以下结构中：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">typedef struct _PAC_SIGNATURE_DATA <span class="token punctuation">&#123;</span>
+    ULONG SignatureType<span class="token punctuation">;</span>
+    UCHAR Signature<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>     
+<span class="token punctuation">&#125;</span> PAC_SIGNATURE_DATA<span class="token punctuation">,</span> <span class="token operator">*</span>PPAC_SIGNATURE_DATA<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这些字段定义如下：</p>
+<ul>
+<li>SignatureType：此字段包含用于创建签名的校验和的类型，校验和必须是一个键控的校验和。</li>
+<li>Signature：此字段由一个包含校验和数据的字节数组组成。字节的长度可以由包装PAC_INFO_BUFFER结构来决定。</li>
+</ul>
+<p>​    如图所示，是PAC中的签名部分，可以看到PAC_SERVER_CHECKSUM和PAC_PRIVSVR_CHECKSUM。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640057437469-9cdddc39-ad58-4d52-96a6-a67c9b26492b.png" alt="img"></p>
+<h3 id="4-KDC验证PAC"><a href="#4-KDC验证PAC" class="headerlink" title="4. KDC验证PAC"></a>4. KDC验证PAC</h3><p>​    我们注意到，PAC中是有两个签名的：PAC_SERVER_CHECKSUM 和 PAC_PRIVSVR_CHECKSUM。一个是使用服务密钥(PAC_SERVER_CHECKSUM)进行签名，另一个使用KDC密钥(PAC_PRIVSVR_CHECKSUM)进行签名。当服务端收到客户端发来的AP-REQ消息时，只能校验PAC_SERVER_CHECKSUM签名，而并不能校验PAC_PRIVSVR_CHECKSUM签名。因此，正常来说如果需要校验PAC_PRIVSVR_CHECKSUM签名的话，服务端还需要将客户端发来的ST服务票据中的PAC签名发给KDC进行校验。但是，由于大部分服务默认并没有KDC验证PAC这一步(需要将目标服务主机配置为验证KDC PAC签名，默认未开启)，因此服务端就无需将ST服务票据中的PAC签名发给KDC校验了。这也是白银票据攻击能成功的前提，因为如果配置了需要验证PAC_PRIVSVR_CHECKSUM签名的话，服务端会将这个PAC的数字签名以KRB_VERIFY_PAC的消息通过RPC协议发送给KDC，KDC再将验证这个PAC的数字签名的结果以RPC返回码的形式发送给服务端，服务端就可以根据这个返回结果判断PAC的真实性和有效性了。 因此如果目标服务主机配置了要校验PAC_PRIVSVR_CHECKSUM签名的话，就算攻击者拥有服务密钥，可以制作ST服务票据，也不能伪造KDC的PAC_PRIVSVR_CHECKSUM签名，自然就无法通过KDC的签名校验了。</p>
+<p>​    那么如何配置服务主机开启KDC签名校验呢，根据微软官方文档的描述，若要开启KDC校验PAC，需要有以下条件：</p>
+<ul>
+<li>应用程序具有SeTcbPrivilege权限。SeTcbPrivilege权限允许为用户帐户分配“作为操作系统的一部分”。本地系统、网络服务和本地服务帐户都是由windows定义的服务用户帐户。每个帐户都有一组特定的特权。</li>
+<li>应用程序是一个服务，验证KDC PAC签名的注册表项被设置为1，默认为0。修改方法如下：</li>
+</ul>
+<ol>
+<li><ol>
+<li>启动注册表编辑器regedit.exe</li>
+<li>找到以下子键：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters</li>
+<li>添加一个ValidateKdcPacSignature的键值(DWORD类型)。该值为0时，不会进行KDC PAC校验。该值为1时，会进行KDC PAC校验。因此可以将该值设置为1启用KDC PAC校验。</li>
+</ol>
+</li>
+</ol>
+<p>​    对于验证KDC PAC签名这个注册表键值，有以下几点注意事项：</p>
+<ul>
+<li>如果服务端并非一个服务程序，而是一个普通应用程序，它将不受以上注册表的影响，而总是进行KDC PAC校验。</li>
+<li>如果服务端并非一个程序，而是一个驱动，其认证过程在系统内核内完成，它将不受以上注册表的影响，而永不进行PAC校验。</li>
+<li>使用以上注册表项，需要在Windows Server 2003 SP2或更新的操作系统。</li>
+<li>在运行Windows Server 2008或更新操作系统的服务器上，该注册表项的值缺省为0(默认没有该ValidateKdcPacSignature键值)，也就是不进行KDC PAC校验。</li>
+</ul>
+<p>​    注：需要说明的是，注册在本地系统帐户下的服务无论如何配置，都不会触发KDC验证PAC签名。也就是说譬如SMB、CIFS、HOST等服务无论如何都不会触发KDC验证PAC签名。</p>
+<p><strong>那么为什么默认情况下，KDC都不会验证PAC的签名呢？</strong></p>
+<p>​    执行KDC验证PAC的话，意味着在响应时间和带宽使用方面的成本。它需要带宽使用来在应用服务器和KDC之间传输请求和响应。这可能会导致大容量应用程序服务器中出现一些性能问题。在这样的环境中，用户身份验证可能会导致额外的网络延迟和大量的流量。因此，默认情况下，KDC不验证PAC签名。</p>
+<h3 id="5-PAC在kerberos中的优缺点"><a href="#5-PAC在kerberos中的优缺点" class="headerlink" title="5. PAC在kerberos中的优缺点"></a>5. PAC在kerberos中的优缺点</h3><p>​    那么PAC的存在究竟给我们的验证过程带来了哪些优点，亦或是缺点呢？</p>
+<p>​    正如上面所提到的那样，PAC的引入其实带来了很多的优点。客户端在访问网络资源的时候服务端不再需要向KDC查询授权信息， 而是直接在本地进行PAC信息与ACL的比较。从而节约了网络资源。</p>
+<p>​    如图所示， 在没有PAC的情况下，Server与KDC之间必须进行用户授权信息的查询与返回 ：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1651294084649-06808eb8-56ad-46c0-95ef-3217c1bf0135.png" alt="img"></p>
+<p>​    当引入PAC之后则变成了如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1651294297477-5e62c667-cd5e-496e-8bf7-4e52b627e241.png" alt="img"></p>
+<p>​    但是，PAC的引入并不是百利而无一害的，PAC在用户的认证阶段引入会导致认证耗时过长。Windows Kerberos客户端会通过RPC调用KDC上的函数来验证PAC信息，这时候用户会观察到在服务器端与KDC之间的RPC包流量的增加。而另一方面， 由于PAC是微软特有的一个特性，所以启用了PAC的域中将不支持装有其他操作系统的服务器， 制约了域配置的灵活性。并且在2014年，由于PAC的安全性导致产生了一个域内极其严重的提权漏洞MS14-068(在后面的文章中我们会介绍这个漏洞)。</p>
+<h2 id="Kerberos实验"><a href="#Kerberos实验" class="headerlink" title="Kerberos实验"></a>Kerberos实验</h2><p>​    为了更直观的分析Kerberos协议，接下来我们用普通域帐户xie&#x2F;hack使用impacket工具请求win10机器的cifs服务票据 ，然后远程SMB连接，在该过程中使用WireShark进行抓包。</p>
+<p>实验环境如下：</p>
+<ul>
+<li>用户(xie&#x2F;hack)：10.211.55.2</li>
+<li>域内主机(Win10)： 10.211.55.16</li>
+<li>域控(AD01)： 10.211.55.4</li>
+</ul>
+<p>impacket使用命令如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#使用hack账号密码请求win10的cifs服务的ST服务票据</span>
+python3 getST<span class="token punctuation">.</span>py <span class="token operator">-</span>dc<span class="token operator">-</span>ip <span class="token number">10.211</span><span class="token number">.55</span><span class="token number">.4</span> <span class="token operator">-</span>spn cifs<span class="token operator">/</span>win10<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com xie<span class="token punctuation">.</span>com<span class="token operator">/</span>hack<span class="token punctuation">:</span>P@ss1234
+
+<span class="token comment">#导入该ST服务票据</span>
+export KRB5CCNAME<span class="token operator">=</span>hack<span class="token punctuation">.</span>ccache
+
+<span class="token comment">#使用smb远程连接win10</span>
+python3 smbexec<span class="token punctuation">.</span>py <span class="token operator">-</span>no<span class="token operator">-</span><span class="token keyword">pass</span> <span class="token operator">-</span>k win10<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    如图所示，可以看到在请求了服务票据后，成功远程SMB连接win10机器。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640001039794-8da39219-a008-4699-a6f7-be9dd586621a.png" alt="img"></p>
+<p>​    在这个过程中，我们使用WireShark抓包，来进一步的分析Kerberos协议。如图所示，是该过程的抓包图：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640512858572-322481e7-cdaf-49cd-a853-6df327988120.png" alt="img"></p>
+<p>整个Kerberos认证流程如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1642049310305-81d7a26e-f42e-4e16-a216-fde122ab0291.png" alt="img"></p>
+<p>下面我们来具体分析Kerberos认证流程的每个步骤：</p>
+<h2 id="AS-REQ-amp-AS-REP"><a href="#AS-REQ-amp-AS-REP" class="headerlink" title="AS-REQ &amp; AS-REP"></a>AS-REQ &amp; AS-REP</h2><p>我们先来看看AS-REQ&amp;AS-REP请求部分，也就是WireShark抓的第一、二个包，如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640001161994-d7e6c558-7fc0-4dd7-ba2e-f3ae36f993d0.png" alt="img"></p>
+<p>如图所示，是一个简易的AS-REQ&amp;AS-REP请求过程图，便于我们直观的了解AS-REQ&amp;AS-REP请求过程。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640514282670-4651e031-5d9c-4d21-a948-13bd56194e71.png" alt="img"></p>
+<p>​    下面让我们具体的分析下AS-REQ&amp;AS-REP过程中的数据包细节：</p>
+<p>​    首先，我们来看看客户端是如何获得TGT认购权证的。TGT认购权证是由KDC的 AS（Authentication Service） 认证服务发放的。</p>
+<h3 id="1-AS-REQ请求包分析"><a href="#1-AS-REQ请求包分析" class="headerlink" title="1. AS-REQ请求包分析"></a>1. AS-REQ请求包分析</h3><p>​    AS-REQ：当域内某个用户想要访问域内某个服务时，于是输入用户名和密码，本机就会向KDC的AS认证服务发送一个AS-REQ认证请求。该请求包中包含如下信息： </p>
+<ul>
+<li>请求的用户名(cname)。</li>
+<li>域名(realm)。</li>
+<li>Authenticator：一个抽象的概念，代表一个验证。这里是用户密钥加密的时间戳。</li>
+<li>请求的服务名(sname)：AS-REQ这个阶段请求的服务都是krbtgt。</li>
+<li>加密类型(etype)。</li>
+<li>以及一些其他信息：如版本号，消息类型，票据有效时间，是否包含PAC，协商选项等。</li>
+</ul>
+<p>​    如图所示，是AS-REQ请求包的详细：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640001911364-ebe245f6-7f0f-46e6-862f-c6c5fa8b9549.png" alt="img"></p>
+<p>​    下面我们来看看AS-REQ请求包中每个字段的含义，如下所示：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">pvno<span class="token punctuation">:</span> kerberos版本号<span class="token punctuation">,</span>这里为<span class="token number">5</span>
+msg<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> 消息类型<span class="token punctuation">,</span> AS_REQ 对应的是 krb<span class="token operator">-</span><span class="token keyword">as</span><span class="token operator">-</span>req<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+padata：主要是一些认证信息，每个认证消息有<span class="token builtin">type</span>和value。
+  PA<span class="token operator">-</span>DATA PA<span class="token operator">-</span>ENC<span class="token operator">-</span>TIMESTAMP：这个是预认证，就是用用户Hash加密时间戳，作为value发送给KDC的AS服务。然后KDC从活动目录中查询出用户的<span class="token builtin">hash</span>，使用用户Hash进行解密，获得时间戳，如果能解密，且时间戳在一定的范围内，则证明认证通过。由于是使用用户密码Hash加密的时间戳，所以也就造成了哈希传递攻击
+    padata<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> padata类型<span class="token punctuation">,</span>这里是 pA<span class="token operator">-</span>ENC<span class="token operator">-</span>TIMESTAMP<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+      padata<span class="token operator">-</span>vaule<span class="token punctuation">:</span> 加密后的值
+        etype<span class="token punctuation">:</span>  加密类型，这里是 eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+        cipher<span class="token punctuation">:</span> 密钥
+  PA<span class="token operator">-</span>DATA PA<span class="token operator">-</span>PAC<span class="token operator">-</span>REQUEST：这个是启用PAC支持的扩展。这里的value对应的值为<span class="token boolean">True</span>或<span class="token boolean">False</span><span class="token punctuation">,</span>KDC根据include的值来确定返回的票据中是否需要携带PAC。
+    padata<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> padata类型<span class="token punctuation">,</span>这里是pA<span class="token operator">-</span>PAC<span class="token operator">-</span>REQUEST<span class="token punctuation">(</span><span class="token number">128</span><span class="token punctuation">)</span>
+      padata<span class="token operator">-</span>vaule<span class="token punctuation">:</span> padata的值
+        include<span class="token operator">-</span>pac<span class="token punctuation">:</span> 是否包含PAC<span class="token punctuation">,</span>这里为<span class="token boolean">True</span><span class="token punctuation">,</span>说明要PAC
+req<span class="token operator">-</span>body：请求body
+    padding<span class="token punctuation">:</span>填充<span class="token punctuation">,</span>这里为<span class="token number">0</span>
+    kdc<span class="token operator">-</span>options<span class="token punctuation">:</span>用于与KDC协商一些选项设置
+    	reserved
+		forwardable
+ 		forwarded
+ 		proxiable
+ 		proxy
+ 		allow<span class="token operator">-</span>postdate
+ 		postdated
+ 		unused7
+ 		renewable
+	 	unused9
+	 	unused10
+	 	opt<span class="token operator">-</span>hardware<span class="token operator">-</span>auth
+	 	unused12
+	 	unused13
+	 	constrained<span class="token operator">-</span>delegation
+	 	canonicalize 
+	 	request<span class="token operator">-</span>anonymous
+	 	unused17
+	 	unused18
+	 	unused19
+	 	unused20
+	 	unused21
+	 	unused22
+	 	unused23
+	 	unused24
+	 	unused25
+	 	disable<span class="token operator">-</span>transited<span class="token operator">-</span>check
+	 	renewable<span class="token operator">-</span>ok
+	 	enc<span class="token operator">-</span>tkt<span class="token operator">-</span><span class="token keyword">in</span><span class="token operator">-</span>skey
+	 	unused29
+	 	renew
+	 	validate
+    cname：请求的用户名<span class="token punctuation">,</span>这个用户名存在和不存在，返回的包有差异，因此可以用于枚举域内用户名。并且当用户名存在，密码正确和错误时，返回包也不一样，因此也可以进行密码喷洒。
+      name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>名字类型，这里是KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>PRINCIPAL<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+      cnmae<span class="token operator">-</span>string<span class="token punctuation">:</span>名字，也就是请求的用户名
+        CNameString<span class="token punctuation">:</span> 请求的用户名，这里为 hack
+    realm<span class="token punctuation">:</span>域名，这里为XIE<span class="token punctuation">.</span>COM
+    sname：请求的服务，包含<span class="token builtin">type</span>和Value。在AS<span class="token operator">-</span>REQ里面sname始终为krbtgt
+      name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>名字类型，这里是KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>PRINCIPAL<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+      sname<span class="token operator">-</span>string<span class="token punctuation">:</span> krbtgt用户的信息<span class="token punctuation">,</span>这里有<span class="token number">2</span>个items
+        SNameString<span class="token punctuation">:</span> 这里是krbtgt用户名
+        SNameString<span class="token punctuation">:</span> 这里是域名XIE<span class="token punctuation">.</span>COM
+    till<span class="token punctuation">:</span>到期时间
+    rtime：也是到期时间
+    nonce：随机生成的一个数
+    etype：加密类型
+      ENCTYPE<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    我们着重讲一下PA-DATA PA-ENC-TIMESTAMP字段，该字段是用于预认证。</p>
+<p>​    在AS-REQ请求包中，只有PA-DATA PA-ENC-TIMESTAMP部分是加密的，这一部分属于预认证，我们称这部分为<strong>Authenticator。</strong>如图所示，在impacket&#x2F;krb5&#x2F;kerberosv5.py中可以看到使用用户的密码Hash或用户的密码AES Key来加密时间戳。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640760630558-07e65725-41bb-4e00-8f36-c527eeeaba8f.png" alt="img"></p>
+<p>​    对WireShark抓取的流量进行解密，如图所示，可以看到这里是使用hack用户的密钥来解密该值，如下的patimestamp和pauses是解密后的值。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640054631632-4e60d763-8af2-4f93-9ef2-3237bbf0a875.png" alt="img"></p>
+<h3 id="2-AS-REP回复包分析"><a href="#2-AS-REP回复包分析" class="headerlink" title="2. AS-REP回复包分析"></a>2. AS-REP回复包分析</h3><p>​    AS-REP：当KDC的AS认证服务接收到客户端发来的AS-REQ请求后，从活动目录数据库中取出该用户的密钥，然后用该密钥对请求包中的Authenticator预认证部分进行解密，如果解密成功，并且时间戳在有效的范围内，则证明请求者提供的用户密钥正确。KDC的AS认证服务在成功认证客户端的身份之后，发送AS-REP响应包给客户端。AS-REP响应包中主要包括如下信息：</p>
+<ul>
+<li>请求的用户名(cname)。</li>
+<li>域名(crealm)。</li>
+<li>TGT认购权证：包含明文的版本号，域名，请求的服务名，以及加密部分enc-part。加密部分用krbtgt密钥加密。加密部分包含Logon Session Key、用户名、域名、认证时间、认证到期时间和authorization-data。authorization-data中包含最重要的PAC特权属性证书(包含用户的RID，用户所在组的RID) 等。</li>
+<li>enc_Logon Session Key：使用用户密钥加密Logon Session Key后的值，其作用是用于确保客户端和KDC下阶段之间通信安全。也就是AS-REP中最外层的enc-part。</li>
+<li>以及一些其他信息：如版本号，消息类型等。</li>
+</ul>
+<p>​    如图所示，是AS-REP回复包的详细：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640054841346-cb4ea58c-cda0-434b-a3be-9f41a7bc58d0.png" alt="img"></p>
+<p>​    下面我们来看看AS-REP回复包中每个字段的含义，如下所示：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">pvno<span class="token punctuation">:</span>kerberos版本号<span class="token punctuation">,</span>这里为<span class="token number">5</span>
+msg<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>消息类型<span class="token punctuation">,</span>AS_REP对应的是 krb<span class="token operator">-</span><span class="token keyword">as</span><span class="token operator">-</span>rep<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span>
+padata：主要是一些认证信息。一个列表，包含若干个认证消息用于认证
+  PA<span class="token operator">-</span>DATA PA<span class="token operator">-</span>ENCTYPE<span class="token operator">-</span>INFO2
+    padata<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> padata的类型，这里是 pA<span class="token operator">-</span>ETYPE<span class="token operator">-</span>INFO2<span class="token punctuation">(</span><span class="token number">19</span><span class="token punctuation">)</span>
+    padata<span class="token operator">-</span>value<span class="token punctuation">:</span> 加密后的值
+      ETYPE<span class="token operator">-</span>INFO2<span class="token operator">-</span>ENTRY
+         etype<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+         salt<span class="token punctuation">:</span> 盐值，这里是 XIE<span class="token punctuation">.</span>COMhack
+crealm<span class="token punctuation">:</span> 域名<span class="token punctuation">,</span>这里是XIE<span class="token punctuation">.</span>COM
+cname：请求的用户名
+  name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> 用户名类型，这里是 kRB5<span class="token operator">-</span>NT<span class="token operator">-</span>PRINCIPAL<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  cname<span class="token operator">-</span>string<span class="token punctuation">:</span> 1item
+    CNameString<span class="token punctuation">:</span> hack
+ticket：TGT认购权证
+  tkt<span class="token operator">-</span>vno<span class="token punctuation">:</span> TGT版本号，这里为<span class="token number">5</span>
+  realm<span class="token punctuation">:</span> 域名，这里是 XIE<span class="token punctuation">.</span>COM
+  sname<span class="token punctuation">:</span> 服务用户名，这里是krbtgt 密码分发中心服务账号
+    name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>SRV<span class="token operator">-</span>INST<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+    sname<span class="token operator">-</span>string<span class="token punctuation">:</span> 2items
+      SNameString<span class="token punctuation">:</span> krbtgt
+      SNameString<span class="token punctuation">:</span> XIE<span class="token punctuation">.</span>COM
+  enc<span class="token operator">-</span>part<span class="token punctuation">:</span> TGT票据中的加密部分，这部门是用krbtgt的密码Hash加密的。因此如果我们拥有krbtgt的<span class="token builtin">hash</span>就可以自己制作一个ticket，这就造成了黄金票据攻击
+    etype<span class="token punctuation">:</span> 加密类型，这里是 eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+    kvno<span class="token punctuation">:</span> 版本号，这里为<span class="token number">2</span>
+    cipher：加密后的值
+enc<span class="token operator">-</span>part：Login session key，这部分是用请求的用户密码Hash加密的，作为下阶段的认证密钥。
+  etype<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+  kvno<span class="token punctuation">:</span> 版本号，这里为<span class="token number">3</span>
+  cipher：加密后的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    AS-REP返回包中最重要的就是TGT认购权证和加密的Logon Session Key了。TGT认购权证中加密部分是使用krbtgt密钥加密的，而Logon Session Key是使用请求的用户密钥加密的。下面我们通过解密WireShark来看看TGT认购权证和Logon Session Key中到底包含哪些内容。</p>
+<h4 id="1-TGT认购权证"><a href="#1-TGT认购权证" class="headerlink" title="(1) TGT认购权证"></a>(1) TGT认购权证</h4><p>​    AS-REP响应包中的ticket便是TGT认购权证了。TGT认购权证中包含一些明文显示的信息，如版本号tkt-vno、域名realm、请求的服务名sname。但是TGT认购权证中最重要的还是加密部分，加密部分是使用krbtgt帐户密钥加密的。加密部分主要包含的内容有Logon Session Key、请求的用户名cname、域名crealm、认证时间authtime、认证到期时间endtime、authorization-data等信息。最重要的还是authorization-data部分，这部分中包含客户端的身份权限等信息，这些信息包含在PAC中。</p>
+<p>​    如图所示，是TGT认购权证：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640056922201-30615f30-888c-4c2a-8361-dfe9d98b2677.png" alt="img"></p>
+<p>​    我们来看看TGT认购权证中authorization-data字段下代表用户身份权限的PAC是啥样的。我们对PAC进行解密，只查看PAC的凭证信息部分PAC_LOGON_INFO。如图所示，最主要的还是通过User RID和Group RID来辨别用户权限的。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640057131610-147a6fbd-d695-40cf-97bd-d2fe5348ee5a.png" alt="img"></p>
+<p>​    KDC生成PAC的过程如下：KDC在收到客户端发来的AS-REQ请求后，从请求中取出cname字段，然后查询活动目录数据库，找到sAMAccountName属性为cname字段的值的用户，用该用户的身份生成一个对应的PAC。</p>
+<h4 id="2-Logon-Session-Key"><a href="#2-Logon-Session-Key" class="headerlink" title="(2) Logon Session Key"></a>(2) Logon Session Key</h4><p>​    AS-REP响应包最外层的那部分便是加密的Login session Key了，其作用是用于确保客户端和KDC下阶段之间通信安全，它使用请求的用户密钥加密。</p>
+<p>​    我们对最外层的enc-part部分进行解密，如图所示，可以看到是使用hack用户的密钥对其进行解密的。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640055955557-a7e4f52f-8da6-4ce8-8d4a-8f7a621a246f.png" alt="img"></p>
+<p>​    解密结果如下：主要包含的内容是认证时间authtime、认证到期时间endtime、域名srealm、请求的服务名sname、协商标志flags等一些信息。需要说明的是，在TGT认购权证中也包含Logon Session Key。</p>
+<h2 id="TGS-REQ-amp-TGS-REP"><a href="#TGS-REQ-amp-TGS-REP" class="headerlink" title="TGS-REQ &amp; TGS-REP"></a>TGS-REQ &amp; TGS-REP</h2><p>​    我们再来看看TGS-REQ&amp;TGS-REP请求部分，也就是WireShark抓的第三、四个包，如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640057941341-d3a73d02-a396-4a9f-baca-0efc68142c5c.png" alt="img"></p>
+<p>​    如图所示，是一个简易的TGS-REQ&amp;TGS-REP请求过程图，便于我们直观的了解TGS-REQ&amp;TGS-REP请求过程。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640522552068-2594348e-0c14-4cc6-93a9-f191e3aad819.png" alt="img"></p>
+<p>​    下面让我们具体的分析下TGS-REQ&amp;TGS-REP过程中的数据包细节：</p>
+<p>​    客户端再收到KDC的AS-REP回复后，使用用户密钥解密enc_Logon Session Key(也就是最外层的enc-part)，得到Logon Session Key，并且也拿到了TGT认购权证。之后它会在本地缓存此 TGT认购权证 和 Logon Session Key。现在客户端需要凭借这张TGT认购凭证向KDC购买相应的ST服务票据（Service Ticket）<strong>。</strong>ST服务票据是KDC的另一个服务 <strong>TGS（Ticket Granting Service）</strong>票据授予服务发放的。在这个阶段，微软引入了两个扩展子协议 S4u2self 和 S4u2Proxy(当委派的时候，才用的到，我们会在后面的4.5章中详细介绍)。</p>
+<h3 id="1-TGS-REQ请求包分析"><a href="#1-TGS-REQ请求包分析" class="headerlink" title="1. TGS-REQ请求包分析"></a>1. TGS-REQ请求包分析</h3><p>​    TGS-REQ：客户端拿着上一步获得的TGT认购权证发起TGS-REQ请求，向KDC购买针对指定服务的ST服务票据，该请求主要包含如下信息：</p>
+<ul>
+<li>域名(realm)。</li>
+<li>请求的服务名(sname)。</li>
+<li>TGT认购权证。</li>
+<li>Authenticator：一个抽象的概念，代表一个验证。这里使用Logon Session Key加密的时间戳。</li>
+<li>加密类型(etype)。</li>
+<li>以及一些其他信息：如版本号，消息类型，协商选项，票据到期时间等。</li>
+</ul>
+<p>​    如图所示，是TGS-REQ请求包的详细：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640076322271-9de70982-4ec1-4213-9f17-90ca4601fd67.png" alt="img"></p>
+<p>​    下面我们来看看TGS-REQ请求包中每个字段的含义，如下所示：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">pvno<span class="token punctuation">:</span>kerberos版本号<span class="token punctuation">,</span>这里为<span class="token number">5</span>
+msg<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>消息类型<span class="token punctuation">,</span>TGS_REQ对应的是 krb<span class="token operator">-</span>tgs<span class="token operator">-</span>req<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span>
+padata：padata中包含ap_req<span class="token punctuation">,</span>这个是TGS_REQ必须携带的部分<span class="token punctuation">,</span>这部分会携带AS_REP里面获取到的TGT认购权证和使用原始的Logon Session Key加密的时间戳。还有可能会有PA_FOR_USER，类型是S4U2SELF<span class="token punctuation">,</span>是一个唯一的标识符，该标识符指示用户的身份，该标识符由用户名和域名组成。S4U2Proxy必须扩展PA_FOR_USER结构，指定服务代表某个用户去请求针对服务自身的kerberos服务票据。还有可能会有PA_PAC_OPTIONS，类型是PA_PAC_OPTIONS。S4U2Proxy必须扩展PA<span class="token operator">-</span>PAC<span class="token operator">-</span>OPTIONS结构。如果是基于资源的约束委派，就需要指定Resource<span class="token operator">-</span>based Constrained Delegation位。
+  padata<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> padata类型，这里是 pA<span class="token operator">-</span>TGS<span class="token operator">-</span>REQ<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    padata<span class="token operator">-</span>value<span class="token punctuation">:</span> padata的值
+    ap<span class="token operator">-</span>req：这个是TGS_REQ必须携带的部分
+    	pvn0<span class="token punctuation">:</span><span class="token number">5</span>
+        msg<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>krb<span class="token operator">-</span>ap<span class="token operator">-</span>req<span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span>
+        padding<span class="token punctuation">:</span><span class="token number">0</span>
+        ap<span class="token operator">-</span>options<span class="token punctuation">:</span><span class="token number">00000000</span>
+    		reserved<span class="token punctuation">:</span> <span class="token boolean">False</span>
+    		use<span class="token operator">-</span>session<span class="token operator">-</span>key<span class="token punctuation">:</span> <span class="token boolean">False</span>
+    		mutual<span class="token operator">-</span>required<span class="token punctuation">:</span> <span class="token boolean">False</span>
+        ticket AS<span class="token operator">-</span>REP响应包中返回的TGT认购权证
+            tkt<span class="token operator">-</span>vno<span class="token punctuation">:</span><span class="token number">5</span>
+            realm<span class="token punctuation">:</span> XIE<span class="token punctuation">.</span>COM
+            sname
+              name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> kRB5<span class="token operator">-</span>NT<span class="token operator">-</span>SRV<span class="token operator">-</span>PRINCIPAL<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+              sname<span class="token operator">-</span>string<span class="token punctuation">:</span><span class="token number">2</span> items
+                SNameString<span class="token punctuation">:</span> krbtgt
+                SNameString<span class="token punctuation">:</span> XIE<span class="token punctuation">.</span>COM
+            enc<span class="token operator">-</span>part
+              etype<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span> <span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+              kvno<span class="token punctuation">:</span> <span class="token number">2</span>
+              cipher<span class="token punctuation">:</span> 加密后的值
+         authenticator<span class="token punctuation">:</span> 原始Logon Session Key加密的时间戳，用于保证会话安全
+         	etype<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span> <span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+            cipher<span class="token punctuation">:</span> 加密后的值
+req<span class="token operator">-</span>body：请求body
+    padding<span class="token punctuation">:</span>这里为<span class="token number">0</span>
+    kdc<span class="token operator">-</span>options<span class="token punctuation">:</span>用于与KDC约定一些选项设置
+        reserved
+		forwardable
+ 		forwarded
+ 		proxiable
+ 		proxy
+ 		allow<span class="token operator">-</span>postdate
+ 		postdated
+ 		unused7
+ 		renewable
+	 	unused9
+	 	unused10
+	 	opt<span class="token operator">-</span>hardware<span class="token operator">-</span>auth
+	 	unused12
+	 	unused13
+	 	constrained<span class="token operator">-</span>delegation
+	 	canonicalize 
+	 	request<span class="token operator">-</span>anonymous
+	 	unused17
+	 	unused18
+	 	unused19
+	 	unused20
+	 	unused21
+	 	unused22
+	 	unused23
+	 	unused24
+	 	unused25
+	 	disable<span class="token operator">-</span>transited<span class="token operator">-</span>check
+	 	renewable<span class="token operator">-</span>ok
+	 	enc<span class="token operator">-</span>tkt<span class="token operator">-</span><span class="token keyword">in</span><span class="token operator">-</span>skey
+	 	unused29
+	 	renew
+	 	validate
+    realm<span class="token punctuation">:</span>域名，这里为XIE<span class="token punctuation">.</span>COM
+    sname：要请求的服务名
+      name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>SRV<span class="token operator">-</span>INST<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+      sname<span class="token operator">-</span>string<span class="token punctuation">:</span> <span class="token number">2</span> items
+        SNameString<span class="token punctuation">:</span> cifs
+        SNameString<span class="token punctuation">:</span> win10<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com
+    till<span class="token punctuation">:</span>到期时间，rubeus和kekeo都是20370913024805Z，这个可以作为特征来检测工具。
+    nonce：随机生成的一个数。
+    etype：加密类型
+      ENCTYPE<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>ARCFOUR<span class="token operator">-</span>HMAC<span class="token operator">-</span>MD5<span class="token punctuation">(</span><span class="token number">23</span><span class="token punctuation">)</span>
+      ENCTYPE<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>DES3<span class="token operator">-</span>CBC<span class="token operator">-</span>SHA1<span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span>
+      ENCTYPE<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>DES<span class="token operator">-</span>CBC<span class="token operator">-</span>MD5 <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+      ENCTYPE<span class="token punctuation">:</span> eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    我们着重讲一下ap-req中的authenticator字段，该字段主要用于后阶段的会话安全认证。</p>
+<p>​    为了确保后阶段的会话安全，TGS-REQ中ap-req中的authenticator字段的值是用上一步AS-REP中返回的Logon Session Key加密的时间戳，如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640521439615-81e2b95a-11a9-42d3-ad5e-29961b0c330c.png" alt="img"></p>
+<p>​    如图所示，在impacket&#x2F;krb5&#x2F;kerberosv5.py可以看到使用如下加密方式使用Logon Session Key加密的时间戳，</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1639970421799-e5731e0b-c9b2-4829-ac23-c82f970f34ef.png" alt="img"></p>
+<h3 id="2-TGS-REP回复包分析"><a href="#2-TGS-REP回复包分析" class="headerlink" title="2. TGS-REP回复包分析"></a>2. TGS-REP回复包分析</h3><p>​    TGS-REP：KDC的TGS服务接收到TGS-REQ请求之后。首先使用krbtgt密钥解密TGT认购权证中加密部分得到Logon Session key和PAC等信息，如果能解密成功则说明该TGT认购权证是KDC颁发的。然后验证PAC的签名，如果签名正确，则证明PAC未经过篡改。然后使用Logon Session Key解密Authenticator得到时间戳等信息，如果能够解密成功，并且票据时间在范围内，则验证了会话的安全性。在完成上述的检测后，KDC的TGS服务完成了对客户端的认证，TGS服务发送响应包给客户端。响应包中主要包括如下信息：</p>
+<ul>
+<li>请求的用户名(cname)</li>
+<li>域名(crealm)</li>
+<li>ST服务票据：包含明文的版本号，域名，请求的服务名，以及加密部分enc-part，加密部分用服务密钥加密。加密部分包含用户名、域名、认证时间、认证到期时间、Service Session key和authorization-data。authorization-data中包含最重要的PAC特权属性证书(包含用户的RID，用户所在的组的RDI) 等。</li>
+<li>enc_Service Session key：使用Logon Session key加密的Service Session key，其作用是用于确保客户端和KDC下阶段之间通信安全。</li>
+<li>以及一些其他信息：如版本号、消息类型等。</li>
+</ul>
+<p>​    注：这里需要说明的是，TGS-REP这步中KDC并不会验证客户端是否有权限访问服务端。因此，这一步不管用户有没有访问服务的权限，只要TGT正确，均会返回ST服务票据，这也是kerberoasting能利用的原因，任何一个域内用户，都可以请求域内任何一个服务的ST服务票据。</p>
+<p>​    如图所示，是TGS-REP回复包的详细：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640087800596-b1b60e0a-4be6-49e8-8d27-405c8c885372.png" alt="img"></p>
+<p>​    下面我们来看看TGS-REP回复包中每个字段的含义，如下所示：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">pvno<span class="token punctuation">:</span>kerberos版本号<span class="token punctuation">,</span>这里为<span class="token number">5</span>
+msg<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>消息类型<span class="token punctuation">,</span>TGS_REP对应的是 krb<span class="token operator">-</span>tgs<span class="token operator">-</span>rep<span class="token punctuation">(</span><span class="token number">13</span><span class="token punctuation">)</span>
+crealm<span class="token punctuation">:</span> 域名<span class="token punctuation">,</span>这里是XIE<span class="token punctuation">.</span>COM
+cname：请求的用户名
+  name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> 名称类型，这里为 KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>PRINCIPAL<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  cname<span class="token operator">-</span>string<span class="token punctuation">:</span> <span class="token number">1</span> item
+    CNameString<span class="token punctuation">:</span> hack
+ticket：即ST服务票据
+  tkt<span class="token operator">-</span>vno<span class="token punctuation">:</span> 服务票据版本号，这里为<span class="token number">5</span>
+  realm<span class="token punctuation">:</span> 域名<span class="token punctuation">,</span>这里是XIE<span class="token punctuation">.</span>COM
+  sname<span class="token punctuation">:</span>
+    name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>SRV<span class="token operator">-</span>HST<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    sname<span class="token operator">-</span>string<span class="token punctuation">:</span> <span class="token number">2</span> items
+      SNameString<span class="token punctuation">:</span> cifs
+      SNameString<span class="token punctuation">:</span> win10<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com
+  enc<span class="token operator">-</span>part<span class="token punctuation">:</span> 这部分是用服务的密钥加密的
+    etype<span class="token punctuation">:</span> 加密类型，eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+    kvno<span class="token punctuation">:</span> 版本号，这里为<span class="token number">3</span>
+    cipher：加密后的值
+enc<span class="token operator">-</span>part：这部分是用原始的Logon Session Key加密的。里面最重要的字段是Service session key，作为下阶段的认证密钥。
+  etype<span class="token punctuation">:</span> 加密类型eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+  cipher<span class="token punctuation">:</span> 加密后的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​    TGS-REP返回包中最重要的就是ST服务票据和Service Session key了。ST服务票据中加密部分是使用服务密钥加密的，而Service Session key是使用Logon Session Key加密的。下面我们通过解密WireShark来看看ST服务票据和Service Session key中到底包含哪些内容。</p>
+<h4 id="1-ST服务票据"><a href="#1-ST服务票据" class="headerlink" title="(1) ST服务票据"></a>(1) ST服务票据</h4><p>​    TGS-REP响应包中的ticket便是ST服务票据了。ST服务票据中包含明文显示的信息，如版本号tkt-vno、域名realm、请求的服务名sname。但是ST服务票据中最重要的还是加密部分，加密部分是使用服务密钥加密的。加密部分主要包含的内容有Server Session Key、请求的用户名cname、域名crealm、认证时间authtime、认证到期时间endtime、authorization-data等信息。最重要的还是authorization-data部分，这部分中包含客户端的身份权限等信息，这些信息包含在PAC中。</p>
+<p>​    如图所示，是ST服务票据：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640088832540-8baa2aa3-2c79-44b6-b840-31726198a0d0.png" alt="img"></p>
+<p>​    我们来看看ST服务票据中authorization-data字段下代表用户身份权限的PAC是啥样的。我们对PAC进行解密，只查看PAC的凭证信息部分PAC_LOGON_INFO。如图所示，最主要的还是通过User RID和Group RID来辨别用户权限的。可以看到，ST服务票据中的PAC和TGT认购权证中的PAC是一致的。在正常的非S4u2Self请求的TGS过程中，KDC在ST服务票据中的PAC是直接拷贝TGT票据中的PAC。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640088951509-5cab0612-fd2d-4925-bb1d-feaeb7f8bff7.png" alt="img"></p>
+<h4 id="2-Service-Session-Key"><a href="#2-Service-Session-Key" class="headerlink" title="(2) Service Session Key"></a>(2) Service Session Key</h4><p>​    TGS-REP响应包最外层的那部分便是Service Session Key了，其作用是用于确保客户端和KDC下阶段之间通信安全，它使用Logon Session Key加密。</p>
+<p>​    如图所示，对其进行解密，它主要包含的内容是认证时间authtime、认证到期时间endtime、域名srealm、请求的服务名sname、协商标志flags等一些信息。需要说明的是，在ST服务票据中也包含Service Session Key。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640088678195-d497794a-26ea-43f2-9aa1-0bd770d06d2f.png" alt="img"></p>
+<h2 id="如何双向认证？-AP-REQ-amp-AP-REP"><a href="#如何双向认证？-AP-REQ-amp-AP-REP" class="headerlink" title="如何双向认证？(AP-REQ&amp;AP-REP)"></a>如何双向认证？(AP-REQ&amp;AP-REP)</h2><p>​    客户端在收到KDC返回的TGS-REP消息，从中取出ST服务票据后，就准备要开始申请访问服务了。由于我们是通过SMB协议远程连接的，因此AP-REQ&amp;AP-REP消息是放在SMB协议中。如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640140339782-cbde4a00-a3bb-4700-a507-125c6773a49c.png" alt="img"></p>
+<p>​    注：通过impacket远程连接服务默认是不需要验证提供服务的服务端的，因此这里没有AP-REP回复。</p>
+<p>​    如图所示，是一个简易的AP-REQ&amp;AP-REP请求过程图，便于我们直观的了解AP-REQ&amp;AP-REP请求过程。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640522699222-6b1ead6f-954f-4974-ad98-fc8c6c4ac7e5.png" alt="img"></p>
+<h3 id="1-AP-REQ请求包分析"><a href="#1-AP-REQ请求包分析" class="headerlink" title="1. AP-REQ请求包分析"></a>1. AP-REQ请求包分析</h3><p>​    AP-REQ：客户端接收到KDC的TGS回复后，通过缓存的Logon Session Key解密enc_Service Session key得到Service Session Key，同时它也拿到了ST(Service Ticket)服务票据。Serivce Session Key 和 ST服务票据会被客户端缓存。客户端访问指定服务时，将发起AP-REQ请求，该请求主要包含如下的内容：</p>
+<ul>
+<li>ST服务票据(ticket)</li>
+<li>Authenticator：一个抽象的概念，代表一个验证。这里指Serivce Session Key加密的时间戳</li>
+<li>以及一些其他信息：如版本号、消息类型，协商选项等</li>
+</ul>
+<p>​    如图所示，是AP-REQ请求包的详细：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1629354357466-2f993629-bee7-435e-a6c9-430873703057.png" alt="img"></p>
+<p>​    下面我们来看看AP-REQ请求包中每个字段的含义，如下所示：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">pvno<span class="token punctuation">:</span>kerberos版本号<span class="token punctuation">,</span>这里为<span class="token number">5</span>
+msg<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span>消息类型<span class="token punctuation">,</span> AP_REQ 对应的是 krb<span class="token operator">-</span>ap<span class="token operator">-</span>req<span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span>
+Padding<span class="token punctuation">:</span>填充<span class="token punctuation">,</span>这里为<span class="token number">0</span>
+ap<span class="token operator">-</span>options<span class="token punctuation">:</span> 一些协商选项
+	reserved
+    use<span class="token operator">-</span>session<span class="token operator">-</span>key
+    mutual<span class="token operator">-</span>required  该选项代表客户端是否希望验证提供服务的服务端
+ticket<span class="token punctuation">:</span> ST服务票据
+    tkt<span class="token operator">-</span>vno<span class="token punctuation">:</span> 版本号，这里为<span class="token number">5</span>
+    realm<span class="token punctuation">:</span> XIE<span class="token punctuation">.</span>COM
+    sname<span class="token punctuation">:</span>服务名
+        name<span class="token operator">-</span><span class="token builtin">type</span><span class="token punctuation">:</span> KRB5<span class="token operator">-</span>NT<span class="token operator">-</span>SRV<span class="token operator">-</span>INST<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+        sname<span class="token operator">-</span>string<span class="token punctuation">:</span> <span class="token number">2</span> item2
+            SNameString<span class="token punctuation">:</span> cifs
+            SNameString<span class="token punctuation">:</span> win10<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com
+    enc<span class="token operator">-</span>part<span class="token punctuation">:</span> ST服务票据中加密部分
+        etype<span class="token punctuation">:</span>加密类型，eTYPE<span class="token operator">-</span>AES256<span class="token operator">-</span>CTS<span class="token operator">-</span>HMAC<span class="token operator">-</span>SHA1<span class="token operator">-</span><span class="token number">96</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span>
+        kvno<span class="token punctuation">:</span> 版本号，这里是<span class="token number">2</span>
+        cipher<span class="token punctuation">:</span>加密后的值
+authenticator<span class="token punctuation">:</span> Serivce Session Key加密的时间戳
+    etype：加密类型
+    cipher：加密后的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-AP-REP回复包分析"><a href="#2-AP-REP回复包分析" class="headerlink" title="2. AP-REP回复包分析"></a>2. AP-REP回复包分析</h3><p>​    AP-REP：这一步是可选的，当客户端希望验证提供服务的服务端时(也就是AP-REQ请求中mutual-required协商选项为True)，服务端返回AP-REP消息。服务端收到客户端发来的AP-REQ消息后，通过服务密钥解密ST服务票据得到Service Session Key和PAC等信息，然后用Service Session Key 解密 Authenticator得到时间戳。如果能解密成功且时间戳在有效范围内，则验证了客户端的身份。验证了客户端身份后，服务端从ST服务票据中取出PAC中代表用户身份权限信息的数据，然后与请求的服务ACL做对比，生成相应的访问令牌。同时，服务端会检查AP-REQ请求中mutual-required协商选项是否为True，如果为True的话，说明客户端想验证服务端的身份。此时，服务端会用Service Session Key加密时间戳作为Authenticator，在AP-REP响应包中发送给客户端进行验证。如果mutual-required选项为False的话，服务端会根据访问令牌的权限决定是否返回相应的服务给客户端。</p>
+<p>​    注：由于impacket默认是不需要验证服务端身份的，因此如图所示是其他请求方式的AP-REP回复包截图。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1629354400201-1e181d5a-6e18-4ae9-8b59-e3d64d5dadc9.png" alt="img"></p>
+<p>​    AP-REP响应包中主要包括如下信息：</p>
+<ul>
+<li>版本号</li>
+<li>消息类型</li>
+<li>enc-part：使用Serivce Session Key加密的时间戳</li>
+</ul>
+<p>​    如下是AP-REP回复包的详细：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">pvno：<span class="token number">5</span>
+msg<span class="token operator">-</span><span class="token builtin">type</span>：消息类型<span class="token punctuation">,</span> AP_REP 对应的是 krb<span class="token operator">-</span>ap<span class="token operator">-</span>rep<span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span>
+enc<span class="token operator">-</span>part：Serivce Session Key加密的时间戳
+	etype：加密类型
+    cipher：加密后的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="S4u2Self-amp-S4u2Proxy"><a href="#S4u2Self-amp-S4u2Proxy" class="headerlink" title="S4u2Self&amp;S4u2Proxy"></a>S4u2Self&amp;S4u2Proxy</h2><p>​    为了在Kerberos协议层面对约束性委派的支持，微软对Kerberos协议扩展了两个自协议 S4u2self(Service for User to Self) 和 S4u2Proxy (Service for User to Proxy )。S4u2self 可以代表任意用户请求针对自身的服务票据；S4u2Proxy可以用上一步获得的ST服务票据以用户的名义请求针对其它指定服务的ST服务票据。</p>
+<p>​    执行如下命令，machine$机器用户模拟administrator身份访问自身服务。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">python3 getST<span class="token punctuation">.</span>py <span class="token operator">-</span>dc<span class="token operator">-</span>ip AD01<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com xie<span class="token punctuation">.</span>com<span class="token operator">/</span>machine\$<span class="token punctuation">:</span>root <span class="token operator">-</span>spn cifs<span class="token operator">/</span>ad01<span class="token punctuation">.</span>xie<span class="token punctuation">.</span>com <span class="token operator">-</span>impersonate administrator <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>​    如图所示，machine$机器账号以S4u2Self协议模拟administrator身份访问自身服务。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640524685207-46117c71-1a25-46e3-9387-fffdf03794df.png" alt="img"></p>
+<h3 id="1-S4u2Self"><a href="#1-S4u2Self" class="headerlink" title="1. S4u2Self"></a>1. S4u2Self</h3><p>​    和正常的TGS-REQ请求包相比，S4u2Self协议的TGS-REQ请求包会多一个PA-DATA pA-TGS-USER，name为要模拟的用户。并且sname也是请求的服务自身。如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640524476827-aa647603-fef3-41ae-a55a-62f36a299a8e.png" alt="img"></p>
+<h3 id="2-S4u2Proxy"><a href="#2-S4u2Proxy" class="headerlink" title="2. S4u2Proxy"></a>2. S4u2Proxy</h3><p>​    和正常的TGS-REQ请求包相比，S4u2Proxy协议的TGS-REQ请求包会增加一个additional-tickets字段，该字段的内容就是上一步利用S4u2Self请求的ST服务票据。如图所示：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1640525480973-ae28720b-c35b-4182-a739-fdd20e14a3de.png" alt="img"></p>
+<h2 id="Kerberos协议的安全问题"><a href="#Kerberos协议的安全问题" class="headerlink" title="Kerberos协议的安全问题"></a>Kerberos协议的安全问题</h2><p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1625585121188-bd0905f5-4f78-49aa-ac84-e9fd733a97c8.png" alt="img">     如图所示，是Kerberos协议各阶段容易产生的安全问题：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/Kerberos%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/1644807401453-351bf8b7-03b7-414d-91ed-80c85d04f202.png" alt="img"></p>
+<p>​    在AS-REQ请求阶段，是用用户密码Hash或AES Key加密的时间戳。因此当只获得了用户密码Hash时，也可以发起AS-REQ请求，所以也就造成了<strong>PTH哈希传递攻击</strong>；当只获得用户密码的AES Key时，也可以发起AS-REQ请求，所以也就造成了<strong>PTK密钥传递攻击</strong>。</p>
+<p>​    而 AS-REQ 请求包中 cname 字段的值代表用户名，这个值存在和不存在，返回的包有差异，所以可以用于枚举域内用户名，这种攻击方式被称为 <strong>域内用户枚举攻击</strong> (当未获取到有效域用户权限时，可以使用这个方法枚举域内用户)。并且当用户名存在，密码正确和密码错误时，返回的包也不一样，所以可以进行用户名密码爆破。但是在实战中，渗透测试人员通常都会使用一种被称为 <strong>密码喷洒（Password Spraying）</strong>的攻击方式来进行测试和攻击。对密码进行喷洒式的攻击，这个叫法很形象，因为它属于自动化密码猜测的一种。这种针对所有用户的自动密码喷洒通常是为了避免帐户被锁定，因为针对同一个用户的连续密码猜测会导致帐户被锁定。所以只有对所有用户同时执行特定的密码登录尝试，才能增加破解的概率，消除帐户被锁定的概率。普通的爆破就是用户名固定，爆破密码，但是密码喷洒是用固定的密码去跑所有的用户名。</p>
+<p>​    在 AS-REP 阶段，由于返回的 TGT 认购权证是由 krbtgt 用户的密码Hash加密的，因此如果我们拥有 krbtgt 的密码 hash 就可以自己制作一个TGT认购权证，这种攻击方式被称为<strong>黄金票据攻击</strong>。同样，在TGS-REP阶段，TGS_REP里面的ST服务票据是使用服务的hash进行加密的，如果我们拥有服务的hash，就可以签发任意用户的ST服务票据，这个票据也被称为白银票据，这种攻击方式被称为<strong>白银票据攻击</strong>。相较于黄金票据，白银票据使用要访问服务的hash，而不是krbtgt的hash。</p>
+<p>​    在AS-REP阶段，Login session key是用用户密码 Hash 加密的。对于域用户，如果设置了“Do not require Kerberos preauthentication”不需要预认证选项，此时攻击者向域控制器的 88 端口发送 AS_REQ 请求，此时域控不会做任何验证就将 TGT认购权证 和 该用户Hash加密的Login Session Key返回。因此，攻击者就可以对获取到的 用户Hash加密的Login Session Key进行离线破解，如果破解成功，就能得到该用户的密码明文，这种攻击方式被称为 <strong>AS-REP Roasting攻击</strong>。</p>
+<p>​    在TGS-REP阶段，由于ST服务票据是用服务Hash加密的。因此，如果我们能获取到ST服务票据，就可以对该ST服务票据进行利息破解，得到服务的Hash，这种攻击方式被称为<strong>Kerberoasting攻击</strong>。这个问题存在的另外一个因素是因为用户向KDC发起TGS_REQ请求，不管用户对服务有没有访问权限，只要TGT认购权证正确，那么KDC都会返回ST服务票据。其实AS_REQ里面的服务就是krbtgt，也就是说这个攻击方式同样可以用于爆破AS_REP里面的TGT认购权证，但是之所以没见到这种攻击方式是因为krbtgt的密码是随机生成的，爆破不出来。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc4120.html">https://www.rfc-editor.org/rfc/rfc4120.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/artech/archive/2011/01/24/kerberos.html">https://www.cnblogs.com/artech/archive/2011/01/24/kerberos.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/aa302203(v=msdn.10)?redirectedfrom=MSDN#signatures-pac_server_checksum-and-pac_privsvr_checksum">https://docs.microsoft.com/en-us/previous-versions/aa302203(v=msdn.10)?redirectedfrom=MSDN#signatures-pac_server_checksum-and-pac_privsvr_checksum</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/archive/blogs/apgceps/packerberos-2">https://docs.microsoft.com/zh-cn/archive/blogs/apgceps/packerberos-2</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-pac/166d8064-c863-41e1-9c23-edaaa5f36962">https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-pac/166d8064-c863-41e1-9c23-edaaa5f36962</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/aa302203(v=msdn.10)#top-level-pac-structure">https://docs.microsoft.com/en-us/previous-versions/aa302203(v=msdn.10)#top-level-pac-structure</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc772815(v=ws.10)?redirectedfrom=MSDN">https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc772815(v=ws.10)?redirectedfrom=MSDN</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/archive/blogs/openspecification/understanding-microsoft-kerberos-pac-validation">https://docs.microsoft.com/zh-cn/archive/blogs/openspecification/understanding-microsoft-kerberos-pac-validation</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-sfu/3bff5864-8135-400e-bdd9-33b552051d94">https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-sfu/3bff5864-8135-400e-bdd9-33b552051d94</a></p>
+<p>相关文章：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/171552#h3-5">https://www.anquanke.com/post/id/171552#h3-5</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/473625225">https://zhuanlan.zhihu.com/p/473625225</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22177404">https://www.zhihu.com/question/22177404</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/xie1997.github.io/about" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://xie1997.github.io/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/">https://xie1997.github.io/xie1997.github.io/xie1997.github.io/2022/03/05/yu-shen-tou/kerberos-xie-yi-xiang-jie/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/xie1997.github.io/about" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">域渗透</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/xie1997.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/xie1997.github.io/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/xie1997.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/">
+                    <div class="card-image">
+                        
+                        <img src="https://inews.gtimg.com/newsapp_bt/0/14263468446/1000" class="responsive-img" alt="K8S环境搭建">
+                        
+                        <span class="card-title">K8S环境搭建</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍如何搭建K8s环境
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-21
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/xie1997.github.io/2022/03/01/yu-shen-tou/ntlm-xie-yi-xiang-jie/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63e2669f4757feff33ce142c.png" class="responsive-img" alt="NTLM协议详解">
+                        
+                        <span class="card-title">NTLM协议详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            详细介绍NTLM协议
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">域渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: 谢公子<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者谢公子所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/xie1997.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('7'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">谢公子</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">50.3k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2019";
+                        var startMonth = "1";
+                        var startDate = "2";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis"></div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/xie1997.github.io/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/xie1997.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="/xie1997.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/xie1997.github.io/libs/aos/aos.js"></script>
+    <script src="/xie1997.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/xie1997.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/xie1997.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/xie1997.github.io/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/xie1997.github.io/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/xie1997.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/xie1997.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/xie1997.github.io/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/xie1997.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

