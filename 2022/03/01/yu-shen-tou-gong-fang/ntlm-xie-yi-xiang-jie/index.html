@@ -113,13 +113,6 @@
         </a>
       </li>
       
-      <li>
-        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-          
-          <span>渗透测试</span>
-        </a>
-      </li>
-      
     </ul>
     
   </li>
@@ -262,14 +255,6 @@
                   <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
 				  
 		          <span>云安全</span>
-                  </a>
-                </li>
-              
-                <li>
-
-                  <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/ " style="margin-left:50px">
-				  
-		          <span>渗透测试</span>
                   </a>
                 </li>
               
@@ -548,9 +533,9 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>本文部分节选于《域渗透攻防指南》，购买请长按如下图片扫码</p>
-<p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/image-20230306175555868.png" alt="image-20230306175555868"></p>
+<p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/image-20230306213529401.png" alt="image-20230306213529401"></p>
 <p>NTLM(New Technology LAN Manager)身份验证协议是微软用于Windows身份验证的主要协议之一。早期SMB协议以明文口令的形式在网络上传输，因此产生了安全性问题。后来出现了LM(LAN Manager)身份验证协议，它是如此的简单以至于很容易被破解。后来微软提出了NTLM身份验证协议，以及更新的NTLM V2版本。NTLM协议既可以为工作组中的机器提供身份验证，也可以用于域环境身份验证。NTLM协议可以为SMB、HTTP、LDAP、SMTP等上层微软应用提供身份认证。</p>
-<h1 id="1-1-1-SSP和SSPI的概念"><a href="#1-1-1-SSP和SSPI的概念" class="headerlink" title="1.1.1 SSP和SSPI的概念"></a>1.1.1 SSP和SSPI的概念</h1><p>在学习NTLM协议之前，我们先了解两个基本概念：SSPI 和 SSP。</p>
+<h1 id="SSP和SSPI的概念"><a href="#SSP和SSPI的概念" class="headerlink" title="SSP和SSPI的概念"></a>SSP和SSPI的概念</h1><p>在学习NTLM协议之前，我们先了解两个基本概念：SSPI 和 SSP。</p>
 <h2 id="1-SSPI"><a href="#1-SSPI" class="headerlink" title="1. SSPI"></a>1. SSPI</h2><p><strong>SSPI</strong>(Security Service Provider Interface 或 Security Support Provider Interface，安全服务提供接口) 是 Windows 定义的一套接口，该接口定义了与安全有关的功能函数，包含但不限于：</p>
 <ul>
 <li>身份验证机制。</li>
@@ -572,7 +557,7 @@
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1635846865165-6af7171f-02a5-4cdd-8714-1c98d39344d4.png" alt="img"></p>
 <p>相关：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/win32/secauthn/sspi">SSPI</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/win32/secauthn/ssp-packages-provided-by-microsoft">Microsoft 提供的 SSP 包</a></p>
-<h1 id="1-1-2-LM-Hash加密算法"><a href="#1-1-2-LM-Hash加密算法" class="headerlink" title="1.1.2 LM Hash加密算法"></a>1.1.2 LM Hash加密算法</h1><p>LM(LAN Manager)身份认证是微软推出的一个身份认证协议，其使用的加密算法是LM Hash加密算法。LM Hash本质是DES加密，尽管LM Hash较容易被破解，但为了保证系统的兼容性，Windows只是将LM Hash禁用了(从Windwos Vista和Windows Server 2008开始，Windows默认禁用了LM Hash)。LM Hash明文密码被限定在14位以内，也就是说，如果要停止使用LM Hash，将用户的密码设置为14位以上即可。</p>
+<h1 id="LM-Hash加密算法"><a href="#LM-Hash加密算法" class="headerlink" title="LM Hash加密算法"></a>LM Hash加密算法</h1><p>LM(LAN Manager)身份认证是微软推出的一个身份认证协议，其使用的加密算法是LM Hash加密算法。LM Hash本质是DES加密，尽管LM Hash较容易被破解，但为了保证系统的兼容性，Windows只是将LM Hash禁用了(从Windwos Vista和Windows Server 2008开始，Windows默认禁用了LM Hash)。LM Hash明文密码被限定在14位以内，也就是说，如果要停止使用LM Hash，将用户的密码设置为14位以上即可。</p>
 <p>如果LM Hash的值为：aad3b435b51404eeaad3b435b51404ee，说明LM Hash为空值或者被禁用了。</p>
 <p>LM Hash的加密流程如下，我们以口令P@ss1234为例演示：</p>
 <p>1）将用户的明文口令转换为大写,并转换为16进制字符串。</p>
@@ -682,7 +667,7 @@
 
 <p>代码运行效果如图所示。</p>
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1667833044418-d11fe9ef-271a-44b7-b93a-d21225709c8d.png" alt="img"></p>
-<h1 id="1-1-3-NTLM-Hash加密算法"><a href="#1-1-3-NTLM-Hash加密算法" class="headerlink" title="1.1.3 NTLM Hash加密算法"></a>1.1.3 NTLM Hash加密算法</h1><p>为了解决LM Hash加密和身份验证方案中固有的安全弱点，微软于1993年在Windows NT 3.1中首次引入了NTLM (<strong>New TechnologyLAN Manager</strong> ) Hash。下图1-3是各个Windows版本对LM Hash和NTLM Hash的支持。也就是说，微软从Windwos Vista和Windows Server 2008开始，默认禁用了LM Hash，只存储NTLM Hash，而LM Hash的位置则为空：aad3b435b51404eeaad3b435b51404ee。</p>
+<h1 id="NTLM-Hash加密算法"><a href="#NTLM-Hash加密算法" class="headerlink" title="NTLM Hash加密算法"></a>NTLM Hash加密算法</h1><p>为了解决LM Hash加密和身份验证方案中固有的安全弱点，微软于1993年在Windows NT 3.1中首次引入了NTLM (<strong>New TechnologyLAN Manager</strong> ) Hash。下图1-3是各个Windows版本对LM Hash和NTLM Hash的支持。也就是说，微软从Windwos Vista和Windows Server 2008开始，默认禁用了LM Hash，只存储NTLM Hash，而LM Hash的位置则为空：aad3b435b51404eeaad3b435b51404ee。</p>
 <p>不同Windows系统版本对LM和NTLM的支持如图1-3所示。</p>
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1620905329604-1c98d869-ed99-4301-b0a4-d5238722eee1.png" alt="img"></p>
 <p>NTLM Hash算法是微软为了在提高安全性的同时保证兼容性而设计的散列加密算法。NTLM Hash是基于MD4加密算法进行加密的。</p>
@@ -748,7 +733,7 @@
 <p>从Windows Vista和Windows Server 2008开始，由于默认禁用了LM Hash，因此第三部分的LM Hash固定为空值，第四部分的NTLM-Hash才是用户密码加密后的凭据。</p>
 <p>使用CobaltStrike的转储哈希功能转储目标机器内存中的凭据如图1-8所示。</p>
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1620912015125-ac4e6c9a-f5d9-4452-9281-6367026c8941.png" alt="img"></p>
-<h1 id="1-1-4-NTLM协议认证"><a href="#1-1-4-NTLM协议认证" class="headerlink" title="1.1.4 NTLM协议认证"></a>1.1.4 NTLM协议认证</h1><p>NTLM身份认证协议是一种基于 Challenge&#x2F;Response 质询响应验证机制，由三种类型消息组成：</p>
+<h1 id="NTLM协议认证"><a href="#NTLM协议认证" class="headerlink" title="NTLM协议认证"></a>NTLM协议认证</h1><p>NTLM身份认证协议是一种基于 Challenge&#x2F;Response 质询响应验证机制，由三种类型消息组成：</p>
 <ul>
 <li>type 1(协商，Negotiate)；</li>
 <li>type 2(质询，Challenge)；</li>
@@ -1025,7 +1010,7 @@
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1644326008875-eb8df248-1b7a-4710-8904-9b47553d7f8a.png" alt="img"></p>
 <p>接着再次查看HKLM\SYSTEM\CurrentControlSet\Control\Lsa\lmcompatibilitylevel字段，如图1-49所示，可以看到已经有该字段了，并且其值为2。</p>
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1644326233960-0918ca06-b515-40c1-ac5a-53448650baed.png" alt="img"></p>
-<h1 id="1-1-5-NTLM协议的安全问题"><a href="#1-1-5-NTLM协议的安全问题" class="headerlink" title="1.1.5 NTLM协议的安全问题"></a>1.1.5 NTLM协议的安全问题</h1><p>从上面NTLM认证的流程中我们可以看到，在Type 3 Auth认证消息中是使用用户密码的Hash计算的。因此当我们没有拿到用户密码的明文而只拿到Hash的情况下，我们可以进行**Pass The Hash(PTH)<strong>攻击，也就是大家所说的哈希传递攻击。同样，还是在Type3消息中，存在Net-NTLM Hash，当攻击者获得了Net-NTLM Hash后，可以进行中间人攻击，重放Net-NTLM Hash，这种攻击手法也就是大家所说的</strong>NTLM Relay(NTLM 中继)**攻击。并且由于NTLM v1版本协议加密过程存在天然缺陷，可以对Net-NTLM v1 Hash进行爆破，得到NTLM Hash。拿到NTLM Hash后即可进行横向移动。</p>
+<h1 id="NTLM协议的安全问题"><a href="#NTLM协议的安全问题" class="headerlink" title="NTLM协议的安全问题"></a>NTLM协议的安全问题</h1><p>从上面NTLM认证的流程中我们可以看到，在Type 3 Auth认证消息中是使用用户密码的Hash计算的。因此当我们没有拿到用户密码的明文而只拿到Hash的情况下，我们可以进行**Pass The Hash(PTH)<strong>攻击，也就是大家所说的哈希传递攻击。同样，还是在Type3消息中，存在Net-NTLM Hash，当攻击者获得了Net-NTLM Hash后，可以进行中间人攻击，重放Net-NTLM Hash，这种攻击手法也就是大家所说的</strong>NTLM Relay(NTLM 中继)**攻击。并且由于NTLM v1版本协议加密过程存在天然缺陷，可以对Net-NTLM v1 Hash进行爆破，得到NTLM Hash。拿到NTLM Hash后即可进行横向移动。</p>
 <h2 id="1-Pass-The-Hash"><a href="#1-Pass-The-Hash" class="headerlink" title="1. Pass The Hash"></a>1. Pass The Hash</h2><p>Pass The Hash(PTH)哈希传递攻击是内网横向移动的一种方式。主要原因是NTLM认证过程中使用的是用户密码的NTLM Hash来进行加密。因此当我们获取到了用户密码的NTLM Hash而没有解出明文时，我们可以利用该NTLM Hash进行哈希传递攻击，对内网其他机器进行Hash碰撞，碰撞到使用相同密码的机器。然后通过135或445端口横向移动到使用该密码的其他机器；具体有关Pass The Hash哈希传递攻击的详细攻击细节会在后面的4.9章节中详细介绍。</p>
 <h2 id="2-NTLM-Relay"><a href="#2-NTLM-Relay" class="headerlink" title="2. NTLM Relay"></a>2. NTLM Relay</h2><p>NTLM Relay其实严格意义上并不能叫NTLM Relay，而是应该叫 Net-NTLM Relay。它是发生在NTLM认证的第三步，在 Response消息中存在Net-NTLM Hash，当攻击者获得了Net-NTLM Hash后，可以进行中间人攻击，重放Net-NTLM Hash，这种攻击手法也就是大家所说的NTLM Relay(NTLM 中继)攻击。具体有关NTLM Relay的详细攻击细节会在后面的4.7章节中详细介绍。</p>
 <h2 id="3-Net-NTLM-v1-Hash破解"><a href="#3-Net-NTLM-v1-Hash破解" class="headerlink" title="3. Net-NTLM v1 Hash破解"></a>3. Net-NTLM v1 Hash破解</h2><p>由于NTLM v1身份认证协议加密过程存在天然缺陷，只要获取到Net-NTLM v1 Hash，都能破解为NTLM hash，这与密码强度无关。在域环境中这更有效，因为域中使用hash即可远程连接目标机器。如果域控允许发送NTLM v1响应的话，我们就可以通过与域控机器进行NTLM认证，然后抓取域控的Net-NTLM v1 Hash，破解为NTLM Hash。使用域控的机器账号和哈希即可导出域内所有用户哈希！</p>
@@ -1071,6 +1056,8 @@ $NETNTLM$<span class="token number">1122334455667788</span>$8EE7FF2234CA7E288706
 
 <p>如图1-58所示，导出krbtgt用户哈希：</p>
 <p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/1630374620107-84ebda31-f77d-4899-bf58-fec3a1e13c4e.png" alt="img"></p>
+<p>非常感谢您读到现在，由于作者的水平有限，编写时间仓促，文章中难免会出现一些错误或者描述不准确的地方，恳请各位师傅们批评指正。如果你想一起学习AD域安全攻防的话，可以加入下面的知识星球一起学习交流。</p>
+<p><img src="/2022/03/01/yu-shen-tou-gong-fang/ntlm-xie-yi-xiang-jie/640-20230306214031031.png" alt="图片"></p>
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/win32/secauthn/sspi">https://docs.microsoft.com/zh-cn/windows/win32/secauthn/sspi</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/win32/secauthn/ssp-packages-provided-by-microsoft">https://docs.microsoft.com/zh-cn/windows/win32/secauthn/ssp-packages-provided-by-microsoft</a></p>
 <p><a target="_blank" rel="noopener" href="http://davenport.sourceforge.net/ntlm.html">http://davenport.sourceforge.net/ntlm.html</a></p>
@@ -1078,7 +1065,6 @@ $NETNTLM$<span class="token number">1122334455667788</span>$8EE7FF2234CA7E288706
 <p>相关文章：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1645398">https://cloud.tencent.com/developer/article/1645398</a></p>
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FbA1BshhyQFWsW4nAgxQFw">https://mp.weixin.qq.com/s/FbA1BshhyQFWsW4nAgxQFw</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/backlion/p/10843067.html">https://www.cnblogs.com/backlion/p/10843067.html</a></p>
-<p>(<a target="_blank" rel="noopener" href="https://www.cnblogs.com/backlion/p/10843067.html">https://www.cnblogs.com/backlion/p/10843067.html</a>)</p>
 
                 
             </div>
@@ -1576,7 +1562,7 @@ $NETNTLM$<span class="token number">1122334455667788</span>$8EE7FF2234CA7E288706
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50.4k</span>
+                        class="white-color">50.5k</span>
             
             
             
