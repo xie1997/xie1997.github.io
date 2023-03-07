@@ -1,0 +1,1378 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="工作组和域, 谢公子的小黑屋">
+    <meta name="description" content="介绍工作组和域的区别、优缺点。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+    <style>
+        body{
+            background-image: url(https://pic.imgdb.cn/item/63f08805f144a010079e8aad.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+    <title>工作组和域 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+          
+          <span>域渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+          
+          <span>内网渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+          
+          <span>云安全</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/安全培训/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>安全培训</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
+          
+          <span>内网渗透培训</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/">
+          
+          <span>Web安全培训</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>域渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>内网渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:50px">
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
+				  
+		          <span>云安全</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			安全培训
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>内网渗透培训</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>Web安全培训</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://pic.imgdb.cn/item/6406fb17f144a01007316d6a.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">工作组和域</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">域渗透</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-03-07
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-03-07
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    15 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本文部分节选于《域渗透攻防指南》，购买请长按如下图片扫码</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/image-20230306213529401.png" alt="image-20230306213529401"></p>
+<p>域(Domain)是微软为集中管理计算机而推出的一种方式。其中所有的用户帐户，计算机，打印机和其他安全主体都在域控制器的中央数据库中注册。 在域中使用计算机的每个人都会收到一个唯一的用户帐户，然后可以为该帐户分配对该域内资源的访问权限。从Windows Server 2003开始，Active Directory是负责维护该中央数据库的Windows组件。Windows域的概念与工作组的概念形成对比，在工作组中，每台计算机都维护自己的安全主体数据库。</p>
+<h1 id="工作组"><a href="#工作组" class="headerlink" title="工作组"></a>工作组</h1><p>工作组（Work Group）是局域网中的一个概念，它是最常见最简单最普通的资源管理模式，就是将不同的电脑按功能分别列入不同的组中，以方便管理。在一个网络内，可能有上百台电脑，如果这些电脑不进行分组，都列在“网上邻居”中，电脑无规则的排列为我们访问资源带来不方便。为了解决这一问题，Windows98操作系统之后就引用了“工作组”这个概念，将不同的电脑按功能分别列入不同的组中，如软件部的电脑都列入“软件部”工作组中，网络部的电脑都列入“网络部”工作组中。你要访问某个部门的资源，就在“网上邻居”里找到那个部门的工作组名，双击就可以看到那个部门的电脑了。计算机通过工作组进行分类，使得我们访问资源更加具有层次化。默认情况下所有计算机都处在名为 WORKGROUP 的工作组中，工作组资源管理模式适合于网络中计算机不多，对管理要求不严格的情况。它的建立步骤简单，使用起来也很好上手。大部分中小公司都采取工作组的方式对资源进行权限分配和目录共享。相同组中的不同用户通过对方主机的用户名和密码可以查看对方共享的文件夹。不同组的不同用户通过对方主机的用户名和密码也可以查看对方共享的文件夹。所以工作组并不存在真正的集中管理作用 , 工作组里的所有计算机都是对等的 , 也就是没有服务器和客户机之分的。</p>
+<p>如图所示，是工作组的拓扑图：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1627184902255-e9e52e0a-6c0b-4c82-ae61-d0e9b80d3cea-20230307165306421.png" alt="img"></p>
+<h2 id="1-工作组的特点"><a href="#1-工作组的特点" class="headerlink" title="1. 工作组的特点"></a>1. 工作组的特点</h2><p>工作组是一个由许多在同一物理地点，而且被相同的局域网连接起来的计算机组成的小组。相应地，一个工作组也可以是遍布一个机构的，但却被同一网络连接的计算机构成的逻辑小组。在以上两种情况下，在工作组中的计算机都可以以预定义的方式，共享文档、应用程序、电子函件和系统资源。</p>
+<h2 id="2-工作组的优缺点"><a href="#2-工作组的优缺点" class="headerlink" title="2. 工作组的优缺点"></a>2. 工作组的优缺点</h2><h3 id="1-优点"><a href="#1-优点" class="headerlink" title="(1) 优点"></a>(1) 优点</h3><p>工作组下资源可以相当随机和灵活的分布，更方便资源共享，管理员只需要实施相当低级的维护。</p>
+<h3 id="2-缺点"><a href="#2-缺点" class="headerlink" title="(2) 缺点"></a>(2) 缺点</h3><p>缺乏集中管理与控制的机制，没有集中的统一帐户管理，没有对资源实施更加高效率的集中管理，没有实施工作站的有效配置和安全性严密控制，缺乏单点登录，可扩展性，弹性&#x2F;灾难恢复功能以及许多安全功能。只适合小规模用户的使用。</p>
+<h1 id="域"><a href="#域" class="headerlink" title="域"></a>域</h1><p>基于工作组以上缺点，当计算机数量比较多时，大型企业中网络规模大，需要统一的管理和集中的身份验证，并且能够给用户提供方便的搜索和使用网络资源的方式，工作组的组织形式就不合适了，于是域就出现了！域是由工作组升级而来的高级架构，可以简单的把域理解成升级版的“工作组”，相比工作组而言，它有一个更加严格的安全管理控制机制，如果你想访问域内的资源，就必须拥有一个合法的身份登陆到该域中,而你对该域内的资源拥有什么样的权限,还需要取决于你在该域中的用户身份。</p>
+<p>如图所示，是域的拓扑图：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1627196325843-e2b28348-e04a-49a6-851a-7369350d19b0-20230307165306650.png" alt="img"></p>
+<h2 id="1-域的原理"><a href="#1-域的原理" class="headerlink" title="1. 域的原理"></a>1. 域的原理</h2><p>其实可以把域和工作组联系起来理解，在工作组上你一切的设置在本机上进行包括各种策略，用户登录也是登录在本机的，密码是放在本机的数据库来验证的。而如果你的计算机加入域的话，各种策略是域控制器统一设定，用户名和密码也是放到域控制器去验证，也就是说你的账号密码可以在同一域的任何一台计算机登录。</p>
+<p>如果说工作组是“免费的旅店”，那么域（Domain）就是“星级的宾馆”；工作组可以随便进进出出，而域则需要严格控制。“域”的真正含义指的是服务器控制网络上的计算机能否加入的计算机组合。一提到组合，势必需要严格的控制。所以实行严格的管理对网络安全是非常必要的。在对等网模式下，任何一台电脑只要接入网络，其他机器就都可以访问共享资源，如共享上网等。尽管对等网络上的共享文件可以加访问密码，但是非常容易被破解。在由Windows 9x构成的对等网中，数据的传输是非常不安全的 。</p>
+<p>不过在“域”模式下，至少有一台服务器负责每一台联入网络的电脑和用户的验证工作，相当于一个单位的门卫一样，称为“域控制器（Domain Controller，简写为DC）”。</p>
+<p>域控制器中包含了由这个域的账户、密码、属于这个域的计算机等信息构成的数据库。当电脑接入网络时，域控制器首先要鉴别这台电脑是否是属于这个域的，用户使用的登录账号是否存在、密码是否正确。如果以上信息有一样不正确，那么域控制器就会拒绝这个用户从这台电脑登录。不能登录，用户就不能访问服务器上有权限保护的资源，他只能以对等网用户的方式访问Windows共享出来的资源，这样就在一定程度上保护了网络上的资源。</p>
+<p>要把一台电脑加入域，仅仅使它和服务器在网上邻居中能够相互“看”到是远远不够的，必须要由网络管理员进行相应的设置，把这台电脑加入到域中。这样才能实现文件的共享，集中统一，便于管理。</p>
+<h2 id="2-域结构"><a href="#2-域结构" class="headerlink" title="2. 域结构"></a>2. 域结构</h2><p>域结构是很复杂的，因为对于不同体量大小的企业，需求不同。域结构可以分为单域、域树、域林。</p>
+<h3 id="1-单域"><a href="#1-单域" class="headerlink" title="(1) 单域"></a>(1) 单域</h3><p>对于小型公司来说，单域即可满足需求。所有的机器都加入到一个域中。</p>
+<p>如图所示，是单域的拓扑图：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635923175229-b2916b47-fdd8-4e82-ada1-eb6fc74f9b83-20230307165306461.png" alt="img"></p>
+<h3 id="2-域树"><a href="#2-域树" class="headerlink" title="(2) 域树"></a>(2) 域树</h3><p>域树指若干个域通过建立信任关系组成的集合。一个域管理员只能管理本域的内部，不能访问或者管理其他的域，二个域之间相互访问则需要建立信任关系 (Trust Relation)。信任关系是连接在域与域之间的桥梁。父域与子域之间自动建立起了双向信任关系，并且信任关系可传递。域树内的父域与子域之间不但可以按需要相互进行管理，还可以跨网分配文件和打印机等设备资源，使不同的域之间实现网络资源的共享与管理，以及相互通信和数据传输。</p>
+<p>如图所示域树架构，xie.com与shanghai.xie.com 和 beijing.xie.com 是父子域关系，因此他们之间自动建立起了双向信任关系。而beijing.xie.com与x.beijing.xie.com和y.beijing.xie.com、shanghai.xie.com和x.shanghai.xie.com也属于父子域关系，因此他们之间也自动建立起了双向信任关系。因此，在该域树内，所有的域都有信任关系，因此只要拥有任何一个域内的权限，那么就可以访问其他域内的资源。在域树内的所有域共享一个AD DS域服务，也就是在此域树之下只有一个AD DS域服务，不过其数据是分散存储在各个域中的，每一个域中只存储着属于该域的数据。</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635923944174-40f26137-cdf5-46fb-9a2d-ac6b2cfeace6-20230307165306234.png" alt="img"></p>
+<h4 id="建立域树的好处"><a href="#建立域树的好处" class="headerlink" title="建立域树的好处"></a>建立域树的好处</h4><ul>
+<li>如果把不同地理位置的分公司放在同一个域内，那么他们之间信息交互（包括同步，复制等）所花费的时间会比较长，而且占用的带宽也比较大。因为在同一个域内，信息交互的条目是很多的，而且不压缩；而在域和域之间，信息交互的条目相对较少，而且压缩。</li>
+<li>还有一个好处，就是子公司可以通过自己的域来管理自己的资源。</li>
+<li>还有一种情况，就是出于安全策略的考虑，因为每个域都有自己独有的安全策略。比如一个公司的财务部门希望能使用特定的安全策略（包括帐号密码策略等），那么可以将财务部门做成一个子域来单独管理。</li>
+</ul>
+<h3 id="3-域林"><a href="#3-域林" class="headerlink" title="(3) 域林"></a>(3) 域林</h3><p>由一个或多个没有形成连续名称空间的域树组成，林中每个域树都有唯一的名称空间，之间不连续。域林指若干个域树通过建立信任关系组成的集合。可以通过域树之间建立的信任关系来管理和使用整个域林中的资源，从而又保持了原有域自身原有的特性。同一个林中，林根域与其他树根域自动建立双向信任关系，信任关系可传递。因此，在林中，只要拥有其中一个域内的权限，就可以访问其他林中其他域的资源。</p>
+<p>如图所示，是域林结构：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635924712082-0fc6bb29-ca24-425b-a84b-6c6e6de7b022-20230307165306342.png" alt="img"></p>
+<h2 id="3-域的功能和特点"><a href="#3-域的功能和特点" class="headerlink" title="3.域的功能和特点"></a>3.域的功能和特点</h2><ul>
+<li>集中管理，可以集中地管理企业中成千上万分布于异地的计算机和用户。</li>
+<li>便捷的资源访问，能够很容易地定位到域中的资源。 用户依次登录就可以访问整个网络资源，集中地身份验证。</li>
+<li>可扩展性，既可以适用于几十台计算机的小规模网络，也可以用于跨国公司。</li>
+</ul>
+<h1 id="域功能级别和林功能级别"><a href="#域功能级别和林功能级别" class="headerlink" title="域功能级别和林功能级别"></a>域功能级别和林功能级别</h1><p>功能级别决定了可用的Active Directory域服务的功能。功能级别还决定了你可以在域或林中的域控制器上运行哪些 Windows Server 操作系统。 但是，功能级别不会影响你可以在已加入域或林的工作站和成员服务器上运行哪些操作系统。</p>
+<p>部署 AD DS 时，请将域和林功能级别设置为环境可以支持的最高值。 这样一来，你就可以尽可能使用更多的 AD DS 功能。 部署新的林时，系统会提示你设置林功能级别，然后设置域功能级别。可以将域功能级别设置为高于或等于林功能级别的值，但不能将域功能级别设置为低于林功能级别的值。</p>
+<p>随着 Windows Server 2003、2008 和 2008 R2 生命周期的结束，这些域控制器需要更新到 Windows Server 2012、2012 R2、2016 或更高版本。 因此，建议应从域中删除任何运行 Windows Server 2008 R2及更低版本的域控制器。</p>
+<p>在 Windows Server 2008 及更高的域功能级别，分布式文件服务DFS复制用于在域控制器之间复制 SYSVOL文件夹内容。 如果在 Windows Server 2008 或更高的域功能级别创建新的域，系统会自动使用 DFS 复制来复制 SYSVOL。 如果在较低的功能级别创建域，则在复制 SYSVOL 时，需从使用 FRS 复制迁移到使用 DFS 复制。 Windows Server 2016 RS1 是最后一个包含 FRS 的 Windows Server 版本。</p>
+<h2 id="1-域功能级别Domain-Functionality-Level"><a href="#1-域功能级别Domain-Functionality-Level" class="headerlink" title="1. 域功能级别Domain Functionality Level"></a>1. 域功能级别Domain Functionality Level</h2><p>活动目录服务的域功能级别设置只会影响到该域，不会影响到其他域。域功能级别分为以下几种，并随着Windows Server系统的发布而更新，不同的域功能级别各有不同的特点：</p>
+<ul>
+<li>Windows 2000：域控可以是Windows2000、Windows Server 2003及后面版本的新系统。</li>
+<li>Windows Server 2003：域控可以是Windows Server 2003、Windows Server 2008及后面版本的新系统。</li>
+<li>Windows Server 2008：域控可以是Windows Server 2008、Windows Server 2008R2及后面版本的新系统。</li>
+<li>Windows Server 2008R2：域控可以是Windows Server 2008R2、Windows Server 2012及后面版本的新系统。</li>
+<li>Windows Server 2012：域控可以是Windows Server 2012、Windows Server 2012R2及后面版本的新系统。</li>
+<li>Windows Server 2012R2：域控可以是Windows Server 2012R2、Windows Server 2016及后面版本的新系统。</li>
+<li>Windows Server 2016：域控可以是Windows Server 2016 和 Windows Server Standard 2012 R2及后面版本的新系统。</li>
+</ul>
+<p>可以看到，域控系统版本必须是大于或等于域功能级别的系统。</p>
+<h2 id="2-林功能级别Forest-Functionality-Level"><a href="#2-林功能级别Forest-Functionality-Level" class="headerlink" title="2. 林功能级别Forest Functionality Level"></a>2. 林功能级别Forest Functionality Level</h2><p>活动目录服务的林功能级别设置会影响到该林内的所有域。林功能级别分为以下几种，并随着Windows Server系统的发布而更新，不同的林功能级别各有不同的特点：</p>
+<ul>
+<li>Windows 2000：域控可以是Windows2000、Windows Server 2003及后面版本的新系统。</li>
+<li>Windows Server 2003：域控可以是Windows Server 2003、Windows Server 2008及后面版本的新系统。</li>
+<li>Windows Server 2008：域控可以是Windows Server 2008、Windows Server 2008R2及后面版本的新系统。</li>
+<li>Windows Server 2008R2：域控可以是Windows Server 2008R2、Windows Server 2012及后面版本的新系统。</li>
+<li>Windows Server 2012：域控可以是Windows Server 2012、Windows Server 2012R2及后面版本的新系统。</li>
+<li>Windows Server 2012R2：域控可以是Windows Server 2012R2、Windows Server 2016及后面版本的新系统。</li>
+<li>Windows Server 2016：域控可以是Windows Server 2016 和 Windows Server Standard 2012 R2及后面版本的新系统。</li>
+</ul>
+<p>可以看到，林中的所有域控系统版本必须是大于或等于林功能级别的系统。</p>
+<h2 id="3-查看域功能级别和林功能级别"><a href="#3-查看域功能级别和林功能级别" class="headerlink" title="3. 查看域功能级别和林功能级别"></a>3. 查看域功能级别和林功能级别</h2><p>打开Active Directory用户和计算机，找到域名xie.com，右键——&gt;属性。如图所示：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635926998128-ed8478b3-9a20-46d4-a293-adc4dd4c4141-20230307165306515.png" alt="img"></p>
+<p>即可在“常规”这里看到域功能级别和林功能级别。如图所示：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635926971290-29bc001f-91b1-434d-bf88-d1b363b06a4a-20230307165306147.png" alt="img"></p>
+<h2 id="4-提升域功能级别和林功能级别"><a href="#4-提升域功能级别和林功能级别" class="headerlink" title="4. 提升域功能级别和林功能级别"></a>4. 提升域功能级别和林功能级别</h2><p>打开Windows管理工具——&gt;Active Directory管理中心——&gt;点击域名即可看到右边的提升林功能级别和提升域功能级别了。如图所示：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635929263505-d3c8061d-9827-424d-a90d-81f180de075b-20230307165306617.png" alt="img"></p>
+<p>点击对应按钮即可，如下，点击提升域功能级别，会提示可用的域功能级别。选中了需要提升的域功能级别后，点击确定。如图所示：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635929321241-975aa2de-056b-4652-ab18-e0f3d950ed0a-20230307165306498.png" alt="img"></p>
+<p>会弹出警告，点击确定即可。如图所示：</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635929384536-c79fb2d7-2a5e-4ce7-9a41-413d3953d5bc-20230307165306477.png" alt="img"></p>
+<p>如图所示，成功提升了域功能级别！</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/1635929422756-cf91332b-43ec-4134-8870-0b2883813656-20230307165306574.png" alt="img"></p>
+<h1 id="工作组和域的区别"><a href="#工作组和域的区别" class="headerlink" title="工作组和域的区别"></a>工作组和域的区别</h1><p>工作组是一群计算机的集合，它仅仅是一个逻辑的集合，各自计算机还是各自管理的，你要访问其中的计算机，还是要到被访问计算机上来实现用户验证的。而域不同，域是一个有安全边界的计算机集合，在同一个域中的计算机彼此之间已经建立了信任关系，在域内访问其他机器，你只需要经过域控的许可即可。</p>
+<p>域和工作组适用的环境不同，域一般是用在比较大的网络里，工作组则较小，在一个域中需要一台类似服务器的计算机，叫域控服务器，其他电脑如果想互相访问首先都是经过它的，但是工作组则不同，在一个工作组里的所有计算机都是对等的，也就是没有服务器和客户机之分的，但是和域一样，如果一台计算机想访问其他计算机的话首先也要找到这个组中的一台类似组控服务器，组控服务器不是固定的，以选举的方式实现，它存储着这个组的相关信息，找到这台计算机后得到组的信息然后访问。</p>
+<p>非常感谢您读到现在，由于作者的水平有限，编写时间仓促，文章中难免会出现一些错误或者描述不准确的地方，恳请各位师傅们批评指正。如果你想一起学习AD域安全攻防的话，可以加入下面的知识星球一起学习交流。</p>
+<p><img src="/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/640-20230306214031031.png" alt="图片"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B7%A5%E4%BD%9C%E7%BB%84/5103560?fr=aladdin">https://baike.baidu.com/item/工作组/5103560?fr=aladdin</a></p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/windows%E5%9F%9F/1492318?fr=aladdin">https://baike.baidu.com/item/windows域/1492318?fr=aladdin</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows-server/identity/ad-ds/active-directory-functional-levels">https://docs.microsoft.com/zh-cn/windows-server/identity/ad-ds/active-directory-functional-levels</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://xie1997.github.io/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/">https://xie1997.github.io/2022/03/07/yu-shen-tou-gong-fang/gong-zuo-zu-he-yu/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">域渗透</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/03/07/yu-shen-tou-gong-fang/yu-zhong-chang-jian-ming-ci/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/6406fa90f144a010073081b4.png" class="responsive-img" alt="域中常见名词">
+                        
+                        <span class="card-title">域中常见名词</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍域中的一些常见名词
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-07
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">域渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/05/yu-shen-tou-gong-fang/kerberos-xie-yi-xiang-jie/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63f2d556f144a01007f6a6c1.png" class="responsive-img" alt="Kerberos协议详解">
+                        
+                        <span class="card-title">Kerberos协议详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            详细介绍Kerberos协议
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">域渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: 谢公子<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者谢公子所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('7'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">谢公子</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">65.9k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2019";
+                        var startMonth = "1";
+                        var startDate = "2";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis"></div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
