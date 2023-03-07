@@ -495,7 +495,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-03-06
+                    2023-03-07
                 </div>
                 
 
@@ -541,9 +541,9 @@
 <li>提供服务的服务端：域内提供服务的服务端，服务端都有一个独一的SPN。</li>
 <li>提供认证服务的KDC(Key Distribution Center，密钥分发中心)：KDC密钥发行中心是一种网络服务，它向活动目录域内的用户和计算机提供会话票据和临时会话密钥，其服务帐户为krbtgt。KDC作为活动目录域服务ADDS的一部分运行在每个域控制器上。</li>
 </ul>
-<p>这里说一下krbtgt帐户，该用户是在创建活动目录时系统自动创建的一个账号，其作用是KDC密钥发行中心的服务账号，其密码是系统随机生成的，无法正常登陆主机。<img src="/2022/03/05/yu-shen-tou-gong-fang/kerberos-xie-yi-xiang-jie/1621604778458-48f26c9a-dfc1-4b40-be53-c3f7b5436467.gif" alt="img">在后面的域学习中，会经常和krbtgt帐户打交道，关于该帐户的其他信息会在后面的文章中详细讲解。</p>
+<p>这里说一下krbtgt帐户，该用户是在创建活动目录时系统自动创建的一个账号，其作用是KDC密钥发行中心的服务账号，其密码是系统随机生成的，无法正常登陆主机。<br>在后面的域学习中，会经常和krbtgt帐户打交道，关于该帐户的其他信息会在后面的文章中详细讲解。</p>
 <p>如图所示，可以看到krbtgt帐户的信息。</p>
-<p><img src="/2022/03/05/yu-shen-tou-gong-fang/kerberos-xie-yi-xiang-jie/1629032473885-b8c5407b-a4f2-4528-ab7f-20c2bfa4e535.png" alt="img"><img src="/2022/03/05/yu-shen-tou-gong-fang/kerberos-xie-yi-xiang-jie/1625584362989-700e90a5-9b68-47cb-9209-479c338e1c25.png" alt="img"><img src="/2022/03/05/yu-shen-tou-gong-fang/kerberos-xie-yi-xiang-jie/1621604779110-0e6a4181-3504-4ccc-b0f3-035162e43a08.gif" alt="img"></p>
+<p><img src="/2022/03/05/yu-shen-tou-gong-fang/kerberos-xie-yi-xiang-jie/1629032473885-b8c5407b-a4f2-4528-ab7f-20c2bfa4e535.png" alt="img"></p>
 <p>Kerberos是一种基于票据Ticket的认证方式。客户端想要访问服务端的某个服务，首先需要购买服务端认可的 <strong>ST服务票据(Service Ticket)<strong>。也就是说，客户端在访问服务之前需要先买好票，等待服务验票之后才能访问。但是这张票并不能直接购买，需要一张 <strong>TGT认购权证</strong>（Ticket Granting Ticket)。也就是说，客户端在买票之前必须先获得一张TGT认购权证。</strong>TGT认购权证</strong> 和 <strong>ST服务票据</strong> 均是由KDC(密钥分发中心)发放；因为KDC是运行在域控制器上，所以说TGT认购权证和ST服务票据均是由域控发放。</p>
 <p>Kerberos使用TCP&#x2F;UDP 88端口进行认证，使用TCP&#x2F;UDP 464端口进行密码重设。</p>
 <p>如图所示，可以看到域控制器AD01上开放的88和464端口。</p>
