@@ -495,14 +495,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-02-20
+                    2023-03-07
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.9k
+                    4k
                 </div>
                 
 
@@ -652,6 +652,9 @@ kubectl delete deployments<span class="token punctuation">.</span>apps nginx<spa
 <h3 id="kube-node-lease"><a href="#kube-node-lease" class="headerlink" title="kube-node-lease"></a>kube-node-lease</h3><p>kube-node-lease 这个命名空间含有与每个节点关联的 Lease 对象。节点 lease 允许 kubelet 发送 heartbeat（心跳），以便控制平面（节点控制器）可以检测节点故障。那么，如果删除了 kube-node-lease，会发生什么？Kubernetes 通常会为每个节点创建另一个带有 Lease 对象的对象，但有时命名空间移除操作会在终止状态卡住。到那时我们会有一个节点 Lease，过时的 heartbeat 可能会告诉节点控制器：该节点访问不了，从而影响节点之间的整体通信。</p>
 <h3 id="default"><a href="#default" class="headerlink" title="default"></a>default</h3><p>K8s默认的namespace，如果操作不指明namespace，默认会操作名为default的namespace。</p>
 <h3 id="kubernetes-dashboard"><a href="#kubernetes-dashboard" class="headerlink" title="kubernetes-dashboard"></a>kubernetes-dashboard</h3><p>如果安装了dashboard，那么该命名空间为dashboard所在的namespace。</p>
+<p>非常感谢您读到现在，由于作者的水平有限，编写时间仓促，文章中难免会出现一些错误或者描述不准确的地方，恳请各位师傅们批评指正。 </p>
+<p>如果你想一起学习内网渗透、域渗透、云安全、红队攻防的话，可以加入下面的知识星球一起学习交流。</p>
+<p><img src="/2022/10/25/yun-an-quan/k8s-zu-jian-he-jia-gou/640-20230307222110684.jpeg" alt="图片"></p>
 
                 
             </div>
@@ -895,30 +898,30 @@ kubectl delete deployments<span class="token punctuation">.</span>apps nginx<spa
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/02/24/nei-wang-shen-tou-pei-xun/nei-wang-shen-tou-ke-cheng-pei-xun/">
+                <a href="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/">
                     <div class="card-image">
                         
-                        <img src="https://pic.imgdb.cn/item/63e266414757feff33cce10f.png" class="responsive-img" alt="内网渗透课程培训">
+                        <img src="https://pic.imgdb.cn/item/640747f1f144a01007d1eb85.png" class="responsive-img" alt="K8S API访问控制">
                         
-                        <span class="card-title">内网渗透课程培训</span>
+                        <span class="card-title">K8S API访问控制</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            介绍内网渗透培训课程
+                            介绍K8s的API访问控制流程
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-02-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-10-28
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/" class="post-category">
-                                    安全培训
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
                                 </a>
                             
                             
@@ -928,8 +931,8 @@ kubectl delete deployments<span class="token punctuation">.</span>apps nginx<spa
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
-                        <span class="chip bg-color">内网渗透培训</span>
+                    <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
                     </a>
                     
                 </div>
@@ -1149,7 +1152,7 @@ kubectl delete deployments<span class="token punctuation">.</span>apps nginx<spa
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">65.9k</span>
+                        class="white-color">83.8k</span>
             
             
             

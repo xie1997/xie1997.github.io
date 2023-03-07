@@ -67,11 +67,87 @@
   </entry>
   
   <entry>
+    <title>K8S 配置身份认证</title>
+    <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-pei-zhi-shen-fen-ren-zheng/"/>
+    <id>https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-pei-zhi-shen-fen-ren-zheng/</id>
+    <published>2022-11-03T02:56:00.000Z</published>
+    <updated>2023-03-07T14:23:34.814Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;User&quot;&gt;&lt;a href=&quot;#User&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="云安全" scheme="https://xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>K8s 调度策略</title>
+    <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-diao-du-ce-lue/"/>
+    <id>https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-diao-du-ce-lue/</id>
+    <published>2022-11-03T02:56:00.000Z</published>
+    <updated>2023-03-07T14:26:07.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;调度&quot;&gt;&lt;a href=&quot;#调度&quot; class=&quot;headerlink&quot; title=&quot;调度&quot;&gt;&lt;/a&gt;调度&lt;/h1&gt;&lt;p&gt;在K8s中，调度是指将Pod放置到合适的节点上。调度器通过 K8s 的监测机制来发现集群中新创建且尚未被调度到节点上的Pod。</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="云安全" scheme="https://xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>K8S API访问控制</title>
+    <link href="https://xie1997.github.io/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/"/>
+    <id>https://xie1997.github.io/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/</id>
+    <published>2022-10-28T02:56:00.000Z</published>
+    <updated>2023-03-07T14:20:58.956Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我们在请求API Server的时候，会经历哪些步骤呢？总得来说，有如下步骤：&lt;/p&gt;
+&lt;p&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="云安全" scheme="https://xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>K8S组件和架构</title>
     <link href="https://xie1997.github.io/2022/10/25/yun-an-quan/k8s-zu-jian-he-jia-gou/"/>
     <id>https://xie1997.github.io/2022/10/25/yun-an-quan/k8s-zu-jian-he-jia-gou/</id>
     <published>2022-10-25T02:56:00.000Z</published>
-    <updated>2023-02-20T02:17:19.348Z</updated>
+    <updated>2023-03-07T14:21:12.188Z</updated>
     
     
       
@@ -99,7 +175,7 @@
     <link href="https://xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/"/>
     <id>https://xie1997.github.io/2022/10/21/yun-an-quan/k8s-huan-jing-da-jian/</id>
     <published>2022-10-21T02:56:00.000Z</published>
-    <updated>2023-03-06T09:18:14.333Z</updated>
+    <updated>2023-03-07T14:20:42.255Z</updated>
     
     
       

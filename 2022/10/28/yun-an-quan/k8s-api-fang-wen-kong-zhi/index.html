@@ -1,0 +1,2710 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="K8S API访问控制, 谢公子的小黑屋">
+    <meta name="description" content="介绍K8s的API访问控制流程">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+    <style>
+        body{
+            background-image: url(https://pic.imgdb.cn/item/63f08805f144a010079e8aad.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+    <title>K8S API访问控制 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+          
+          <span>域渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+          
+          <span>内网渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+          
+          <span>云安全</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/安全培训/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>安全培训</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
+          
+          <span>内网渗透培训</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/">
+          
+          <span>Web安全培训</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>域渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>内网渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:50px">
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
+				  
+		          <span>云安全</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			安全培训
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>内网渗透培训</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>Web安全培训</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://pic.imgdb.cn/item/640747f1f144a01007d1eb85.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">K8S API访问控制</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">云安全</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-10-28
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-03-07
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    11.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    46 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>我们在请求API Server的时候，会经历哪些步骤呢？总得来说，有如下步骤：</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669602987247-b3e86e28-af1d-44bf-bfed-761b940aa6af.png" alt="img"></p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670224547554-565652fb-09ec-4f47-88a1-d065fb39d2ec.png" alt="img"></p>
+<ul>
+<li>认证(Authentication)是识别用户的过程，这个过程需要知道用户到底是谁；</li>
+<li>而授权(Authorization)是识别已认证用户访问权限的过程，这个过程判断用户是否具有某些权限;</li>
+<li>准入控制(Admission Control)是最后的关卡，它会在请求通过认证和鉴权之后、对象被持久化之前拦截到达 API 服务器的请求，其通过一组控制逻辑对对象的操作进行验证和变更等操作。</li>
+</ul>
+<h1 id="认证Authentication"><a href="#认证Authentication" class="headerlink" title="认证Authentication"></a>认证Authentication</h1><p>在认证方面，K8s提供了如下的认证方式：</p>
+<ul>
+<li>HTTPS证书认证：基于CA根证书签名的双向数字认证方式，比如k8s运维人员通过kubectl访问API Server或node节点上的kubelet进程与API Server进程交互都是使用的证书认证；kubectl默认的配置文件保存路径为~&#x2F;.kube&#x2F;config，而kubelet默认的配置文件保存路径为&#x2F;etc&#x2F;kubernetes&#x2F;kubelet.conf。</li>
+<li>HTTP Bear Token认证：通过一个Bear Token识别合法用户，比如pod与API Server交互这种认证方式，pod以Service Account的身份去运行，一个Service Account对应着一个Secret，而Secret中保存着Bear Token，pod中Bear Token默认的保存路径为&#x2F;var&#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount&#x2F;token，是jwt格式的字符串。</li>
+<li>OpenID Connect Token第三方认证：通过第三方OIDC协议进行认证。</li>
+<li>Webhook Token认证：通过外部Webhook服务进行认证。</li>
+<li>Authentication Proxy认证：通过认证代理进程序行认证。</li>
+</ul>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670224621321-a713aa9a-0caf-46c4-88fd-ac0d278ce7f4.png" alt="img"></p>
+<p>在身份认证阶段，最重要的就是辨别用户的身份了，API Server需要从请求中获取有关于用户身份的信息。通常用户身份信息可以通过User或Group来定义，但是K8s中并没有相关的定义，所以无法通过API Server对User或Group进行管理。K8s认为User、Group这类信息由外部系统来管理，自己并不负责管理和设计，这样做的好处在于可以避免重复定义用户模型，更方便第三方用户权限平台进行对接。</p>
+<p>当向API Server发送请求时，认证插件将以下属性与请求者相关联：</p>
+<ul>
+<li>用户名：标识最终用户的字符串，在证书中也就是subject字段所对应的CN。</li>
+<li>组：一组将用户和常规用户组相关联的字符串，在证书中也就是subject字段所对应的O。自 Kubernetes 1.4 开始，客户端证书还可以通过证书的 organization 字段标明用户的组成员信息。 要包含用户的多个组成员信息，可以在证书中包含多个 organization 字段。</li>
+<li>UID：标识最终用户的字符串，比用户名更加一致且唯一。</li>
+<li>额外字段：包含其他有用认证信息的字符串列表的映射。</li>
+</ul>
+<p>所有的值对身份认证系统都是不透明的，并只有在由<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/access-authn-authz/authorization/">authorizer</a>授权者解释时才具有重要意义。您可以一次性启用多种身份验证方式。通常使用至少两种认证方式。</p>
+<p>当启用了多个认证模块时，第一个认证模块成功认证后将不会进行第二个模块的认证。API Server不会保证认证的顺序。</p>
+<p>与其他身份验证协议（LDAP、SAML、Kerberos、x509 方案等）的集成可以使用身份验证代理或身份验证 webhook来实现。</p>
+<h2 id="认证主体"><a href="#认证主体" class="headerlink" title="认证主体"></a>认证主体</h2><p>K8s集群中包含两类用户：</p>
+<ul>
+<li>一类是由K8s管理的 Service Account；</li>
+<li>另一类是普通用户。</li>
+</ul>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670224565955-d94d8903-77f6-41b2-bb6f-6b4ca008f90c.png" alt="img"></p>
+<p>为什么K8s中会有Service Account和普通用户这两种形式呢？因为与API Server服务交互实际上有两种类型东西，一种是真实的人类用户，另一类就是程序。因此，真实的人类用户对应的就是普通用户账号，而程序对应的就是Service Account了。</p>
+<p>API Server请求被绑定到Service Account或普通用户上，或者作为匿名请求对待。这意味着集群内部或外部的每个进程，无论是在服务器上输入 kubectl 的用户、节点上的 kubelet或web控制面板的成员，都必须在向 API Server 发出请求时进行身份验证，否则被视为匿名用户。</p>
+<h3 id="Service-Account"><a href="#Service-Account" class="headerlink" title="Service Account"></a>Service Account</h3><p>Service Account是由 K8s API管理的帐户，它不是给K8s集群的用户（系统管理员、运维人员、租户用户等）使用的，而是给运行在Pod里的进程用的，它为Pod里的进程提供了必要的身份证明。Service Account都绑定到了特定的 namespace，并由 API Server 自动创建或者通过 API 调用手动创建。一个Pod必须要以某一个Service Account的身份去运行，一个Service Account对应着一个Secret，一个Secret保存着一个Token和公钥文件，从而允许 pod 与API Server之间的调用。Secret从属于Service Account资源对象，属于Service Account的一部分，在一个Service Account对象里面可以包括多个不同的Secret对象，分别用于不同目的的认证活动。</p>
+<p>我们进入pod中，查找&#x2F;var&#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount下的token文件，即可看到该pod对应服务账户的Token，该Token是jwt格式的字符串，如图所示：</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670224673344-cfd4ec4c-d048-4359-956e-0daa94740b6f.png" alt="img"></p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669548910309-b0d39bed-292b-4909-8892-d2e2e2d792bf.png" alt="img"></p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669548960713-11166897-55f9-499b-9aac-8e23ad6ea274.png" alt="img"></p>
+<p>那么，这个Token是怎么生成的呢？</p>
+<p>该Token是动态生成的，是由kube-controller-manager进程调用API Server的私钥（&#x2F;etc&#x2F;kubernetes&#x2F;manifests&#x2F;kube-controller-manager.yaml配置文件–service-account-private-key-file参数指定的文件）签名生成的一个JWT格式的Token。API Server接收到客户端发来的Token后，会再次用私钥（&#x2F;etc&#x2F;kubernetes&#x2F;manifests&#x2F;kube-controller-manager.yaml配置文件–service-account-private-key-file参数指定的文件）对该Token进行校验。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669549436102-6ab1afb1-8606-434d-b5bd-967d6ed0e0a9.png" alt="img"></p>
+<p>我们查看所有的ServiceAccount，发现在每个命名空间下都存在一个名为default的默认ServiceAccount对象。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669550124282-9fa07a0c-a620-49fc-b3e8-5962d6603f25.png" alt="img"></p>
+<p>在这个Service Account里面有一个名为Secrets的可以作为Volume被挂载到Pod里的Secret，Pod启动时，这个Secrets会自动被挂载到Pod的指定目录下，用来协助完成Pod中的进程访问API Server时的身份鉴权。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669550641070-bbeb2797-6ee4-49ad-a7d3-017da5c69378.png" alt="img"></p>
+<p>一个Service Account可以包含多个secret，名为secrets的secret用于访问API Server的secret，也被称为ServiceAccountSecret；名为imagePullSecrets的secret用于下载容器镜像时的认证，但是由于镜像库通常运行在Insecure模式下，所以这个secret为空；用户还可以自定义其他的secret。</p>
+<p>如果一个Pod在定义时没有指定spec.serviceAccountName属性，则系统会自动将其赋值为default，即大家都使用同一个命名空间中的默认Service Account。如果某个Pod需要使用非default的Service Account，则需要在定义时指定spec.serviceAccountName为”服务账户名”。</p>
+<p>Service Account的正常工作离不开以下准入控制器：</p>
+<ul>
+<li>Service Account准入控制器</li>
+<li>Token准入控制器</li>
+</ul>
+<p>关于准入控制器，我们会后文章最后进行讲解。</p>
+<p>注意：由于 Service Account 的 token 存储在 secret 中，所以具有对这些 secret 的读取权限的任何用户都可以作为 Service Account 进行身份验证。授予 Service Account 权限和读取 secret 功能时要谨慎。</p>
+<h4 id="K8s中内置服务账户"><a href="#K8s中内置服务账户" class="headerlink" title="K8s中内置服务账户"></a>K8s中内置服务账户</h4><table>
+<thead>
+<tr>
+<th><strong>命名空间</strong></th>
+<th><strong>名字</strong></th>
+<th><strong>对应的secret是否高权限</strong></th>
+<th><strong>默认绑定的Role&#x2F;ClusterRole</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>default命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>dev</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>dev命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>examplens</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>example命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>kube-node-lease</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>kube-node-lease命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>kube-public</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>kube-public命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>attachdetach-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>bootstrap-signer</td>
+<td>高权限，get、list、watch—&gt;secrets</td>
+<td>Role&#x2F;system:controller:bootstrap-signer</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>calico-kube-controllers</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>calico-node</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>certificate-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>clusterrole-aggregation-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>coredns</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>cronjob-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>daemon-set-controller</td>
+<td>高权限<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401347480-7cf74af8-0d14-4ba1-879e-7852924b5980.png" alt="img"></td>
+<td>ClusterRole&#x2F;system:controller:daemon-set-controller</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>kube-system命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>deployment-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>disruption-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>endpoint-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>endpointslice-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>endpointslicemirroring-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>ephemeral-volume-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>expand-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>generic-garbage-collector</td>
+<td>高权限<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401356348-e2a016cd-0057-4573-b5b1-65b74f8a9268.png" alt="img"></td>
+<td>ClusterRole&#x2F;system:controller:generic-garbage-collector</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>horizontal-pod-autoscaler</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>job-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>kube-proxy</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>namespace-controller</td>
+<td>高权限<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401362298-8c3cc5dd-f3d7-4ec5-a678-44782be92e6e.png" alt="img"></td>
+<td>ClusterRole&#x2F;system:controller:namespace-controller</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>node-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>persistent-volume-binder</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>pod-garbage-collector</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>pv-protection-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>pvc-protection-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>replicaset-controller</td>
+<td>高权限<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401370124-c188cac2-1117-46e8-b2a7-434854ec94cb.png" alt="img"></td>
+<td>ClusterRole&#x2F;system:controller:replicaset-controller</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>replication-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>resourcequota-controller</td>
+<td>高权限<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401375092-e9fac476-e5af-4230-a879-cda34f31a793.png" alt="img"></td>
+<td>ClusterRole&#x2F;system:controller:resourcequota-controller</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>root-ca-cert-publisher</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>service-account-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>service-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>statefulset-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>token-cleaner</td>
+<td>高权限，get、list、watch、delete—&gt; secrets</td>
+<td>Role&#x2F;system:controller:token-cleaner</td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>ttl-after-finished-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-system</td>
+<td>ttl-controller</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kubernetes-dashboard</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>kubernetes-dashboard命名空间默认的ServiceAccount</td>
+</tr>
+<tr>
+<td>kubernetes-dashboard</td>
+<td>kubernetes-dashboard</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="普通用户"><a href="#普通用户" class="headerlink" title="普通用户"></a>普通用户</h3><p>普通用户就是个人用户，比如某个研发人员或外部应用的账号。但是K8s并没有相应的资源对象或者API来支持常规的个人用户。拥有K8s集群的CA证书签名的有效证书，个人用户就可以访问K8s集群了。在这种情况下，证书中的subject会被API Server服务解析成一个用户。比如，证书中的subject的内容为：O&#x3D;yunwei,CN&#x3D;lisi。其中CN(Common Name)lisi会被解析为用户，而O(Organization Name)yunwei会被解析为用户所在的组。</p>
+<h4 id="K8s中内置的用户"><a href="#K8s中内置的用户" class="headerlink" title="K8s中内置的用户"></a>K8s中内置的用户</h4><p>K8s内置了一组系统级别的用户，以“system：”开头，如下：</p>
+<ul>
+<li>system:kube-controller-manager：绑定了名为system:kube-controller-manager的ClusterRole，允许访问<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-controller-manager/">控制器管理器</a>组件所需要的资源。</li>
+<li>system:kube-scheduler：绑定了名为system:kube-scheduler的ClusterRole，允许访问 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-scheduler/">scheduler</a>组件所需要的资源。</li>
+<li>system:kube-proxy：绑定了名为system:node-proxier的ClusterRole，允许访问 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-proxy/">kube-proxy</a> 组件所需要的资源。</li>
+<li>system:anonymous：绑定了名为kubeadm:bootstrap-signer-clusterinfo的Role，当一个请求没有携带任何的认证信息时，它会自动获得该用户名。</li>
+</ul>
+<p>执行如下命令然后查看Users列即可查看K8s默认创建的User。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get clusterrolebinding <span class="token operator">-</span>A <span class="token operator">-</span>o wide
+kubectl get rolebinding <span class="token operator">-</span>A <span class="token operator">-</span>o wide<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669621804583-507db2fc-72b6-4e02-9ccb-b52d33e3640d.png" alt="img"></p>
+<h3 id="Anonymous"><a href="#Anonymous" class="headerlink" title="Anonymous"></a>Anonymous</h3><p>当一个请求没有携带任何的认证信息时，它会自动获得用户名：system:anonymous和用户组 system:unauthenticated，我们可以配置分配特定的权限给这种匿名用户，适用于想要公开一些不敏感的资源等场景。</p>
+<h3 id="K8s中的Group"><a href="#K8s中的Group" class="headerlink" title="K8s中的Group"></a>K8s中的Group</h3><p>同外部用户一样，Group 也是一种外部的概念，在X509客户端证书认证的方式中，Group 名字就是证书的组织名O（Orgnization）。</p>
+<h4 id="K8s中内置的组"><a href="#K8s中内置的组" class="headerlink" title="K8s中内置的组"></a>K8s中内置的组</h4><p>K8s内置了一组系统级别的组，以“system：”开头，如下：</p>
+<ul>
+<li>system:authenticated：认证成功后的用户自动加入的一个组，用于快捷引用所有正常通过认证的用户账号，该组包含在所有已验证用户的组列表中。绑定了名为system:discovery的ClusterRole。</li>
+<li>system:unauthenticated：未能通过任何一个授权插件检验的账号，即未通过认证测 试的用户所属的组 。绑定了名为system:public-info-viewer的ClusterRole。</li>
+<li>system:serviceaccounts：当前集群上的所有 Service Account 对象。绑定了名为system:service-account-issuer-discovery的ClusterRole。</li>
+<li>system:serviceaccounts:&lt;namespace＞：特定命名空间内的所有Service Account 对象。</li>
+<li>system:masters：绑定了名为cluster-admin的ClusterRole。</li>
+<li>system:nodes：绑定了名为system:certificates.k8s.io:certificatesigningrequests:selfnodeclient的ClusterRole。</li>
+<li>system:monitoring：绑定了名为system:monitoring的ClusterRole。</li>
+<li>system:bootstrappers:kubeadm:default-node-token</li>
+</ul>
+<p>执行如下命令然后查看Groups列即可查看K8s默认创建的Group。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get clusterrolebinding <span class="token operator">-</span>A <span class="token operator">-</span>o wide
+kubectl get rolebinding <span class="token operator">-</span>A <span class="token operator">-</span>o wide<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669622130377-688819f1-f0d2-4969-8990-7a87682e5117.png" alt="img"></p>
+<h2 id="HTTPS证书认证"><a href="#HTTPS证书认证" class="headerlink" title="HTTPS证书认证"></a>HTTPS证书认证</h2><p>K8s需要PKI（public key infrastructure，公钥基础设施）证书来基于TLS的安全的认证。如果是使用kubeadm来初始化的集群，则kubeadm会帮助你自动生成集群所需要的各类证书。kubeadm会将证书放置在&#x2F;etc&#x2F;kubernetes&#x2F;pki目录下，而包含管理员证书的配置文件admin.conf会放置到&#x2F;etc&#x2F;kubernetes目录下。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669703790938-d213a607-7cb5-477b-ab9a-9d883f8d8732.png" alt="img"></p>
+<p>k8s使用x509证书中CN(Common Name)以及O(Organization)字段对应k8s中的user和group，将Authentication和RBAC Authorization结合到了一起，巧妙地将Control Plane中的各个核心User和Group、与操作权限（ClusterRole）进行了集群绑定（ClusterRoleBinding）。如图所示：</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669446769633-932808e8-8de2-4e7a-94b1-d2426f6ccb0e.jpeg" alt="img"></h2><h2 id="HTTP-Bear-Token认证"><a href="#HTTP-Bear-Token认证" class="headerlink" title="HTTP Bear Token认证"></a>HTTP Bear Token认证</h2><p>这种认证采用的数据结构是由JWT Token类型的，一般的形式是在HTTP Authroziation头部添加Bear Token，每个Bearer Token都对应一个用户名。客户端发起API调用请求时，API Server就能识别用户身份了。比如pod所对应的Service Account采用的就是这种形式，Token采用的是RS256非对称加密算法进行加密。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#使用Bear Token进行认证</span>
+kubectl <span class="token operator">-</span><span class="token operator">-</span>insecure<span class="token operator">-</span>skip<span class="token operator">-</span>tls<span class="token operator">-</span>verify <span class="token operator">-</span>s https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">6443</span>  <span class="token operator">-</span><span class="token operator">-</span>token<span class="token operator">=</span><span class="token string">"xxxx"</span> get cs
+
+<span class="token comment">#使用Bear Token进行认证</span>
+curl <span class="token operator">-</span><span class="token operator">-</span>header <span class="token string">"Authorization: Token"</span> <span class="token operator">-</span>X GET https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">6443</span><span class="token operator">/</span>api <span class="token operator">-</span>k<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669447259630-78dbb918-f15a-4abf-8a57-7c3355d45531.png" alt="img"></p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669604619196-ecb6cabc-7a59-4c23-a413-8382aa2d1035.png" alt="img"></p>
+<h1 id="授权Authorization"><a href="#授权Authorization" class="headerlink" title="授权Authorization"></a>授权Authorization</h1><p>当用户认证通过后，下一步就是授权操作了。API Server服务目前支持以下几种授权策略：</p>
+<ul>
+<li>AlwaysDeny：表示拒绝所有请求，一般用于测试。</li>
+<li>AlwaysAllow：允许接收所有请求。如果集群不需要授权流程，则可以采用该策略。但是为了安全，千万不要采用该策略！</li>
+<li>ABAC(Attribute-Based Access Control)：基于属性的访问控制。表示使用用户配置的授权规则对用户请求进行匹配和控制，它是K8s 1.6之前的默认策略，现在已经被RBAC代替。</li>
+<li>RBAC(Role-Based Access Control)：基于角色的访问控制，它是目前K8s默认的授权策略。如果RBAC仍然不满足某些特定需求，则用户还可以自行编写授权逻辑并通过Webhook方式注册为Kubernetes的授权服务，以实现更加复杂的授权规则。</li>
+<li>Node：是一种特殊授权模式，用于对kubelet发出的请求进行访问控制。</li>
+<li>Webhook：通过调用外部REST服务对用户进行授权。</li>
+</ul>
+<p>通过API Server的配置文件&#x2F;etc&#x2F;kubernetes&#x2F;manifests&#x2F;kube-apiserver.yaml的参数–authorization-mode可配置多种授权策略，用逗号分隔即可。在通常情况下，我们会设置授权策略为Node,RBAC，如图所示。API Server在收到请求后，会读取该请求中的数据，生成一个访问策略对象，然后API Server会将这个访问策略对象和配置的授权模式逐条进行匹配，第一个被满足或拒绝的授权策略决定了该请求的授权结果，如果匹配的结果是禁止访问，则API Server会终止API调用流程，并返回客户端的错误调用码。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669270938498-4966a0db-0629-41cd-b82d-e8ebf4f3a6ef.png" alt="img"></p>
+<h2 id="RBAC授权"><a href="#RBAC授权" class="headerlink" title="RBAC授权"></a>RBAC授权</h2><p>基于角色（Role）的访问控制（RBAC）是一种基于组织中用户的角色来调节控制对计算机或网络资源的访问的方法。RBAC 鉴权机制使用 rbac.authorization.k8s.io API 组来驱动鉴权决定，允许你通过 K8s API 动态配置策略。RBAC在K8s 1.8版本时升级为GA稳定版本，并作为kubeadm安装方式下的默认授权选项。</p>
+<p>RBAC具有如下优势：</p>
+<ul>
+<li>对集群中的资源和非资源权限均有完整的覆盖。</li>
+<li>RBAC的权限配置通过几个API对象即可完成，同其他API对象一样，可以用kubectl或API进行操作。</li>
+<li>可以在运行时进行调整，无须重新启动API Server。</li>
+</ul>
+<p>在RBAC授权中，有如下概念：</p>
+<p><strong>subject主体</strong></p>
+<ul>
+<li>User</li>
+<li>Group</li>
+<li>ServiceAccount</li>
+</ul>
+<p><strong>角色</strong></p>
+<ul>
+<li>Role：授予特定命名空间的访问权限</li>
+<li>ClusterRole：授予集群的访问权限</li>
+</ul>
+<p><strong>角色绑定</strong></p>
+<ul>
+<li>RoleBinding：将特定命名空间的角色绑定到subject主体</li>
+<li>ClusterRoleBinding：将集群角色绑定到subject主体</li>
+</ul>
+<p><strong>资源</strong></p>
+<p>也就是K8s中的各种资源，如pod、service、secret等。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670224843480-dead8b6b-a920-4eeb-94f6-36f4d46cd236.png" alt="img"></p>
+<p>最后就是将主体与角色进行绑定，以获得特定的权限，如下图所示：</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669606831622-e2e26533-c7b1-4559-9612-9ae06f56c2e1.png" alt="img"></p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670224873567-3da101e3-8b7a-4108-bed4-26fd0aa0a779.png" alt="img"></p>
+<p>在RBAC管理体系中，K8s引入了4个资源对象：Role、ClusterRole、RoleBinding和ClusterRoleBinding。同其他API资源对象一样，用户可以使用kubectl或者API调用等方式操作这些资源对象。</p>
+<h3 id="Role和ClusterRole"><a href="#Role和ClusterRole" class="headerlink" title="Role和ClusterRole"></a>Role和ClusterRole</h3><p>Role 或 ClusterRole 中包含一组代表相关权限的规则，这些规则设置的权限都是许可形式的，不可以设置拒绝形式的规则。Role设置的权限将会局限于命名空间范围内，在你创建 Role 时，你必须指定该 Role 所属的名字空间。如果需要在集群级别设置权限，就需要使用ClusterRole了。</p>
+<h4 id="Role示例"><a href="#Role示例" class="headerlink" title="Role示例"></a>Role示例</h4><p>以下是一个Role的yaml定义：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kind<span class="token punctuation">:</span> Role
+apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+metadata<span class="token punctuation">:</span>
+  namespace<span class="token punctuation">:</span> test
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>role
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"pods"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">,</span> <span class="token string">"list"</span><span class="token punctuation">,</span> <span class="token string">"watch"</span><span class="token punctuation">,</span> <span class="token string">"delete"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上述定义的Role的name是test-role，这个Role的权限是可以对所有apiGroups下面的资源名为“pods”的资源进行get、list、watch和delete的操作。但是需要注意的是限定在test的命名空间范围内。</p>
+<p>Role资源对象主要通过rules字段来描述它的功能，rules字段是rule的列表，每个rule是一组作用于不同apiGroup资源上的一组操作的集合，每一个rule包含如下几个关键字段：</p>
+<ul>
+<li>apiGroups：api组，比如当我们使用kubectl api-resources来查询集群所支持的api资源时，会发现如“apps&#x2F;v1”这样的vesion，它的结构是apiVersion: $GROUP_NAME&#x2F;$VERSION，所以，这里的api组就是apps。</li>
+<li>resouces：和Role绑定的资源名称，如node、pod、secret等资源对象。</li>
+<li>verbs：和Role绑定的动作，比如get、list、watch、delete、update、create、patch等。</li>
+</ul>
+<h4 id="ClusterRole示例"><a href="#ClusterRole示例" class="headerlink" title="ClusterRole示例"></a>ClusterRole示例</h4><p>从命名上来看，ClusterRole的处理范围要比Role大，因为Role的范围是namespace，而ClusterRole的范围是集群。</p>
+<p>ClusterRole主要适用以下场景：</p>
+<ul>
+<li>对集群范围内资源的授权，例如Node。</li>
+<li>对非资源型的授权，例如&#x2F;healthz。</li>
+<li>对包含全部namespace资源的授权，例如pods（用于kubectl get pods -A这样的操作授权）。</li>
+<li>对某个命名空间中多种权限的一次性授权。</li>
+</ul>
+<p>下面是一个ClusterRole的yaml定义：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kind<span class="token punctuation">:</span> ClusterRole
+apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>ClusterRole
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"secrets"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">,</span> <span class="token string">"list"</span><span class="token punctuation">,</span> <span class="token string">"watch"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上述ClusterRole定义的是一个name为test-ClusterRole，拥有对所有apiGroup下的资源类型为secrets的资源进行get、list、watch的操作，并且他没有限定namespace<strong>。</strong></p>
+<h4 id="Role和ClusterRole的rules可配置参数"><a href="#Role和ClusterRole的rules可配置参数" class="headerlink" title="Role和ClusterRole的rules可配置参数"></a>Role和ClusterRole的rules可配置参数</h4><p><strong>apiGroups</strong></p>
+<ul>
+<li>“”</li>
+<li>“apps”</li>
+<li>“autoscaling”</li>
+<li>“batch”</li>
+</ul>
+<p><strong>resources</strong></p>
+<ul>
+<li>“services”</li>
+<li>“endpoints”</li>
+<li>“pods”</li>
+<li>“secrets”</li>
+<li>“configmaps”</li>
+<li>“crontabs”</li>
+<li>“deployments”</li>
+<li>“jobs”</li>
+<li>“nodes”</li>
+<li>“rolebindings”</li>
+<li>“clusterroles”</li>
+<li>“daemonsets”</li>
+<li>“replicasets”</li>
+<li>“statefulsets”</li>
+<li>“horizontalpodautoscalers”</li>
+<li>“replicationcontrollers”</li>
+<li>“cronjobs”</li>
+</ul>
+<p><strong>verbs</strong></p>
+<ul>
+<li>“get”</li>
+<li>“list”</li>
+<li>“watch”</li>
+<li>“create”</li>
+<li>“update”</li>
+<li>“patch”</li>
+<li>“delete”</li>
+<li>“exec”</li>
+</ul>
+<h3 id="RoleBinding和ClusterRoleBinding"><a href="#RoleBinding和ClusterRoleBinding" class="headerlink" title="RoleBinding和ClusterRoleBinding"></a>RoleBinding和ClusterRoleBinding</h3><p>角色绑定（Role Binding）是将角色中定义的权限赋予一个或者一组用户。 它包含若干主体（用户、组或服务账户）的列表和对这些主体所获得的角色的引用。 RoleBinding 在指定的名字空间中执行授权，而 ClusterRoleBinding 在集群范围执行授权。</p>
+<h4 id="RoleBinding示例"><a href="#RoleBinding示例" class="headerlink" title="RoleBinding示例"></a>RoleBinding示例</h4><p>一个 RoleBinding 可以引用同一命名空间中的任何 Role，也可以引用ClusterRole 并将该 ClusterRole 绑定到 RoleBinding 所在的名字空间。 </p>
+<p>下面这个RoleBingding的例子是将上面我们定义的test-role与用户test进行绑定，作用的命名空间为test。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> RoleBinding
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>rolebinding
+  namespace<span class="token punctuation">:</span> test
+  labels<span class="token punctuation">:</span>
+    roleBinding<span class="token punctuation">:</span> test<span class="token operator">-</span>rolebinding
+  annotation<span class="token punctuation">:</span>
+subjects<span class="token punctuation">:</span>
+<span class="token operator">-</span> kind<span class="token punctuation">:</span> User
+  name<span class="token punctuation">:</span> test
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io
+roleRef<span class="token punctuation">:</span>
+  kind<span class="token punctuation">:</span> Role
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>role
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>RoleBinding有两个比较重要的根节点，一个是subjects，描述了需要绑定的主体，有user、group和service account；另一个是roleRef，描述了要绑定的Role。</p>
+<p>RoleBinding本身会被namespace所影响，用于某个namespace内的授权，如果它与Role进行绑定，就需要保持一致的namespace；</p>
+<p>RoleBinding除了能够和Role绑定，也能和ClusterRole绑定，这个操作的含义是：对目标主体在其所在的命名空间授予在ClusterRole中定义的权限。如下将集群角色test-ClusterRole与用户test进行绑定，虽然test-ClusterRole是一个集群角色，但因为RoleBinding的作用范围为命名空间test，所以用户test只能读取命名空间test中的secret资源对象，而不能读取其他命名空间中的secret资源对象。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> RoleBinding
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> rolebinding<span class="token operator">-</span><span class="token keyword">with</span><span class="token operator">-</span>clusterole
+  namespace<span class="token punctuation">:</span> test
+subjects<span class="token punctuation">:</span>
+<span class="token operator">-</span> kind<span class="token punctuation">:</span> User
+  name<span class="token punctuation">:</span> test
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io
+roleRef<span class="token punctuation">:</span>
+  kind<span class="token punctuation">:</span> ClusterRole
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>ClusterRole
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="ClusterRoleBinding示例"><a href="#ClusterRoleBinding示例" class="headerlink" title="ClusterRoleBinding示例"></a>ClusterRoleBinding示例</h4><p>ClusterRoleBinding用于进行集群级别或者对所有命名空间都生效的授权。下面的例子允许test组的用户读取任意命名空间中的secret资源对象：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> ClusterRoleBinding
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>ClusterRoleBinding
+subjects<span class="token punctuation">:</span>
+<span class="token operator">-</span> kind<span class="token punctuation">:</span> Group
+  name<span class="token punctuation">:</span> test
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io
+roleRef<span class="token punctuation">:</span>
+  kind<span class="token punctuation">:</span> ClusterRole
+  name<span class="token punctuation">:</span> test<span class="token operator">-</span>ClusterRole
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在集群角色绑定（ClusterRoleBinding）中引用的角色只能是集群级别的角色（ClusterRole），而不能是命名空间级别的Role。</p>
+<p>一旦通过创建RoleBinding或ClusterRoleBinding与某个Role或ClusterRole完成了绑定，用户就无法修改与之绑定的Role或ClusterRole了。只有删除了RoleBinding或ClusterRoleBinding，才能修改Role或ClusterRole。Kubernetes限制roleRef字段中的内容不可更改，主要有以下两个原因。</p>
+<ul>
+<li>从逻辑上来说，与一个新的Role进行绑定实际上是一次全新的授权操作。通过删除或重建的方式更改绑定的Role，可以确保给主体授予新角色的权限（而不是在不验证所有现有主体的情况下去修改roleRef）。</li>
+<li>使roleRef不变，可以授予某个用户对现有绑定对象（Bindingobject）的更新（update）权限，以便其管理授权主体（subject），同时禁止更改角色中的权限设置。</li>
+</ul>
+<p>注：但其实在实际测试过程中，集群管理员是可以改变已经绑定的Role&#x2F;ClusterRole的，并且改变了Role&#x2F;ClusterRole后，与之进行绑定的主体权限也随之改变了。</p>
+<h3 id="对资源的引用"><a href="#对资源的引用" class="headerlink" title="对资源的引用"></a>对资源的引用</h3><p>在RBAC中引用资源的方式就是资源对象的名称，如pods、services、secrets等等。但是有一些资源是具有子资源的，例如pod的日志。对于这种资源，RBAC的引用方式是“资源&#x2F;子资源”。例如pods&#x2F;log，在这里，pods 对应名字空间作用域的 Pod 资源，而 log 是 pods 的子资源。 在 RBAC 角色表达子资源时，使用斜线（&#x2F;）来分隔资源和子资源。 要允许某主体读取 pods 同时访问这些 Pod 的 log 子资源，你可以这样写：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> Role
+metadata<span class="token punctuation">:</span>
+  namespace<span class="token punctuation">:</span> default
+  name<span class="token punctuation">:</span> pod<span class="token operator">-</span><span class="token keyword">and</span><span class="token operator">-</span>pod<span class="token operator">-</span>logs<span class="token operator">-</span>reader
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"pods"</span><span class="token punctuation">,</span> <span class="token string">"pods/log"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">,</span> <span class="token string">"list"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对于某些请求，也可以通过 resourceNames 列表按名称引用资源。 在指定时，可以将请求限定为资源的单个实例。 下面的例子中限制可以 get 和 update 一个名为 my-configmap 的Configmap：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kind<span class="token punctuation">:</span> Role
+metadata<span class="token punctuation">:</span>
+  namespace<span class="token punctuation">:</span> default
+  name<span class="token punctuation">:</span> configmap<span class="token operator">-</span>updater
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token comment"># 在 HTTP 层面，用来访问 ConfigMap 资源的名称为 "configmaps"</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"configmaps"</span><span class="token punctuation">]</span>
+  resourceNames<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"my-configmap"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"update"</span><span class="token punctuation">,</span> <span class="token string">"get"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注：你不能使用资源名字来限制 create 或者 deletecollection 请求。 对于 create 请求而言，这是因为在鉴权时可能还不知道新对象的名字。 如果你使用 resourceName 来限制 list 或者 watch 请求， 客户端必须在它们的 list 或者 watch 请求里包含一个与指定的 resourceName 匹配的 metadata.name 字段选择器。 例如，kubectl get configmaps –field-selector&#x3D;metadata.name&#x3D;my-configmap</p>
+<p>使用通配符 * 可以批量引用所有的 resources 和 verbs 对象，无需逐一引用。 对于 nonResourceURLs，可以将通配符 * 作为后缀实现全局通配， 对于 apiGroups 和 resourceNames，空集表示没有任何限制。 下面的示例允许对所有当前和未来资源执行所有动作（注意，这类似于内置的 cluster-admin）。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> Role
+metadata<span class="token punctuation">:</span>
+  namespace<span class="token punctuation">:</span> default
+  name<span class="token punctuation">:</span> example<span class="token punctuation">.</span>com<span class="token operator">-</span>superuser  <span class="token comment"># 此角色仅作示范，请勿使用</span>
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"example.com"</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"*"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"*"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="聚合的ClusterRole"><a href="#聚合的ClusterRole" class="headerlink" title="聚合的ClusterRole"></a>聚合的ClusterRole</h3><p>某些情况下需要多个ClusterRole合并适用，这种情况下聚合ClusterRole能够有效的减轻管理员的操作。</p>
+<p>这个功能是通过aggregationRule这个字段来完成的。aggregationRole使用LABEL SElECTOR选择多个ClusterRole，由相关的控制器（Controller）来保证能够将多个适合的ClusterRole进行整合。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> ClusterRole
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> clusterrole<span class="token operator">-</span><span class="token keyword">with</span><span class="token operator">-</span>aggregation
+aggregationRule<span class="token punctuation">:</span>
+  clusterRoleSelectors<span class="token punctuation">:</span>
+  <span class="token operator">-</span> matchLabels<span class="token punctuation">:</span>
+      rbac<span class="token punctuation">.</span>example<span class="token punctuation">.</span>com<span class="token operator">/</span>aggregate<span class="token operator">-</span>to<span class="token operator">-</span>monitoring<span class="token punctuation">:</span> <span class="token string">"true"</span>
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> ClusterRole
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> clusterole<span class="token operator">-</span>demo
+  labels<span class="token punctuation">:</span> 
+    rbac<span class="token punctuation">.</span>example<span class="token punctuation">.</span>com<span class="token operator">/</span>aggregate<span class="token operator">-</span>to<span class="token operator">-</span>monitoring<span class="token punctuation">:</span> <span class="token string">"true"</span>
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"services"</span><span class="token punctuation">,</span><span class="token string">"endpoints"</span><span class="token punctuation">,</span><span class="token string">"pods"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">,</span><span class="token string">"list"</span><span class="token punctuation">,</span><span class="token string">"watch"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>clusterrole-with-aggregation会由系统进行控制，形成一个ClusterRole的聚合，我们可以通过kubectl describe clusterrole&#x2F;clusterrole-with-aggregation来进行验证。</p>
+<p>k8s内置了许多的clusterrole，有些clusterrole本身就是聚合的，比如veiw，它本身是一个聚合的clusterrole，然后它又被edit这个clusterrole聚合了。</p>
+<h3 id="K8s默认的授权规则"><a href="#K8s默认的授权规则" class="headerlink" title="K8s默认的授权规则"></a>K8s默认的授权规则</h3><p>Api Server会创建一组默认的ClusterRole和ClusterRoleBinding。这些通常以system:为前缀的，用以标识对应资源是直接由集群控制面管理的，建议不要对其进行修改(因为如果修改错误可能导致集群不能正常工作)。并且所有默认的ClusterRole和RoleBinding都有kubernetes.io&#x2F;bootstrapping&#x3D;rbac-defaults标签。</p>
+<p>授权规则的自动更新功能从K8s 1.6版本开始引入。该自动恢复功能在启用RBAC授权模式后自动开启。在每次启动时，API服务器都会更新默认ClusterRole以添加缺失的各种权限，并更新默认的 ClusterRoleBinding 以增加缺失的各类主体。 这种自动协商机制允许集群去修复一些不小心发生的修改， 并且有助于保证角色和角色绑定在新的发行版本中有权限或主体变更时仍然保持最新。如果要禁止此功能，请将默认 ClusterRole 以及 ClusterRoleBinding 的rbac.authorization.kubernetes.io&#x2F;autoupdate 注解设置成 false。</p>
+<h4 id="K8s默认的Role"><a href="#K8s默认的Role" class="headerlink" title="K8s默认的Role"></a>K8s默认的Role</h4><p>执行如下命令查看K8s默认的Role</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get role <span class="token operator">-</span>A<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670398694792-19c5a50d-45f9-4cb0-b97d-63652fe0bc65.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th><strong>K8s内置的Role</strong></th>
+<th><strong>作用的命名空间</strong></th>
+<th><strong>默认绑定的主体</strong></th>
+<th><strong>是否有高权限</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>kubeadm:bootstrap-signer-clusterinfo</td>
+<td>kube-public</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:bootstrap-signer</td>
+<td>kube-public</td>
+<td>服务账户bootstrap-signer</td>
+<td>否</td>
+<td></td>
+</tr>
+<tr>
+<td>extension-apiserver-authentication-reader</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kube-proxy</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kubeadm:kubelet-config-1.23</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kubeadm:nodes-kubeadm-config</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system::leader-locking-kube-controller-manager</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system::leader-locking-kube-scheduler</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:bootstrap-signer</td>
+<td>kube-system</td>
+<td>服务账户bootstrap-signer</td>
+<td>是，get、list、watch—&gt;secrets</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:cloud-provider</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:token-cleaner</td>
+<td>kube-system</td>
+<td>服务账户token-cleaner</td>
+<td>是，get、list、watch、delete—&gt; secrets</td>
+<td></td>
+</tr>
+<tr>
+<td>kubernetes-dashboard</td>
+<td>kube-system</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="K8s默认的ClusterRole"><a href="#K8s默认的ClusterRole" class="headerlink" title="K8s默认的ClusterRole"></a>K8s默认的ClusterRole</h4><p>执行如下命令查看K8s默认的ClusterRole。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRole<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670398780977-1d7c6a26-0fee-4522-ae36-a2440e450de1.png" alt="img"></p>
+<p><strong>面向用户的角色：</strong>一些默认的 ClusterRole 不是以前缀 system: 开头的。这些是面向用户的角色。 它们包括超级用户（Super-User）角色（cluster-admin）、 使用 ClusterRoleBinding 在集群范围内完成授权的角色（cluster-status）、 以及使用 RoleBinding 在特定名字空间中授予的角色（admin、edit、view）。</p>
+<p><strong>内置控制器的角色：</strong>Kubernetes控制管理器运行内建于 K8s 控制面的控制器。 当使用 –use-service-account-credentials 参数启动时，kube-controller-manager 使用单独的服务账户来启动每个控制器。 每个内置控制器都有相应的、前缀为 system:controller:的角色。 如果控制管理器启动时未设置 –use-service-account-credentials， 它使用自己的身份凭据来运行所有的控制器，该身份必须被授予所有相关的角色。 这些角色包括：</p>
+<table>
+<thead>
+<tr>
+<th><strong>K8s内置的Cluster-Role</strong></th>
+<th><strong>默认绑定的主体</strong></th>
+<th><strong>是否有高权限</strong></th>
+<th><strong>组件角色</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>admin</td>
+<td>无</td>
+<td>是，对pod、secret等具有所有权限</td>
+<td>面向用户的角色</td>
+<td>允许管理员访问权限，旨在使用 RoleBinding 在名字空间内执行授权。 如果在 RoleBinding 中使用，则可授予对名字空间中的大多数资源的读&#x2F;写权限， 包括创建角色和角色绑定的能力。 此角色不允许对资源配额或者名字空间本身进行写操作。 此角色也不允许对 Kubernetes v1.22+ 创建的EndpointSlices（或 Endpoints）进行写操作。</td>
+</tr>
+<tr>
+<td>calico-kube-controllers</td>
+<td></td>
+<td></td>
+<td>calico组件的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>calico-node</td>
+<td></td>
+<td></td>
+<td>calico组件的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>cluster-admin</td>
+<td>system:masters 组</td>
+<td></td>
+<td>面向用户的角色</td>
+<td>允许超级用户在平台上的任何资源上执行所有操作。 当在ClusterRoleBinding 中使用时，可以授权对集群中以及所有名字空间中的全部资源进行完全控制。 当在 RoleBinding 中使用时，可以授权控制角色绑定所在名字空间中的所有资源，包括名字空间本身。</td>
+</tr>
+<tr>
+<td>edit</td>
+<td>无</td>
+<td>对pod和secret都具有所有权限</td>
+<td>面向用户的角色</td>
+<td>允许对名字空间的大多数对象进行读&#x2F;写操作。 此角色不允许查看或者修改角色或者角色绑定。 不过，此角色可以访问Secret，以名字空间中任何 ServiceAccount 的身份运行 Pod， 所以可以用来了解名字空间内所有服务账户的 API 访问级别。 此角色也不允许对Kubernetes v1.22+ 创建的 EndpointSlices（或 Endpoints）进行写操作。</td>
+</tr>
+<tr>
+<td>flannel</td>
+<td></td>
+<td></td>
+<td>flannel组件的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>kubeadm:get-nodes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kubernetes-dashboard</td>
+<td></td>
+<td></td>
+<td>K8s dashboard组件的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:aggregate-to-admin</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:aggregate-to-edit</td>
+<td></td>
+<td>是，对pod、secret等具有所有权限</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:aggregate-to-view</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:auth-delegator</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td>允许将身份认证和鉴权检查操作外包出去。 这种角色通常用在插件式 API服务器上，以实现统一的身份认证和鉴权。</td>
+</tr>
+<tr>
+<td>system:basic-user</td>
+<td>system:authenticated 组</td>
+<td></td>
+<td>API发现角色</td>
+<td>允许用户以只读的方式去访问他们自己的基本信息。在 v1.14 版本之前，这个角色在默认情况下也绑定在 system:unauthenticated 上。</td>
+</tr>
+<tr>
+<td>system:certificates.k8s.io:certificatesigningrequests:nodeclient</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:certificates.k8s.io:certificatesigningrequests:selfnodeclient</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:certificates.k8s.io:kube-apiserver-client-approver</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:certificates.k8s.io:kube-apiserver-client-kubelet-approver</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:certificates.k8s.io:kubelet-serving-approver</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:certificates.k8s.io:legacy-unknown-approver</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:attachdetach-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:certificate-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:clusterrole-aggregation-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:cronjob-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:daemon-set-controller</td>
+<td></td>
+<td>是<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401450772-6cbc324b-6a09-4064-9aac-dccf6b3841f1.png" alt="img"></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:deployment-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:disruption-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:endpoint-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:endpointslice-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:endpointslicemirroring-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:ephemeral-volume-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:expand-controller</td>
+<td></td>
+<td>只对secret具有get权限</td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:generic-garbage-collector</td>
+<td></td>
+<td>是<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401474477-7403a6c9-3255-4cd8-9b37-540119bdf707.png" alt="img"></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:horizontal-pod-autoscaler</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:job-controller</td>
+<td></td>
+<td>对pod具有create delete list patch watch权限</td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:namespace-controller</td>
+<td></td>
+<td>是<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401492403-a50acc5d-c47d-4f8d-9292-0560d9ec6c24.png" alt="img"></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:node-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:persistent-volume-binder</td>
+<td></td>
+<td>是，对pod具有所有权限，对secrets具有get权限</td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:pod-garbage-collector</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:pv-protection-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:pvc-protection-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:replicaset-controller</td>
+<td></td>
+<td>是<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401504020-d8842f8b-9ab3-4846-8de2-f8683b8dfff5.png" alt="img"></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:replication-controller</td>
+<td></td>
+<td>是，对pod具有create delete list patch watch权限</td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:resourcequota-controller</td>
+<td></td>
+<td>是<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1670401520611-feabd1ca-5add-4860-8330-738b100f7779.png" alt="img"></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:root-ca-cert-publisher</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:route-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:service-account-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:service-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:statefulset-controller</td>
+<td></td>
+<td>是，对pod具有所有权限</td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:ttl-after-finished-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:controller:ttl-controller</td>
+<td></td>
+<td></td>
+<td>内置控制器的角色</td>
+<td></td>
+</tr>
+<tr>
+<td>system:coredns</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:discovery</td>
+<td>system:authenticated 组</td>
+<td></td>
+<td>API发现角色</td>
+<td>允许以只读方式访问 API 发现端点，这些端点用来发现和协商 API 级别。在 v1.14 版本之前，这个角色在默认情况下绑定在 system:unauthenticated上。</td>
+</tr>
+<tr>
+<td>system:heapster</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td>为 Heapster 组件（已弃用）定义的角色。</td>
+</tr>
+<tr>
+<td>system:kube-aggregator</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/kubernetes/kube-aggregator">为kube-aggregator组件定义的角色。</a></td>
+</tr>
+<tr>
+<td>system:kube-controller-manager</td>
+<td>system:kube-controller-manager 用户</td>
+<td>对secret具有create delete get update权限</td>
+<td>核心组件角色</td>
+<td><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-controller-manager/">允许访问控制器管理器组件所需要的资源。</a></td>
+</tr>
+<tr>
+<td>system:kube-dns</td>
+<td>在 kube-system 名字空间中的 kube-dns 服务账户</td>
+<td></td>
+<td>其他组件角色</td>
+<td>为 kube-dns 组件定义的角色。</td>
+</tr>
+<tr>
+<td>system:kube-scheduler</td>
+<td>system:kube-scheduler用户</td>
+<td></td>
+<td>核心组件角色</td>
+<td>允许访问 scheduler 组件所需要的资源。</td>
+</tr>
+<tr>
+<td>system:kubelet-api-admin</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td>允许 kubelet API 的完全访问权限。</td>
+</tr>
+<tr>
+<td>system:monitoring</td>
+<td>system:monitoring 组</td>
+<td></td>
+<td>其他组件角色</td>
+<td>允许对控制平面监控端点的读取访问（例如：kube-apiserver 存活和就绪端点（&#x2F;healthz、&#x2F;livez、&#x2F;readyz）， 各个健康检查端点（&#x2F;healthz&#x2F;*、&#x2F;livez&#x2F;*、&#x2F;readyz&#x2F;*）和 &#x2F;metrics）。 请注意，各个运行状况检查端点和度量标准端点可能会公开敏感信息。</td>
+</tr>
+<tr>
+<td>system:node</td>
+<td>无</td>
+<td>是，对pod具有所有权限，对secrets具有get、list、watch权限</td>
+<td>核心组件角色</td>
+<td>允许访问 kubelet 所需要的资源，包括对所有 Secret 的读操作和对所有 Pod状态对象的写操作。 你应该使用 Node 鉴权组件和 NodeRestriction 准入插件而不是 system:node角色。同时基于 kubelet 上调度执行的 Pod 来授权 kubelet 对 API 的访问。  system:node 角色的意义仅是为了与从 v1.8 之前版本升级而来的集群兼容。</td>
+</tr>
+<tr>
+<td>system:node-bootstrapper</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td>允许访问执行 kubelet TLS 启动引导 所需要的资源。</td>
+</tr>
+<tr>
+<td>system:node-problem-detector</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td>为node-problem-detector组件定义的角色。</td>
+</tr>
+<tr>
+<td>system:node-proxier</td>
+<td>system:kube-proxy 用户</td>
+<td></td>
+<td>核心组件角色</td>
+<td>允许访问 kube-proxy 组件所需要的资源。</td>
+</tr>
+<tr>
+<td>system:persistent-volume-provisioner</td>
+<td>无</td>
+<td></td>
+<td>其他组件角色</td>
+<td>允许访问大部分动态卷驱动所需要的资源。</td>
+</tr>
+<tr>
+<td>system:public-info-viewer</td>
+<td>system:public-info-viewer</td>
+<td></td>
+<td>API发现角色</td>
+<td>允许对集群的非敏感信息进行只读访问，此角色是在 v1.14 版本中引入的。</td>
+</tr>
+<tr>
+<td>system:service-account-issuer-discovery</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system:volume-scheduler</td>
+<td>system:kube-scheduler用户</td>
+<td></td>
+<td>核心组件角色</td>
+<td>允许访问 kube-scheduler 组件所需要的卷资源。</td>
+</tr>
+<tr>
+<td>view</td>
+<td>无</td>
+<td></td>
+<td>面向用户的角色</td>
+<td>允许对名字空间的大多数对象有只读权限。 它不允许查看角色或角色绑定。 此角色不允许查看 Secrets，因为读取 Secret 的内容意味着可以访问名字空间中 ServiceAccount 的凭据信息，进而允许利用名字空间中任何ServiceAccount 的身份访问 API（这是一种特权提升）。</td>
+</tr>
+</tbody></table>
+<h3 id="授权初始化和预防权限提升"><a href="#授权初始化和预防权限提升" class="headerlink" title="授权初始化和预防权限提升"></a>授权初始化和预防权限提升</h3><p>RBAC API防止用户通过编辑角色或者角色绑定来获得权限的提升，这一限制是在API级别生效的，因此即使没有启用RBAC，也仍然有效。</p>
+<h4 id="对角色创建或更新的限制"><a href="#对角色创建或更新的限制" class="headerlink" title="对角色创建或更新的限制"></a>对角色创建或更新的限制</h4><p>只有在符合下列条件之一的情况下，你才能创建&#x2F;更新角色:</p>
+<ol>
+<li>你已经拥有角色中包含的所有权限，且其作用域与正被修改的对象作用域相同。 （对 ClusterRole 而言意味着集群范围，对 Role 而言意味着相同名字空间或者集群范围）。</li>
+<li>你被显式授权在 rbac.authorization.k8s.io API 组中的 roles 或 clusterroles 资源使用 escalate 动词。</li>
+</ol>
+<p>例如，如果 user1 没有列举集群范围所有 Secret 的权限，他将不能创建包含该权限的 ClusterRole。 若要允许用户创建&#x2F;更新角色，需要如下条件：</p>
+<ol>
+<li>根据需要赋予他们一个角色，允许他们根据需要创建&#x2F;更新 Role 或者 ClusterRole 对象。</li>
+<li>授予他们在所创建&#x2F;更新角色中包含特殊权限的权限:</li>
+</ol>
+<ul>
+<li><ul>
+<li>隐式地为他们授权（如果它们试图创建或者更改 Role 或 ClusterRole 的权限， 但自身没有被授予相应权限，API 请求将被禁止）。</li>
+<li>通过允许他们在 Role 或 ClusterRole 资源上执行 escalate 动作显式完成授权。 这里的 roles和 clusterroles 资源包含在 rbac.authorization.k8s.io API 组中。</li>
+</ul>
+</li>
+</ul>
+<h4 id="对角色绑定创建或更新的限制"><a href="#对角色绑定创建或更新的限制" class="headerlink" title="对角色绑定创建或更新的限制"></a>对角色绑定创建或更新的限制</h4><p>只有你已经具有了所引用的角色中包含的全部权限时，或者你被授权在所引用的角色上执行 bind 动词时，你才可以创建或更新角色绑定。这里的权限与角色绑定的作用域相同。 </p>
+<p>例如，如果用户 user1 没有列举集群范围所有 Secret 的能力，则他不可以创建 ClusterRoleBinding 引用授予该许可权限的角色。 如要允许用户创建或更新角色绑定：</p>
+<ol>
+<li>赋予他们一个角色，使得他们能够根据需要创建或更新 RoleBinding 或 ClusterRoleBinding 对象。</li>
+<li>授予他们绑定某特定角色所需要的许可权限：</li>
+</ol>
+<ul>
+<li><ul>
+<li>隐式授权下，可以将角色中包含的许可权限授予他们；</li>
+<li>显式授权下，可以授权他们在特定 Role （或 ClusterRole）上执行 bind 动词的权限。</li>
+</ul>
+</li>
+</ul>
+<p>例如，下面的 ClusterRole 和 RoleBinding 将允许用户 user-1 把名字空间 user-1-namespace 中的 admin、edit 和 view 角色赋予其他用户：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> ClusterRole
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> role<span class="token operator">-</span>grantor
+rules<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"rbac.authorization.k8s.io"</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"rolebindings"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"create"</span><span class="token punctuation">]</span>
+<span class="token operator">-</span> apiGroups<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"rbac.authorization.k8s.io"</span><span class="token punctuation">]</span>
+  resources<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"clusterroles"</span><span class="token punctuation">]</span>
+  verbs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"bind"</span><span class="token punctuation">]</span>
+  <span class="token comment"># 忽略 resourceNames 意味着允许绑定任何 ClusterRole</span>
+  resourceNames<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"admin"</span><span class="token punctuation">,</span><span class="token string">"edit"</span><span class="token punctuation">,</span><span class="token string">"view"</span><span class="token punctuation">]</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+apiVersion<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token operator">/</span>v1
+kind<span class="token punctuation">:</span> RoleBinding
+metadata<span class="token punctuation">:</span>
+  name<span class="token punctuation">:</span> role<span class="token operator">-</span>grantor<span class="token operator">-</span>binding
+  namespace<span class="token punctuation">:</span> user<span class="token operator">-</span><span class="token number">1</span><span class="token operator">-</span>namespace
+roleRef<span class="token punctuation">:</span>
+  apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io
+  kind<span class="token punctuation">:</span> ClusterRole
+  name<span class="token punctuation">:</span> role<span class="token operator">-</span>grantor
+subjects<span class="token punctuation">:</span>
+<span class="token operator">-</span> apiGroup<span class="token punctuation">:</span> rbac<span class="token punctuation">.</span>authorization<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io
+  kind<span class="token punctuation">:</span> User
+  name<span class="token punctuation">:</span> user<span class="token operator">-</span><span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>当启动引导第一个角色和角色绑定时，需要为初始用户授予他们尚未拥有的权限。 对初始角色和角色绑定进行初始化时需要：</p>
+<ul>
+<li>使用用户组为 system:masters 的凭据，该用户组由默认绑定关联到 cluster-admin 这个超级用户角色。</li>
+</ul>
+<h2 id="Node授权"><a href="#Node授权" class="headerlink" title="Node授权"></a>Node授权</h2><p>Node授权策略用于对kubelet发出的请求进行访问控制，与用户的应用授权无关，属于K8s自身安全的增强功能。简单来说，就是限制每个Node只访问它自身运行的Pod及相关的Service、Endpoints等信息；也只能受限于修改自身Node的一些信息，比如Label；也不能操作其他Node上的资源。而之前用RBAC这种通用权限模型其实并不能满足Node这种特殊的安全要求，所以将其剥离出来定义为新的Node授权策略。Node授权可以与NodeRestriction准入控制插件相结合使用来进行Node隔离。</p>
+<p>Node授权器允许kubelet执行的API操作包括：</p>
+<p>读取：</p>
+<ul>
+<li>services</li>
+<li>endpoints</li>
+<li>nodes</li>
+<li>pods</li>
+<li>与绑定到 kubelet 节点的 Pod 相关的 Secret、ConfigMap、PersistentVolumeClaim 和持久卷</li>
+</ul>
+<p>写入：</p>
+<ul>
+<li>Node和Node状态（启用NodeRestriction准入插件限制kubelet仅修改当前的Node）</li>
+<li>Pod和Pod状态（启用NodeRestriction准入插件限制kubelet仅修改与当前绑定的pod）</li>
+<li>事件</li>
+</ul>
+<p>身份认证与鉴权相关的操作：</p>
+<ul>
+<li>对于基于 TLS 的启动引导过程时使用的 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/">certificationsigningrequests API</a> 的读&#x2F;写权限</li>
+<li>为委派的身份验证&#x2F;鉴权检查创建 TokenReview 和 SubjectAccessReview 的能力</li>
+</ul>
+<p>在K8s 1.6中，使用RBAC授权模式时，system:node群集角色（role）自动绑定到该system:nodes组。</p>
+<p>在K8s 1.7中，由于Node授权器实现了相同的目的，因此不再支持system:nodes组与system:node角色的自动绑定，从而有利于对secret 和configmap访问的附加限制。</p>
+<p>在K8s 1.8中，将不会创建binding。</p>
+<p>使用RBAC时，将继续创建system:node集群角色，以便兼容使用deployment将其他users或groups绑定到集群角色的方法。</p>
+<h1 id="准入控制Admission-Control"><a href="#准入控制Admission-Control" class="headerlink" title="准入控制Admission Control"></a>准入控制Admission Control</h1><p>客户端的请求通过认证Authentication和授权Authorization后，会进入到准入控制AdmissionControl关卡。准入控制可以执行验证Validating和变更Mutating等操作<strong>。</strong>准入控制器限制创建、删除、修改对象的请求，也可以阻止自定义动作，但是准入控制器不会也不能阻止get、watch、list对象的请求。</p>
+<p>准入控制过程分为两个阶段。第一阶段，运行变更准入控制器。第二阶段，运行验证准入控制器。 某些准入控制器既可以是变更准入控制器又可以是验证准入控制器。如果两个阶段之一的任何一个控制器拒绝了某请求，则整个请求将立即被拒绝，并向最终用户返回错误。最后，除了对对象进行变更外，准入控制器还可能有其它的作用，比如将相关资源作为请求处理的一部分进行变更。 增加配额用量就是一个典型的示例，说明了这样做的必要性。 此类用法都需要相应的回收或回调过程，因为任一准入控制器都无法确定某个请求能否通过所有其它准入控制器。</p>
+<p>那么可能很多人会问了，为什么需要准入控制呢？</p>
+<p>原因在于K8s 的若干重要功能(如创建、删除等高危操作)都要求启用一个准入控制器，以便正确地支持该特性。 因此，没有正确配置准入控制器的 K8s API 服务器是不完整的，它无法支持你所期望的所有特性。</p>
+<p>那么如何启用一个准入控制器呢？</p>
+<p>在K8s 1.9及之前的版本中使用的参数是–admission-control，其中的内容是顺序相关的；在Kubernetes1.10及之后的版本中使用的参数是–enable-admission-plugins，该参数标志接受一个准入控制插件列表（以逗号分隔的）， 这些准入控制插件会在集群修改对象之前被调用，发送给API Server的任何请求都需要通过列表中每个准入控制器的检查，检查与准入控制器的顺序无关。</p>
+<p>如下，下面的参数标准启用 NodeRestriction、NamespaceLifecycle 和 LimitRanger 准入控制插件：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">-</span> <span class="token operator">-</span><span class="token operator">-</span>enable<span class="token operator">-</span>admission<span class="token operator">-</span>plugins<span class="token operator">=</span>NodeRestriction<span class="token punctuation">,</span>NamespaceLifecycle<span class="token punctuation">,</span>LimitRanger<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669798593347-01b89f64-4333-42a5-977e-ccc596969ba9.png" alt="img"></p>
+<p>如果想关闭准入控制器的话，可以使用disable-admission-plugins 参数标志，该参数会将传入的（以逗号分隔的） 准入控制插件列表禁用，即使是默认启用的插件也会被禁用。</p>
+<p>如下，下面的参数标准禁用 PodNodeSelector 和 AlwaysDeny准入控制插件。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">-</span><span class="token operator">-</span>disable<span class="token operator">-</span>admission<span class="token operator">-</span>plugins<span class="token operator">=</span>PodNodeSelector<span class="token punctuation">,</span>AlwaysDeny <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>除了静态编译的Admission插件，也可以通过Webhook方式对接外部的AdmissionWebhook服务，实现与Admission插件一样的功能。但Webhook方式更加灵活，能够在API Server运行时修改和配置动态更新控制策略。</p>
+<p>不过，相对于Admission Control插件来说，使用Admission Webhook要复杂得多，除了需要开发一个Admission Webhook Server实现HTTP回调的逻辑，还需要创建一个对应的ValidatingWebhookConfiguration资源对象配置文件，如果Admission Webhook需要与API Server进行认证，则还需要创建对应的AdmissionConfiguration配置文件。</p>
+<h2 id="NodeRestriction准入控制器"><a href="#NodeRestriction准入控制器" class="headerlink" title="NodeRestriction准入控制器"></a>NodeRestriction准入控制器</h2><p>该准入控制器插件限制了kubelet 可以修改的 Node 和 Pod 对象。 为了受到这个准入控制器的限制，kubelet 必须使用在 system:nodes 组中的凭证， 并使用 system:node:<nodeName> 形式的用户名。 这样，kubelet 只可修改自己的 Node API 对象，只能修改绑定到自身节点的 Pod 对象。</nodeName></p>
+<p>并且该准入控制器插件不允许 kubelet 更新或删除 Node API 对象的污点。</p>
+<p>NodeRestriction 准入控制器插件可防止 kubelet 删除其 Node API 对象， 并对前缀为 kubernetes.io&#x2F; 或 k8s.io&#x2F; 的标签的修改对 kubelet 作如下限制：</p>
+<ul>
+<li><p><strong>禁止</strong> kubelet 添加、删除或更新前缀为 node-restriction.kubernetes.io&#x2F; 的标签。 这类前缀的标签时保留给管理员的，用以为 Node 对象设置标签以隔离工作负载，而不允许 kubelet 修改带有该前缀的标签。</p>
+</li>
+<li><p><strong>允许</strong> kubelet 添加、删除、更新以下标签：</p>
+</li>
+<li><ul>
+<li>kubernetes.io&#x2F;hostname</li>
+<li>kubernetes.io&#x2F;arch</li>
+<li>kubernetes.io&#x2F;os</li>
+<li>beta.kubernetes.io&#x2F;instance-type</li>
+<li>node.kubernetes.io&#x2F;instance-type</li>
+<li>failure-domain.beta.kubernetes.io&#x2F;region （已弃用）</li>
+<li>failure-domain.beta.kubernetes.io&#x2F;zone （已弃用）</li>
+<li>topology.kubernetes.io&#x2F;region</li>
+<li>topology.kubernetes.io&#x2F;zone</li>
+<li>kubelet.kubernetes.io&#x2F; 为前缀的标签</li>
+<li>node.kubernetes.io&#x2F; 为前缀的标签</li>
+</ul>
+</li>
+</ul>
+<p>以 kubernetes.io 或 k8s.io 为前缀的所有其他标签都限制 kubelet 使用，并且将来可能会被 NodeRestriction 准入插件允许或禁止。将来的版本可能会增加其他限制，以确保 kubelet 具有正常运行所需的最小权限集。</p>
+<h2 id="Service-Account准入控制器"><a href="#Service-Account准入控制器" class="headerlink" title="Service Account准入控制器"></a>Service Account准入控制器</h2><p>Service Account准入控制器实现了ServiceAccount 的自动化，如果你打算使用 K8s 的 ServiceAccount 对象，强烈推荐为 K8s 项目启用此准入控制器。</p>
+<p>Service Account 准入控制器的工作相对简单，它会监听Service Account和Namespace这两种资源对象的事件，如果在一个Namespace中没有默认的Service Account，那么它会为该Namespace创建一个默认的ServiceAccount对象，这就是在每个Namespace下都有一个名为default的Service Account的原因。</p>
+<p>针对Pod新增或修改的请求，Service Account准入控制器会验证Pod里的Service Account是否合法，并做出如下控制操作：</p>
+<ul>
+<li><p>如果Pod的spec.ServiceAccount没有被设置，则Service Account 准入控制器将为其添加名称为default的ServiceAccout。</p>
+</li>
+<li><p>如果Pod的spec.ServiceAccount指定了不存在的Service Account，则该Pod操作会被拒绝。</p>
+</li>
+<li><p>如果服务账号的 automountServiceAccountToken 字段或 Pod 的automountServiceAccountToken 字段都未显式设置为 false：</p>
+</li>
+<li><ul>
+<li>准入控制器变更新来的 Pod，添加一个包含 API 访问令牌的额外<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/">卷</a>。</li>
+<li>准入控制器将 volumeMount 添加到 Pod 中的每个容器， 忽略已为 &#x2F;var&#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount 路径定义的卷挂载的所有容器。 对于 Linux 容器，此卷挂载在 &#x2F;var&#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount； 在 Windows 节点上，此卷挂载在等价的路径上。</li>
+</ul>
+</li>
+<li><p>如果新来 Pod 的规约已包含任何 imagePullSecrets，则准入控制器添加 imagePullSecrets， 并从 ServiceAccount 进行复制。</p>
+</li>
+</ul>
+<p>在K8s 1.6版本以后，我们可以禁止自动创建ServiceAccount对应的Secret了，在ServiceAccount的yaml文件中增加automountServiceAccountToken：false属性即可，同时可以在某个Pod的yaml文件中增加此属性，以实现同样的效果。</p>
+<h2 id="Token准入控制器"><a href="#Token准入控制器" class="headerlink" title="Token准入控制器"></a>Token准入控制器</h2><p>Token准入控制器作为 kube-controller-manager 的一部分运行，以异步的形式工作。 其职责包括：</p>
+<ul>
+<li>监测 ServiceAccount 的删除并删除所有相应的服务账号令牌 Secret。</li>
+<li>监测服务账号令牌 Secret 的添加，保证相应的 ServiceAccount 存在。如果发现在新建的Service Account里没有对应的Secret，则会用私钥文件（–service-account-private-key-file参数标志指定的文件，默认为&#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;sa.key）签名生成一个Token，并用该Token、API Server的CA证书(&#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;ca.crt)等信息生成一个secret对象，然后放入刚才的Service Account中。而&#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;sa.pub公钥文件用于API Server在身份认证过程中校验Token。<img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/1669803082458-3d68db6e-7917-4a45-8f97-2a8e876ea7ea.png" alt="img"></li>
+<li>监测服务账号令牌 Secret 的删除，如有需要，从相应的 ServiceAccount 中删除Secret，确保与对应的Service Account的关联关系正确。</li>
+</ul>
+<p>非常感谢您读到现在，由于作者的水平有限，编写时间仓促，文章中难免会出现一些错误或者描述不准确的地方，恳请各位师傅们批评指正。 </p>
+<p>如果你想一起学习内网渗透、域渗透、云安全、红队攻防的话，可以加入下面的知识星球一起学习交流。</p>
+<p><img src="/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/640-20230307222057178.jpeg" alt="图片"></p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cyberark.com/resources/threat-research-blog/securing-kubernetes-clusters-by-eliminating-risky-permissions">Securing Kubernetes Clusters by Eliminating Risky Permissions</a></p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/authentication/">用户认证</a></p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/rbac/#core-component-roles">使用 RBAC 鉴权</a></p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/node/">使用 Node 鉴权</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/468010077">kubernetes集群安全机制</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34556414/article/details/112909522">Kubernetes 集群权限管理RBAC</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/chriswenwu/g_k8s/1006520">Kubernetes 中的用户与身份认证授权</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://xie1997.github.io/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/">https://xie1997.github.io/2022/10/28/yun-an-quan/k8s-api-fang-wen-kong-zhi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">云安全</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/11/03/yun-an-quan/k8s-diao-du-ce-lue/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/64074951f144a01007d6cfd1.png" class="responsive-img" alt="K8s 调度策略">
+                        
+                        <span class="card-title">K8s 调度策略</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍K8s的调度策略
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-03
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/10/25/yun-an-quan/k8s-zu-jian-he-jia-gou/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/63f2d76ef144a01007f8dc1c.png" class="responsive-img" alt="K8S组件和架构">
+                        
+                        <span class="card-title">K8S组件和架构</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍如何搭建K8s环境
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: 谢公子<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者谢公子所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('7'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">谢公子</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">83.8k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2019";
+                        var startMonth = "1";
+                        var startDate = "2";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis"></div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
