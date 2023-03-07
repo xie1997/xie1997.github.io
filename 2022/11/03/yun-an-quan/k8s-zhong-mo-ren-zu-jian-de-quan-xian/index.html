@@ -1,0 +1,1438 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="K8s中默认组件的权限, 谢公子的小黑屋">
+    <meta name="description" content="介绍K8s中默认组件的权限">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+    <style>
+        body{
+            background-image: url(https://pic.imgdb.cn/item/63f08805f144a010079e8aad.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+    <title>K8s中默认组件的权限 | 谢公子的小黑屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="谢公子的小黑屋" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">谢公子的小黑屋</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/技术文章/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>技术文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/">
+          
+          <span>域渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+          
+          <span>内网渗透</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+          
+          <span>工具的使用</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+          
+          <span>云安全</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/安全培训/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-chalkboard" style="zoom: 0.6;"></i>
+      
+      <span>安全培训</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/">
+          
+          <span>内网渗透培训</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/">
+          
+          <span>Web安全培训</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories/" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>文章分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">谢公子的小黑屋</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			技术文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>域渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/ " style="margin-left:50px">
+				  
+		          <span>内网渗透</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ " style="margin-left:50px">
+				  
+		          <span>工具的使用</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/ " style="margin-left:50px">
+				  
+		          <span>云安全</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-chalkboard"></i>
+			
+			安全培训
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>内网渗透培训</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/tags/Web%E5%AE%89%E5%85%A8%E5%9F%B9%E8%AE%AD/ " style="margin-left:50px">
+				  
+		          <span>Web安全培训</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			文章分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://pic.imgdb.cn/item/64074a7cf144a01007dac914.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">K8s中默认组件的权限</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">云安全</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                技术文章
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-11-03
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-03-07
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    7 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>在K8s中的默认组件如kubectl、kubelet、scheduler、calico、pod等都需要和api server进行通信，因此也设计涉及到了这些组件的权限问题。接下来，让我们看看这些组件的默认权限。</p>
+<p>k8s中”X509 客户证书”和”服务账号令牌”应该是身份认证最常见的两种方式，都能代表”用户”或”用户组”信息。大部分的组件(包括scheduler、calico、kubectl、pod)鉴权都是依赖RBAC模型，也就是主体绑定的角色规定了能访问哪些资源。kubelet的鉴权比较特殊，是依赖Node鉴权模型。</p>
+<h1 id="kubectl"><a href="#kubectl" class="headerlink" title="kubectl"></a>kubectl</h1><p>kubectl默认会用到~&#x2F;.kube&#x2F;config配置文件进行认证。接下来我们在master节点看看</p>
+<p>~&#x2F;.kube&#x2F;config 配置文件内容，其中cluster的certificate-authority-data和user的client-certificate-data是base64编码后的证书信息。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669368491176-2c4846c2-7e1c-4512-b934-96407855e2f9.png" alt="img"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">apiVersion<span class="token punctuation">:</span> v1
+clusters<span class="token punctuation">:</span>
+<span class="token operator">-</span> cluster<span class="token punctuation">:</span>
+    certificate<span class="token operator">-</span>authority<span class="token operator">-</span>data<span class="token punctuation">:</span> LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMvakNDQWVhZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeU1UQXdOakV6TVRFd05Wb1hEVE15TVRBd016RXpNVEV3TlZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTWNKCkhkQUk2R2xKeDNna3RFVkMrSjZoZTJKRDhVaVVHRTBLaFdKMkdITGpORlRwTEJaNVAzeVlUcS9uQnlwWjE0ODgKdXVuc0VmT3dWdGU3V3ZlSGRrYjlKM0d3Znh5WTUvanRpQ05pZmFYNVpJOEQrTDQwWk8yNGF0OHc5Vm9RYXlFdAp4K2RzT3VZSmoyVDNhejdvWmUrbmlkTFNLWDU1WGdma3l5T2ZaMWZibEtETG9SWGtRU21TTXNxYThISURtbGJ3CkIwTkhQQUN0ekJ6S2dkeHNCS2J2MUllekQ4aEZ6bHlVc0FlTXNkcFVhMHRnZWpQQnY1c0xrREo5WXp6NEpxbUUKYnZWQXFObU15eTVKN3ZKRksxNmR4VDZOajVNblhlaGNVQVlzWUlkNXdHbWhnak84OUFNTnhhVlFsbzFwS3V6ZgpUa2F6U0FtZzlsaHI0QWVhL1NFQ0F3RUFBYU5aTUZjd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZJWnMzOThtWWN4cmtSSEtsbUU3bFlva0RSU1JNQlVHQTFVZEVRUU8KTUF5Q0NtdDFZbVZ5Ym1WMFpYTXdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBS3R4a0JDeEozQkRBZWpZNG1uKwpZY1lwRHFkYkliNGx0WHFYVTEwaE0zcTdjUFBzSFB3Nk8wdWwrcVJ0UmVqZUlPYXJsQ2JLbjB0YkVXcGNPdTRlCitoVmZYNktxamFjOUF2aW9zbWhJMExXRHlhYmI4Qk9Bd0trTHh6YThzT2tKQ1B6a0p3bkRSQ01IZzNhNXRJdW0KR2pUUnE0TXBnZlhCN0M1K0JvWTVlOER0WHQ0WFdydUNMSVBuZ1BYcTIrMjhVWVBDc3hyeVRjNHd1MHpwOVBrOApMdCs1UFF4b2pzRHRXOTBpRHo2SmJJTGFBWldpZEtreHJhY0xISXlIZklqUGRFVE5oUUtRYWJOKzJIY05QRUFtCjBDYzNraWR2Q0l0SG56bm50K2pEcDBQWkh2RHFmZnlRcGlpcXFNK3hjd2dTZXE4TVVNTVR3R3B2Qlp2bjhXV1UKV3ZZPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg<span class="token operator">==</span>
+    server<span class="token punctuation">:</span> https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">172.16</span><span class="token number">.200</span><span class="token number">.70</span><span class="token punctuation">:</span><span class="token number">6443</span>
+  name<span class="token punctuation">:</span> kubernetes
+contexts<span class="token punctuation">:</span>
+<span class="token operator">-</span> context<span class="token punctuation">:</span>
+    cluster<span class="token punctuation">:</span> kubernetes
+    user<span class="token punctuation">:</span> kubernetes<span class="token operator">-</span>admin
+  name<span class="token punctuation">:</span> kubernetes<span class="token operator">-</span>admin@kubernetes
+current<span class="token operator">-</span>context<span class="token punctuation">:</span> kubernetes<span class="token operator">-</span>admin@kubernetes
+kind<span class="token punctuation">:</span> Config
+preferences<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+users<span class="token punctuation">:</span>
+<span class="token operator">-</span> name<span class="token punctuation">:</span> kubernetes<span class="token operator">-</span>admin
+  user<span class="token punctuation">:</span>
+    client<span class="token operator">-</span>certificate<span class="token operator">-</span>data<span class="token punctuation">:</span> LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJVENDQWdtZ0F3SUJBZ0lJS2hwZFVQcDNPVm93RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TWpFd01EWXhNekV4TURWYUZ3MHlNekV3TURZeE16RXhNRGxhTURReApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sa3dGd1lEVlFRREV4QnJkV0psY201bGRHVnpMV0ZrCmJXbHVNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQTNTSGlhVmxzVUxUOU96SkQKY2VMdkdIcWlwUnJZbmFOUFZUUVlCOEVFQW5NUFN6RkNzR09PYnprd1BVTlh1MTk2Q1FDOXcxWVhuYko2NS9CdQpaUjNiNTBwY1hJWUFtNUxBZklLOFlhNVZBRC9GOURSSHN1a0lwcURvNHh3bXUrYXpJVkdicWUvckNWeDBBY3QvCmJvQWJ6TWN2a2p0MXVaVVBHNUd3K1dyRjF3ZlFEZ1dLbnVjZ3ZmYVNPM3U4emR2aUNUT0xtUjgwVDdTenBTK0EKN1lSdjJJV2RZOTZNS3VuaDY2MDc1UXRha1NtMmxZN3FJcjUrN3BTL3JmRTB4NDkrZHJlaEhKQUVKNTB4Z0czMApabVNTb0VmMHhCMmdDQWFlbThDMHY5L1d0NStGQjZiUFEzSy92WThsS0ROUVlmMFo5VUhHSW1OZUdJNHQ2bG9IClkyV2lld0lEQVFBQm8xWXdWREFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUgKQXdJd0RBWURWUjBUQVFIL0JBSXdBREFmQmdOVkhTTUVHREFXZ0JTR2JOL2ZKbUhNYTVFUnlwWmhPNVdLSkEwVQprVEFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBVXhYK1NEMTZpSFpLbWYrV3h2Q1dJNDJsY3ZVL1lGVUVrVlNNCnNZYStBY0ZnbjhDOWw5OFMyK3VNaVVPSThZNmtnNUpmVVhCUm51UTV3LzBiUEFhTWROSUhtUS9vNVhRcmI2K3QKSzBhUk9xYWdmc0VPcGl0cHVod0JTc2szTk4wcjFyZFUvcFdwVUVNSG5DQlg3eHFvYVo5ZWZhazJjT2h4bVdMYwpHQ1ZtNzFkT25uaGtsN3A2U2FBd1hsZW5kM1JKanNHNy9NV3E1ckJJeHBiaEpGbFlVTkNDNXdHTGNtaG1aTG9ECkh0NlpKTnFwNzF4MEF3UklDdjU5ZWt5aDQ4ZVN4bG9kZzBKT0I0K3pSbERGTzMvYTN1ZWVoU0h3YVFSN3p6VzQKdVRnYnIxcjNvQkFLbXREdFQxZkgvZ2hvcUdzQUhTOUF4RFdVTURvbG03SXJwTXhzU1E9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg<span class="token operator">==</span>
+    client<span class="token operator">-</span>key<span class="token operator">-</span>data<span class="token punctuation">:</span> LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBM1NIaWFWbHNVTFQ5T3pKRGNlTHZHSHFpcFJyWW5hTlBWVFFZQjhFRUFuTVBTekZDCnNHT09iemt3UFVOWHUxOTZDUUM5dzFZWG5iSjY1L0J1WlIzYjUwcGNYSVlBbTVMQWZJSzhZYTVWQUQvRjlEUkgKc3VrSXBxRG80eHdtdStheklWR2JxZS9yQ1Z4MEFjdC9ib0Fiek1jdmtqdDF1WlVQRzVHdytXckYxd2ZRRGdXSwpudWNndmZhU08zdTh6ZHZpQ1RPTG1SODBUN1N6cFMrQTdZUnYySVdkWTk2TUt1bmg2NjA3NVF0YWtTbTJsWTdxCklyNSs3cFMvcmZFMHg0OStkcmVoSEpBRUo1MHhnRzMwWm1TU29FZjB4QjJnQ0FhZW04QzB2OS9XdDUrRkI2YlAKUTNLL3ZZOGxLRE5RWWYwWjlVSEdJbU5lR0k0dDZsb0hZMldpZXdJREFRQUJBb0lCQUVXcWtqRU1laUpuRXN5ZQpoajhQOXJHb21Tc1k3UnVrd3E2ZUxkL3JnRDdoVHZVcWZNOGpYbEZPSEJPQTd0ZmFPWkV5aVpaTHZqN3hadVZCCml4WVNOU0NGL2Rrc1ltNmc2a0dQMHBlWG03SHJaWXNOR1hXVkV5T2oyQnNNMkdza1FGVUQ1OTIrOXpaSXlVZHoKZkI4cy94VWh2NnY3VFpoOURIaHNDdXhaSmlFYS83OFgrZGR4K3NTSVVmbFY5OW9LY1Q5bFpXU3lMbHg5cGo3aAo2TU50cVZJU3dhM21BQlZuOWU1aFgydkQrQ3hodnUzUW9GQ2UzMUdxVWRSQVVVT2tEczhYZmhNVzJlSExTZXFsCkN0VmxvUjMxRUxtUTVpdWlwTWs3cmQwc01vZVlONExHNll3RUt2N2dPSnpNUTlNZE5YZFljUW9XUnNJVmxVVmsKMjVYVW80a0NnWUVBL3BubFByaG4yT1BlRWw4ekMxaCs2RVpMNG5GTTcrU2tOejNPRnVVaU1FRFhUazRKam5scgp2VmUrV2NBWEk2cUdsT1JOMU5XeURlZGxJTUNjd0lJRlI4R1VTNmxJT3h4Rm1xVDVOL2t4dmVBdGlXbXozNFZYCkUvcjkyemNML3F1MGtiNldDbnFqMFpmelNoQUM4U01ycEwxMlZJS3NobW02c2poa3I0dmlmcDhDZ1lFQTNsanAKL1hqZVRaeHZWY1UvWGUxT2MvUlgvMU9rOHRacDlhdTcxTkg4RENQdnJkRXU2NStEaUQrVVpoRWZqODhlRm0xZwpNK3hWdTIxYmZvOFNXV3FJd2VoNlpaTDE1QmMzMmdrSTYvVmVzU1ZacnJWamNiaWw0OVBBaEg0Ry9qbXZiQU4zCkd1dWd3YkpDV3NRRHJjQWdPSXNVU0ZkbVkxUERycjNmUXM0R09xVUNnWUVBZ1hCdWExZkhmQzVGVGVQV2lMTWkKT2liYkY3SHdvcG9FbncwdUJOZlRiT0xhVTdZN0I1TlZvanJFek01ck5UZlNHa3FFQTJ2dGpVSVNXUGR6K2k5ZwpUZDN0N2hXUFluWDZNU2draUQrSitYWEswT3pMaFIwK2F5c1UrdWxla01odEVoZnFJa085bTZaOEN6QmV2b2ZaCi9YUlJmNSs3NU01R0c2dXVETTI2aGhNQ2dZRUFxYmFHUzdIQlJNNGQ4UUxRbmpudkF2VERZaUVQSzBmYnN1ZjEKUTdsUHdGaUJybE9YazhPNm12bWtwTTkzSHNhQmVhN2NtbVZPL3ZPMnZZQXBDbFVWczZSbUlEZXZOZjArNVU2MgpINXkzUFZGOEJhMXdEVEphZE82QTZPQmxLQkVSdzhsVlZSZjdLVDJPQmtmTll3YmQwU3JmUFdSd3cyb0JWOVNYCm9COHZnLzBDZ1lFQWdMV0VWNHlkTTRFR3I5Yk1FNnZZczcxeUdReU5aMHpBaUcvejUraUlwbFNHTDlZL2trcisKZ3g0YncwS2ExNlo4QWNQTFRRYi9ubkY0d3dyZEVHbGk0d1I0eGZDZGUvbDFhQ1cvMmtHRW10a2IvMkJtNDgzcgp3Q01Ga1BjaGJ4VHJpTGp1RHRRV1JUbGtqMk9vaXp1T0ZkZFYvNHR3UjlXYlRpWGFUdEJlRmJNPQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo<span class="token operator">=</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>首先对cluster的certificate-authority-data进行解码，如下，可以看到是cluster集群相关的东西，可以看到Subject的CN参数为kubernetes，代表kubernetes用户。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">echo base64编码的数据 <span class="token operator">|</span> base64 <span class="token operator">-</span>d <span class="token operator">|</span> openssl x509  <span class="token operator">-</span>noout <span class="token operator">-</span>text<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669368721786-c162e23e-78bc-4aab-bc25-6e58c2c60fac.png" alt="img"></p>
+<p>然后对user的client-certificate-data进行解码，可以看到subject是O&#x3D;system:masters, CN&#x3D;kubernetes-admin。kubernetes-admin是用户名，而system:masters是用户组。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669368888326-5f323f02-9209-48fb-a842-31377f629515.png" alt="img"></p>
+<p>查询kubernetes-admin用户和system:masters组的集群角色绑定，可以看到system:masters组的集群角色绑定是cluster-admin。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#查看集群角色绑定</span>
+kubectl get ClusterRoleBinding <span class="token operator">-</span>A <span class="token operator">-</span>o wide <span class="token operator">|</span> grep system<span class="token punctuation">:</span>masters<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669369269377-71a0e897-91ab-4edb-9d05-9fcf43918e5b.png" alt="img"></p>
+<p>最后查看集群角色绑定cluster-admin的rules规则可以得知该集群角色绑定对集群有最高权限。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRole<span class="token operator">/</span>cluster<span class="token operator">-</span>admin <span class="token operator">-</span>o yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669369361548-0877f0e4-c51e-40d2-8e64-d58362a5490c.png" alt="img"></p>
+<h1 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h1><p>在每个node节点上都有kubelet进程，该进程需要与API Server进行通信，而通信过程中使用的配置文件是&#x2F;etc&#x2F;kubernetes&#x2F;kubelet.conf。查看&#x2F;etc&#x2F;kubernetes&#x2F;kubelet.conf文件内容，</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669372139056-c9b90098-a9d8-41ff-9fda-30d3e653d66b.png" alt="img"></p>
+<p>可以看到是通过&#x2F;var&#x2F;lib&#x2F;kubelet&#x2F;pki&#x2F;kubelet-client-current.pem证书进行认证的。</p>
+<p>该证书内容如下</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669370050677-dd069b3d-5fa8-42ca-b089-0f6b5dc39631.png" alt="img"></p>
+<p>对其进行解码，如下，可以看到subject的用户为system:node:k8s-node1，组为system:nodes。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">openssl x509 <span class="token operator">-</span><span class="token keyword">in</span> <span class="token operator">/</span>var<span class="token operator">/</span>lib<span class="token operator">/</span>kubelet<span class="token operator">/</span>pki<span class="token operator">/</span>kubelet<span class="token operator">-</span>client<span class="token operator">-</span>current<span class="token punctuation">.</span>pem <span class="token operator">-</span>noout <span class="token operator">-</span>text<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669372240451-08d58609-9e56-432a-8e0a-ba9aae6cc63a.png" alt="img"></p>
+<p>查询system:node:k8s-node1用户和system:nodes组的集群角色绑定，可以看到system:nodes组的集群角色绑定是system:certificates.k8s.io:certificatesigningrequests:selfnodeclient。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669370238150-d39f0b22-f43c-444e-8ac6-2bf9dbb1f8a9.png" alt="img"></p>
+<p>最后查看集群角色绑定system:certificates.k8s.io:certificatesigningrequests:selfnodeclient的rules规则可以得知该集群角色绑定只对当前node节点具有某些权限。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRole<span class="token operator">/</span>system<span class="token punctuation">:</span>certificates<span class="token punctuation">.</span>k8s<span class="token punctuation">.</span>io<span class="token punctuation">:</span>certificatesigningrequests<span class="token punctuation">:</span>selfnodeclient <span class="token operator">-</span>o yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669370334897-29c8502b-8594-4ebb-a16b-15c333c08f98.png" alt="img"></p>
+<p>在使用Node鉴权的文档中提到，kube apiserver对kubelet的鉴权比较特殊。当发现请求的用户在system:nodes组中，用户名是system:node:时，就限制这个请求只能做有限的操作，比如：</p>
+<ul>
+<li><p>读操作</p>
+</li>
+<li><ul>
+<li>node&#x2F;pod&#x2F;services等</li>
+<li>绑定到当前node的pod的secret、configMap</li>
+</ul>
+</li>
+<li><p>写操作（如果开启了NodeRestriction准入插件，就只能修改kubelet所在node的资源）</p>
+</li>
+<li><ul>
+<li>创建节点、修改节点状态</li>
+<li>创建pod、pod状态</li>
+</ul>
+</li>
+</ul>
+<p>注：如果没有开启NodeRestriction准入插件，就能让kubelet在任意node上创建pod。如果开启了NodeRestriction准入插件，就只能查询node、pod等低权限操作。</p>
+<p>如下查看node和pod</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669045523105-4d9b163d-c1a8-4e5c-87a9-c5fc273dde03.png" alt="img"></p>
+<p>不能查看集群状态也不能进入pod执行命令</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669045616503-4a473a05-c3ff-40a9-946c-1fcd87613d82.png" alt="img"></p>
+<p>也不能创建pod</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669045770943-462fd133-1839-4aa3-8168-34ad9bc948b5.png" alt="img"></p>
+<p>不让创建pod的原因主要由于是高版本的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Kubernetes&spm=1001.2101.3001.7020">Kubernetes</a>的准入控制器的NodeRestriction机制。高版本K8s的认证模式由之前的RBAC更改为Node,RBAC，增加了Node模式，并且<br>默认情况下Kubernetes禁用了外部直接对pod有写权限的操作。</p>
+<p>如果要强制在外部创建pod，可以把&#x2F;etc&#x2F;kubernetes&#x2F;manifests&#x2F;kube-apiserver.yaml中的</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">-</span> <span class="token operator">-</span><span class="token operator">-</span>enable<span class="token operator">-</span>admission<span class="token operator">-</span>plugins<span class="token operator">=</span>NodeRestriction 
+改成 
+<span class="token operator">-</span> <span class="token operator">-</span><span class="token operator">-</span>enable<span class="token operator">-</span>admission<span class="token operator">-</span>plugins<span class="token operator">=</span>ServiceAccount<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>如下图所示是默认的</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669046214216-9f707abb-9e20-4b41-8da9-7248434e7786.png" alt="img"></p>
+<p>如下图所示是修改后的</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669046341571-1b894ee0-caea-4038-bcfa-84bb5ec602cd.png" alt="img"></p>
+<h1 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h1><p>kube-scheduler进程只在master节点运行，默认使用&#x2F;etc&#x2F;kubernetes&#x2F;scheduler.conf配置文件。如下图查看该文件</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373336463-c773a45f-11ce-4ed9-b169-c0e359be693f.png" alt="img"></p>
+<p>我们对user下的client-certificate-data数据进行解码。可以看到对应的用户为CN&#x3D;system:kube-scheduler。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373461978-d7290ead-db95-4ec3-b768-89430a64a38b.png" alt="img"></p>
+<p>查看该用户对应的集群角色，可以看到绑定到两个集群角色：system:kube-scheduler、system:volume-scheduler。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRoleBindings <span class="token operator">-</span>o wide <span class="token operator">|</span>grep system<span class="token punctuation">:</span>kube<span class="token operator">-</span>scheduler<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373517236-1bd50ee8-2b15-4c86-9e15-4344eef42f41.png" alt="img"></p>
+<p>查看这两个集群角色的权限，可以看到只有部分权限。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRole<span class="token operator">/</span>system<span class="token punctuation">:</span>kube<span class="token operator">-</span>scheduler <span class="token operator">-</span>o yaml
+kubectl get ClusterRole<span class="token operator">/</span>system<span class="token punctuation">:</span>volume<span class="token operator">-</span>scheduler <span class="token operator">-</span>o yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373621751-4c033abe-ef13-4edb-85bd-bdf75592d981.png" alt="img"></p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373654721-147fb4d1-f1ef-4629-adeb-686ad8f855c8.png" alt="img"></p>
+<h1 id="calico"><a href="#calico" class="headerlink" title="calico"></a>calico</h1><p>calico进程会在每个node和master节点都运行，默认使用&#x2F;etc&#x2F;cni&#x2F;net.d&#x2F;calico-kubeconfig配置文件。</p>
+<p>我们在node1查看该配置文件内容，可以看到User下是使用的token令牌。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669372357718-db94c961-7009-4d61-88ac-531268af142c.png" alt="img"></p>
+<p>这个token令牌是一个jwt字符串，我们可以在在线网站<a target="_blank" rel="noopener" href="https://jwt.io/#debugger%E5%AF%B9%E5%85%B6%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0serviceaccount%E6%98%AFcalico-node%EF%BC%8C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E6%98%AFkube-system%EF%BC%8Cpod%E5%90%8D%E5%AD%97%E4%B8%BAcalico-node-mnvln%E3%80%82">https://jwt.io/#debugger对其进行解码，可以看到serviceaccount是calico-node，命名空间是kube-system，pod名字为calico-node-mnvln。</a></p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669372669987-3a249b26-040c-47e1-85c2-777338ad4665.png" alt="img"></p>
+<p>也就是对应的这个pod。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669372894555-38b834dc-ce7e-45ae-b20a-5c428b964d17.png" alt="img"></p>
+<p>可以看到该serviceaccount绑定的集群角色为calico-node。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373138372-1652c068-6d8a-4703-a4af-425c713512b5.png" alt="img"></p>
+<p>最后查看集群角色绑定calico-node的rules规则可以得知权限。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRole<span class="token operator">/</span>calico<span class="token operator">-</span>node <span class="token operator">-</span>o yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669373212333-0a41b496-4e82-42bf-ae35-a12819f8d534.png" alt="img"></p>
+<h1 id="pod"><a href="#pod" class="headerlink" title="pod"></a>pod</h1><p>一个 pod 与一个服务账户相关联，该服务账户的Token凭证被放入该pod中每个容器的文件&#x2F;var&#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount&#x2F;token内。该文件的内容也是jwt格式的，我们可以在在线网站<a target="_blank" rel="noopener" href="https://jwt.io/#debugger%E5%AF%B9%E5%85%B6%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0serviceaccount%E6%98%AFdefault%EF%BC%8C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E6%98%AFtest%EF%BC%8Cpod%E5%90%8D%E5%AD%97%E4%B8%BAnginx-deploy4-6799db7594-84rqv%E3%80%82">https://jwt.io/#debugger对其进行解码，可以看到serviceaccount是default，命名空间是test，pod名字为nginx-deploy4-6799db7594-84rqv。</a></p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669374642768-f97c7b36-bb81-4593-916a-fb7118e6db81.png" alt="img"></p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669374536612-d93d7649-d3d3-4664-802d-cce8e6dc7aa6.png" alt="img"></p>
+<p>我们来查看该serviceaccount绑定的role，发现test:default ServiceAccount没有绑定到角色。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get RoleBindings <span class="token operator">-</span>n test <span class="token operator">-</span>o wide <span class="token operator">|</span> grep default
+kubectl get ClusterRoleBindings <span class="token operator">-</span>o wide  <span class="token operator">|</span> grep test<span class="token punctuation">:</span>default<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669713227739-838766a3-7eb4-4361-a5ab-245be763787e.png" alt="img"></p>
+<p>而ServiceAccount账号默认会加入到system:serviceaccounts组中，我们查看system:serviceaccounts组绑定的角色可以看到其绑定了名为system:service-account-issuer-discovery的ClusterRole。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRoleBindings <span class="token operator">-</span>o wide  <span class="token operator">|</span> grep system<span class="token punctuation">:</span>serviceaccounts
+kubectl get RoleBindings <span class="token operator">-</span>n test <span class="token operator">-</span>o wide <span class="token operator">|</span> grep system<span class="token punctuation">:</span>serviceaccounts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669713644788-6dccfc00-9bcb-424b-aba3-75e06090acd4.png" alt="img"></p>
+<p>查看该ClusterRole&#x2F;system:service-account-issuer-discovery的信息，可以看到该角色具有的权限很低，连查询node、pod等权限都没有。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">kubectl get ClusterRole<span class="token operator">/</span>system<span class="token punctuation">:</span>service<span class="token operator">-</span>account<span class="token operator">-</span>issuer<span class="token operator">-</span>discovery <span class="token operator">-</span>o yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669713814027-2eb378e3-99a3-4cb5-94bb-363a20e0629c.png" alt="img"></p>
+<p>其实当我们拿到了node节点的权限，可以通过过滤token来查看运行在该node节点上所有pod的token。</p>
+<p>在宿主机全局查找token文件，就可以看到在宿主机挂载的token文件。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669375476555-94bfc0e7-5716-40f9-b15e-afea7175de74.png" alt="img"></p>
+<p>我们查看该pod的详细信息，可以看到这里的mount，可以看到对应上了。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/1669375438835-f1eff488-ddf7-4b55-a614-2ce853e6e611.png" alt="img"></p>
+<p>非常感谢您读到现在，由于作者的水平有限，编写时间仓促，文章中难免会出现一些错误或者描述不准确的地方，恳请各位师傅们批评指正。 </p>
+<p>如果你想一起学习内网渗透、域渗透、云安全、红队攻防的话，可以加入下面的知识星球一起学习交流。</p>
+<p><img src="/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/640-20230307223102833.jpeg" alt="图片"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jb51.net/article/252202.htm">https://www.jb51.net/article/252202.htm</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">谢公子</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/">https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">谢公子</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">云安全</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/11/03/yun-an-quan/k8s-pei-zhi-shen-fen-ren-zheng/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/640748baf144a01007d4bd3f.png" class="responsive-img" alt="K8S 配置身份认证">
+                        
+                        <span class="card-title">K8S 配置身份认证</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍K8s如何配置身份认证
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-03
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/11/03/yun-an-quan/k8s-diao-du-ce-lue/">
+                    <div class="card-image">
+                        
+                        <img src="https://pic.imgdb.cn/item/64074951f144a01007d6cfd1.png" class="responsive-img" alt="K8s 调度策略">
+                        
+                        <span class="card-title">K8s 调度策略</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            介绍K8s的调度策略
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" class="post-category">
+                                    技术文章
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">云安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 谢公子的小黑屋<br />'
+            + '文章作者: 谢公子<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者谢公子所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('7'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">谢公子</a>
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">87.3k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2019";
+                        var startMonth = "1";
+                        var startDate = "2";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis"></div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

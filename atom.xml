@@ -67,6 +67,31 @@
   </entry>
   
   <entry>
+    <title>K8s API Server未授权命令执行</title>
+    <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-api-server-wei-shou-quan-ming-ling-zhi-xing/"/>
+    <id>https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-api-server-wei-shou-quan-ming-ling-zhi-xing/</id>
+    <published>2022-11-03T02:56:00.000Z</published>
+    <updated>2023-03-07T14:34:07.790Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;K8s 的API</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="云安全" scheme="https://xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>K8S 配置身份认证</title>
     <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-pei-zhi-shen-fen-ren-zheng/"/>
     <id>https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-pei-zhi-shen-fen-ren-zheng/</id>
@@ -92,6 +117,32 @@
   </entry>
   
   <entry>
+    <title>K8s中默认组件的权限</title>
+    <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/"/>
+    <id>https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-zhong-mo-ren-zu-jian-de-quan-xian/</id>
+    <published>2022-11-03T02:56:00.000Z</published>
+    <updated>2023-03-07T14:31:07.605Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在K8s中的默认组件如kubectl、kubelet、scheduler、calico、pod等都需要和api server进行通信，因此也设计涉及到了这些组件的权限问题。接下来，让我们看看这些组件的默认权限。&lt;/p&gt;
+&lt;p&gt;k8s中”X509</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="云安全" scheme="https://xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>K8s 调度策略</title>
     <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-diao-du-ce-lue/"/>
     <id>https://xie1997.github.io/2022/11/03/yun-an-quan/k8s-diao-du-ce-lue/</id>
@@ -104,6 +155,35 @@
         
         
     <summary type="html">&lt;h1 id=&quot;调度&quot;&gt;&lt;a href=&quot;#调度&quot; class=&quot;headerlink&quot; title=&quot;调度&quot;&gt;&lt;/a&gt;调度&lt;/h1&gt;&lt;p&gt;在K8s中，调度是指将Pod放置到合适的节点上。调度器通过 K8s 的监测机制来发现集群中新创建且尚未被调度到节点上的Pod。</summary>
+        
+      
+    
+    
+    
+    <category term="技术文章" scheme="https://xie1997.github.io/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="云安全" scheme="https://xie1997.github.io/tags/%E4%BA%91%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubelet 10250/10255端口未授权访问</title>
+    <link href="https://xie1997.github.io/2022/11/03/yun-an-quan/kubelet-10250-10255-duan-kou-wei-shou-quan-fang-wen/"/>
+    <id>https://xie1997.github.io/2022/11/03/yun-an-quan/kubelet-10250-10255-duan-kou-wei-shou-quan-fang-wen/</id>
+    <published>2022-11-03T02:56:00.000Z</published>
+    <updated>2023-03-07T14:38:11.934Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;kubelet会在K8s集群中的每一个节点上运行一个实例，对容器进行生命周期的管理。kubelet开放的端口有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;4194&lt;/li&gt;
+&lt;li&gt;10248&lt;/li&gt;
+&lt;li&gt;10250(kubelet API)：是kubelet与 API</summary>
         
       
     
